@@ -99,6 +99,13 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
         return DateFormatUtils.format(now, "yyyy/MM/dd");
     }
 
+    /*
+     * 时间戳转日期date
+     */
+    public static Date dateToStamp(Long times) {
+        return new Date(times);
+    }
+
     /**
      * 日期路径 即年/月/日 如20180808
      */

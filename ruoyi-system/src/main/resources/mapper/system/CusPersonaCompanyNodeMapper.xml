@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CusPersonaCompanyNodeMapper">
+
+    <resultMap id="CusPersonaCompanyNodeResult" type="com.ruoyi.system.domain.CusPersonaCompanyNode">
+        <result property="id" column="id"/>
+        <result property="nodeId" column="node_id"/>
+        <result property="nodeAias" column="node_aias"/>
+        <result property="nodeName" column="node_name"/>
+        <result property="nodeLogo" column="node_logo"/>
+        <result property="ntype" column="ntype"/>
+        <result property="labels" column="labels"/>
+        <result property="companyName" column="company_name"/>
+        <result property="companyId" column="company_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectCusPersonaCompanyNodeVo">
+        select id,
+               node_id,
+               node_aias,
+               node_name,
+               node_logo,
+               ntype,
+               labels,
+               company_name,
+               company_id,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from cus_persona_company_node
+    </sql>
+
+    <insert id="insertCusPersonaCompanyNode" parameterType="CusPersonaCompanyNode" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into cus_persona_company_node
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="nodeId != null">node_id,</if>
+            <if test="nodeAias != null">node_aias,</if>
+            <if test="nodeName != null">node_name,</if>
+            <if test="nodeLogo != null">node_logo,</if>
+            <if test="ntype != null">ntype,</if>
+            <if test="labels != null">labels,</if>
+            <if test="companyName != null">company_name,</if>
+            <if test="companyId != null">company_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="nodeId != null">#{nodeId},</if>
+            <if test="nodeAias != null">#{nodeAias},</if>
+            <if test="nodeName != null">#{nodeName},</if>
+            <if test="nodeLogo != null">#{nodeLogo},</if>
+            <if test="ntype != null">#{ntype},</if>
+            <if test="labels != null">#{labels},</if>
+            <if test="companyName != null">#{companyName},</if>
+            <if test="companyId != null">#{companyId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+</mapper>
