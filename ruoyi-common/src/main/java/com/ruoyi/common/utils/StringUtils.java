@@ -1,14 +1,10 @@
 package com.ruoyi.common.utils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import org.springframework.util.AntPathMatcher;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.text.StrFormatter;
+import org.springframework.util.AntPathMatcher;
+
+import java.util.*;
 
 /**
  * 字符串工具类
@@ -634,5 +630,24 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
             }
         }
         return sb.toString();
+    }
+
+    public static String subStringAfter(String str,String subString){
+        if(str.contains(subString)){
+            String str1 = str.substring(0, str.indexOf(subString));
+            return str.substring(str1.length()+1);
+        }
+        else {
+            return str;
+        }
+    }
+
+    /**
+     * 截取只包含数字和小数点的字符串（用于在包含中文的字符串中提取金额）
+     * @param str:输入字符串
+     * @return 截取后的数字
+     */
+    public static String subStringNumber(String str){
+        return str.replaceAll("[^0-9.]", "");
     }
 }

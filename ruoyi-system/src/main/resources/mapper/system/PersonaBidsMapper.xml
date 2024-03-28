@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PersonaBidsMapper">
+
+    <resultMap type="PersonaBids" id="PersonaBidsResult">
+        <result property="id"    column="id"    />
+        <result property="uuid"    column="uuid"    />
+        <result property="publishTime"    column="publish_time"    />
+        <result property="bidUrl"    column="bid_url"    />
+        <result property="purchaser"    column="purchaser"    />
+        <result property="link"    column="link"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="proxy"    column="proxy"    />
+        <result property="abs"    column="abs"    />
+        <result property="intro"    column="intro"    />
+        <result property="type"    column="type"    />
+        <result property="province"    column="province"    />
+        <result property="bidWinner"    column="bid_winner"    />
+        <result property="bidAmount"    column="bid_amount"    />
+        <result property="source"    column="source"    />
+        <result property="keyword"    column="keyword"    />
+        <result property="competitiveCompany" column="competitive_company"/>
+        <result property="createTime"     column="create_time"     />
+        <result property="purchaserCompanyId" column="purchaser_company_id"/>
+        <result property="industryType"    column="industry_type"    />
+    </resultMap>
+
+    <insert id="insertPersonaBids" parameterType="PersonaBids" useGeneratedKeys="true" keyProperty="id">
+        insert into cus_persona_bids
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">uuid,</if>
+            <if test="publishTime != null">publish_time,</if>
+            <if test="bidUrl != null">bid_url,</if>
+            <if test="purchaser != null">purchaser,</if>
+            <if test="link != null">link,</if>
+            <if test="title != null">title,</if>
+            <if test="content != null">content,</if>
+            <if test="proxy != null">proxy,</if>
+            <if test="abs != null">abs,</if>
+            <if test="intro != null">intro,</if>
+            <if test="type != null">type,</if>
+            <if test="province != null">province,</if>
+            <if test="bidWinner != null">bid_winner,</if>
+            <if test="bidAmount != null">bid_amount,</if>
+            <if test="source != null">source,</if>
+            <if test="keyword != null">keyword,</if>
+            <if test="industryType != null">industry_type,</if>
+            <if test="competitiveCompany != null">competitive_company,</if>
+            <if test="purchaserCompanyId != null">purchaser_company_id,</if>
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">#{uuid},</if>
+            <if test="publishTime != null">#{publishTime},</if>
+            <if test="bidUrl != null">#{bidUrl},</if>
+            <if test="purchaser != null">#{purchaser},</if>
+            <if test="link != null">#{link},</if>
+            <if test="title != null">#{title},</if>
+            <if test="content != null">#{content},</if>
+            <if test="proxy != null">#{proxy},</if>
+            <if test="abs != null">#{abs},</if>
+            <if test="intro != null">#{intro},</if>
+            <if test="type != null">#{type},</if>
+            <if test="province != null">#{province},</if>
+            <if test="bidWinner != null">#{bidWinner},</if>
+            <if test="bidAmount != null">#{bidAmount},</if>
+            <if test="source != null">#{source},</if>
+            <if test="keyword != null">#{keyword},</if>
+            <if test="industryType != null">#{industryType},</if>
+            <if test="competitiveCompany != null">#{competitiveCompany},</if>
+            <if test="purchaserCompanyId != null">#{purchaserCompanyId},</if>
+            sysdate()
+         </trim>
+    </insert>
+
+</mapper>

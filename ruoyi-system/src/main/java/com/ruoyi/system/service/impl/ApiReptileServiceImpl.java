@@ -39,6 +39,8 @@ public class ApiReptileServiceImpl implements ApiReptileService {
     private ICusPersonaLegalService iCusPersonaLegalService;
     @Resource
     private ICusPersonaAnnualReportsService iCusPersonaAnnualReportsService;
+    @Resource
+    private IPersonaBidsService iPersonaBidsService;
 
     /**
      * 自动客户单位画像
@@ -81,7 +83,7 @@ public class ApiReptileServiceImpl implements ApiReptileService {
             //调用天眼查获取企业年报信息
             iCusPersonaAnnualReportsService.addAnnualReportsByTyc(tycCompanyInfo, userName);
             //获取招投标数据
-            //personaBidsService.savePurchaserPersonaBidsByCompany(company);
+            iPersonaBidsService.savePurchaserPersonaBidsByCompany(company);
         } catch (Throwable e) {
             e.printStackTrace();
         }
