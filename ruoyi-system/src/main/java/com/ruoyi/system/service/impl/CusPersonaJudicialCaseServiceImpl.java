@@ -57,10 +57,9 @@ public class CusPersonaJudicialCaseServiceImpl implements ICusPersonaJudicialCas
         int reconnect = 0;
         while (!endLoop) {
             pageNum++;
-            String token = "7b1f73a2-3709-4be1-ae59-6536d47aae1b";
             String url = "http://open.api.tianyancha.com/services/open/jr/judicialCase/2.0?pageSize=20&pageNum=" + pageNum + "&id=" + companyId;
             try {
-                String result = HttpApiUtils.executeGet(url, token);
+                String result = HttpApiUtils.executeGet(url);
                 JSONObject resultObj = JSONObject.parseObject(result);
                 String code = resultObj.getString("error_code");
                 //判断异常信息

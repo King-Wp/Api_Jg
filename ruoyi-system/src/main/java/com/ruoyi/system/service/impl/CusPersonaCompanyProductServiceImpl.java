@@ -55,8 +55,8 @@ public class CusPersonaCompanyProductServiceImpl implements ICusPersonaCompanyPr
         while (!endLoop) {
             pageNum++;
             try {
-                String suffix = "appbkInfo/2.0?pageSize=20&pageNum=" + pageNum + "&id=" + companyId;
-                String result = HttpApiUtils.executeGet(suffix);
+                String url = "http://open.api.tianyancha.com/services/open/m/appbkInfo/2.0?pageSize=20&pageNum=" + pageNum + "&id=" + companyId;
+                String result = HttpApiUtils.executeGet(url);
                 JSONObject resultObj = JSONObject.parseObject(result);
                 String code = resultObj.getString("error_code");
                 //判断异常信息

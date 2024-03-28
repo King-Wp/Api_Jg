@@ -56,10 +56,9 @@ public class CusPersonaLegalServiceImpl implements ICusPersonaLegalService
         int reconnect = 0;
         while (!endLoop) {
             pageNum++;
-            String token = "7b1f73a2-3709-4be1-ae59-6536d47aae1b";
             String url = "http://open.api.tianyancha.com/services/open/jr/lawSuit/3.0?pageSize=20&pageNum=" + pageNum + "&keyword=" + companyId;
             try {
-                String result = HttpApiUtils.executeGet(url, token);
+                String result = HttpApiUtils.executeGet(url);
                 JSONObject resultObj = JSONObject.parseObject(result);
                 String code = resultObj.getString("error_code");
                 //判断异常信息

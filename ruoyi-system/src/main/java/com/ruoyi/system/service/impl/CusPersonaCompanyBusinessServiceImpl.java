@@ -41,11 +41,11 @@ public class CusPersonaCompanyBusinessServiceImpl implements ICusPersonaCompanyB
     public int addCompanyBusinessByTycCompanyId(CustomerBusinessVo customerBusinessVo, String userName, String queryKeyword, String enterpriseType) {
         //调用天眼查-新增入库
         String companyId = customerBusinessVo.getCompanyId();
-        String companyName = customerBusinessVo.getCompany();
+        String url = "http://open.api.tianyancha.com/services/open/ic/baseinfoV2/2.0?&keyword=" + companyId;
         int i = 0;
         if (companyId != null) {
             //获取查询数据
-            String result = HttpApiUtils.executeGetCompanyId(companyId);
+            String result = HttpApiUtils.executeGet(url);
             //处理返回参数
             JSONObject resultObj = JSONObject.parseObject(result);
 

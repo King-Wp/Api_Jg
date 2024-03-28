@@ -46,10 +46,9 @@ public class CusPersonaAnnualReportsServiceImpl implements ICusPersonaAnnualRepo
         int reconnect = 0;
         List<CusPersonaAnnualReports> cusPersonaAnnualReportsList = new ArrayList<>();
         while (!endLoop) {
-            String token = "7b1f73a2-3709-4be1-ae59-6536d47aae1b";
             String url = "http://open.api.tianyancha.com/services/open/ic/annualreport/2.0?keyword=" + companyId;
             try {
-                String result = HttpApiUtils.executeGet(url, token);
+                String result = HttpApiUtils.executeGet(url);
                 JSONObject resultObj = JSONObject.parseObject(result);
                 String code = resultObj.getString("error_code");
                 //判断异常信息

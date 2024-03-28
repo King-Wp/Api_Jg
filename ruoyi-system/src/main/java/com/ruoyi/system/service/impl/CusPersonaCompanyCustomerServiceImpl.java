@@ -54,9 +54,9 @@ public class CusPersonaCompanyCustomerServiceImpl implements ICusPersonaCompanyC
         int reconnect = 0;
         while (!endLoop) {
             pageNum++;
-            String suffix = "customer/2.0?pageSize=20&pageNum=" + pageNum + "&id=" + companyId;
+            String url = "http://open.api.tianyancha.com/services/open/m/customer/2.0?pageSize=20&pageNum=" + pageNum + "&id=" + companyId;
             try {
-                String result = HttpApiUtils.executeGet(suffix);
+                String result = HttpApiUtils.executeGet(url);
                 JSONObject resultObj = JSONObject.parseObject(result);
                 String code = resultObj.getString("error_code");
                 //判断异常信息
