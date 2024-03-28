@@ -17,6 +17,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -178,6 +180,36 @@ public class HttpApiUtils {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    /**
+     * http get请求
+     * @param url 接口url
+     * @param token token
+     * @return  返回接口数据
+     */
+    public static String executeGet(String url, String token) {
+        BasicHttpParams httpParams = new BasicHttpParams();
+        HttpConnectionParams.setConnectionTimeout(httpParams, 10000);
+        HttpConnectionParams.setSoTimeout(httpParams, 10000);
+        HttpClient httpClient = new DefaultHttpClient(httpParams);
+        String result = null;
+        try {
+
+            HttpGet get = new HttpGet(url);
+            // 设置header
+            get.setHeader("Authorization",token);
+            // 设置类型
+            HttpResponse response = httpClient.execute(get);
+            HttpEntity entity = response.getEntity();
+            result = EntityUtils.toString(entity, "utf-8");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            httpClient.getConnectionManager().shutdown();
+        }
+        return result;
     }
 
     public static String getMessageByUrlToken(String companyId){
