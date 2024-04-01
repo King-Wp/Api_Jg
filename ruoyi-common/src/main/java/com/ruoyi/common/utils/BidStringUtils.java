@@ -1,7 +1,5 @@
 package com.ruoyi.common.utils;
 
-import cn.hutool.core.util.StrUtil;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -174,7 +172,7 @@ public class BidStringUtils {
             String s = str.trim().replace("（公章）", "").replace("（盖章）","").replace("（章）","");
             purchaser = BidStringUtils.subStringAfter(s,"：");
         }
-        return StrUtil.trim(purchaser);
+        return purchaser.trim();
     }
 
     /**

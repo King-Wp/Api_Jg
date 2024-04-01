@@ -1,6 +1,6 @@
 package com.ruoyi.system.service;
 
-import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.system.domain.vo.CustomerBusinessVo;
 
 import java.sql.SQLException;
 
@@ -13,5 +13,8 @@ import java.sql.SQLException;
 public interface ApiReptileService {
 
     void aotoCustomerReportRemind(String company, String companyId, String fullCompany, String userName,String enterpriseType) throws SQLException;
+
+
+    int addAbnormalOperationByTyc(CustomerBusinessVo customerBusinessVo, String userName);
 
 }

@@ -89,4 +89,9 @@ public class ApiReptileServiceImpl implements ApiReptileService {
         }
 
     }
+
+    @Override
+    public int addAbnormalOperationByTyc(CustomerBusinessVo customerBusinessVo, String userName) {
+        return 0;
+    }
 }

@@ -174,7 +174,7 @@ public class CusPersonaCompanyBusinessServiceImpl implements ICusPersonaCompanyB
                 business.setCreateBy(userName);
                 business.setQueryKeyword(queryKeyword);
                 //获取祥云中的企业性质
-                if (!(enterpriseType == null || "".equals(enterpriseType))) {
+                if (StringUtils.isNotEmpty(enterpriseType)) {
                     business.setEnterpriseType(enterpriseType);
                 }
                 //调用天眼查免费的获取工商信息接口，拿到企业logo和纳税人资质
