@@ -78,7 +78,7 @@ public class HttpApiUtils {
     }
 
     public static String getCompanyDetailSpider(String companyId) {
-        String docPubUrl = COMPANY + companyId;
+        String docPubUrl = COMPANY.getUrl() + companyId;
         Document doc = null;
         String companyProfile = "";
         // 利用jsoup连接目标url网页获取整个html对象
@@ -107,7 +107,7 @@ public class HttpApiUtils {
      * @return
      */
     public static JSONObject getBusinessLogoByTyc(String companyId) {
-        String docPubUrl = COMPANY + companyId;
+        String docPubUrl = COMPANY.getUrl() + companyId;
         try {
             Document doc = Jsoup.connect(docPubUrl).userAgent(UserAgentUtil.getUserAgent()).get();
             if (ObjectUtils.isNotEmpty(doc)) {

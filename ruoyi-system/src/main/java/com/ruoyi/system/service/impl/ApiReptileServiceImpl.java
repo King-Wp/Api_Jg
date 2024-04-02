@@ -1,7 +1,9 @@
 package com.ruoyi.system.service.impl;
 
+import com.ruoyi.system.domain.TestRequestDTO;
 import com.ruoyi.system.domain.vo.CustomerBusinessVo;
 import com.ruoyi.system.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,6 +16,7 @@ import java.sql.SQLException;
  * @description:
  */
 
+@Slf4j
 @Service
 public class ApiReptileServiceImpl implements ApiReptileService {
 
@@ -53,38 +56,38 @@ public class ApiReptileServiceImpl implements ApiReptileService {
      * @throws SQLException
      */
     @Override
-    public void aotoCustomerReportRemind(String company, String companyId, String fullCompany, String userName, String enterpriseType) throws SQLException {
+    public void aotoCustomerReportRemind(TestRequestDTO testRequestDTO){
         try {
             //更新客户单位画像信息
             CustomerBusinessVo tycCompanyInfo = new CustomerBusinessVo();
-            tycCompanyInfo.setCompany(fullCompany);
-            tycCompanyInfo.setCompanyId(companyId);
+            tycCompanyInfo.setCompany(testRequestDTO.getFullCompany());
+            tycCompanyInfo.setCompanyId(testRequestDTO.getCompanyId());
 
             //获取客户单位的工商信息
-            iCusPersonaCompanyBusinessService.addCompanyBusinessByTycCompanyId(tycCompanyInfo, userName, company, enterpriseType);
+            iCusPersonaCompanyBusinessService.addCompanyBusinessByTycCompanyId(tycCompanyInfo, testRequestDTO.getUserName(), testRequestDTO.getCompany(), testRequestDTO.getEnterpriseType());
             //调用天眼查获取客户单位关系信息
-            iCusPersonaCompanyNodeService.addCorporateRelationsByTyc(tycCompanyInfo, userName);
+            iCusPersonaCompanyNodeService.addCorporateRelationsByTyc(tycCompanyInfo, testRequestDTO.getUserName());
             //调用天眼查获取客户单位对外投资信息（处理好的数据，含有对外地区投资和行业投资）
-            iCusPersonaAreaInvestService.addInvestByTycCompany(tycCompanyInfo, userName);
+            iCusPersonaAreaInvestService.addInvestByTycCompany(tycCompanyInfo, testRequestDTO.getUserName());
             //调用天眼查获取客户单位产品信息
-            iCusPersonaCompanyProductService.addProductByTyc(tycCompanyInfo, userName);
+            iCusPersonaCompanyProductService.addProductByTyc(tycCompanyInfo, testRequestDTO.getUserName());
             //调用天眼查获取客户单位证书信息
-            iCusPersonaCompanyCertService.addCertByTyc(tycCompanyInfo, userName);
+            iCusPersonaCompanyCertService.addCertByTyc(tycCompanyInfo, testRequestDTO.getUserName());
             //调用天眼查获取客户单位的客户数据
-            iCusPersonaCompanyCustomerService.addCompanyCustomerByTyc(tycCompanyInfo, userName);
+            iCusPersonaCompanyCustomerService.addCompanyCustomerByTyc(tycCompanyInfo, testRequestDTO.getUserName());
             //调用天眼查获取客户单位的供应商数据
-            iCusPersonaCompanySupplierService.addSupplierByTyc(tycCompanyInfo, userName);
+            iCusPersonaCompanySupplierService.addSupplierByTyc(tycCompanyInfo, testRequestDTO.getUserName());
             //调用天眼查获取客户单位司法解析数据
-            iCusPersonaJudicialCaseService.addJudicialCaseByTyc(tycCompanyInfo, userName);
+            iCusPersonaJudicialCaseService.addJudicialCaseByTyc(tycCompanyInfo, testRequestDTO.getUserName());
             //调用天眼查获取客户单位开庭公告数据
-            iCusPersonaCourtNoticeService.addTycCourtNoticeByCompany(tycCompanyInfo, userName);
+            iCusPersonaCourtNoticeService.addTycCourtNoticeByCompany(tycCompanyInfo, testRequestDTO.getUserName());
             //调用天眼查获取客户单位法律诉讼数据
-            iCusPersonaLegalService.addTycLegalByCompany(tycCompanyInfo, userName);
+            iCusPersonaLegalService.addTycLegalByCompany(tycCompanyInfo, testRequestDTO.getUserName());
             //调用天眼查获取企业年报信息
-            iCusPersonaAnnualReportsService.addAnnualReportsByTyc(tycCompanyInfo, userName);
+            iCusPersonaAnnualReportsService.addAnnualReportsByTyc(tycCompanyInfo, testRequestDTO.getUserName());
             //获取招投标数据
-            iPersonaBidsService.savePurchaserPersonaBidsByCompany(company);
-        } catch (Throwable e) {
+            iPersonaBidsService.savePurchaserPersonaBidsByCompany(testRequestDTO.getUserName());
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

@@ -1,8 +1,7 @@
 package com.ruoyi.system.service;
 
+import com.ruoyi.system.domain.TestRequestDTO;
 import com.ruoyi.system.domain.vo.CustomerBusinessVo;
-
-import java.sql.SQLException;
 
 /**
  * @author: 11653
@@ -12,7 +11,7 @@ import java.sql.SQLException;
  */
 public interface ApiReptileService {
 
-    void aotoCustomerReportRemind(String company, String companyId, String fullCompany, String userName,String enterpriseType) throws SQLException;
+    void aotoCustomerReportRemind(TestRequestDTO testRequestDTO);
 
 
     int addAbnormalOperationByTyc(CustomerBusinessVo customerBusinessVo, String userName);
