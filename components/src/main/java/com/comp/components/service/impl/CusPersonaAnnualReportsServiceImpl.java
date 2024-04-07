@@ -6,6 +6,7 @@ import com.comp.components.domain.CusPersonaAnnualReports;
 import com.comp.components.domain.vo.CustomerBusinessVo;
 import com.comp.components.mapper.CusPersonaAnnualReportsMapper;
 import com.comp.components.service.ICusPersonaAnnualReportsService;
+import com.ruoyi.common.enums.UrlAddressEnum;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.HttpApiUtils;
 import org.slf4j.Logger;
@@ -17,8 +18,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_API;
 
 /**
  * 企业年报Service业务层处理
@@ -50,7 +49,7 @@ public class CusPersonaAnnualReportsServiceImpl implements ICusPersonaAnnualRepo
         while (!endLoop) {
             String url = "http://open.api.tianyancha.com/services/open/ic/annualreport/2.0?keyword=" + companyId;
             try {
-                String result = HttpApiUtils.executeGet(url,TOKEN_API.getUrl());
+                String result = HttpApiUtils.executeGet(url, UrlAddressEnum.TOKEN_API.getUrl());
                 JSONObject resultObj = JSONObject.parseObject(result);
                 String code = resultObj.getString("error_code");
                 //判断异常信息

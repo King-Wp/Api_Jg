@@ -2,10 +2,8 @@ package com.comp.components.service;
 
 
 import com.comp.components.domain.CustomerPortraitParameter;
-import com.comp.components.domain.TyCompany;
-import com.comp.components.domain.vo.CustomerBusinessVo;
 
-import java.util.List;
+import java.sql.SQLException;
 
 /**
  * @author: 11653
@@ -15,17 +13,16 @@ import java.util.List;
  */
 public interface ApiReptileService {
 
-    void addCustomerReportRemind(CustomerPortraitParameter testRequestDTO);
-
-
-    int addAbnormalOperationByTyc(CustomerBusinessVo customerBusinessVo, String userName);
-
     /**
-     * 关键词查询-第三方单位全称查询接口(天眼查) http://open.api.tianyancha
-     * @param keyword 关键字
-     * @param pageNum 页数
-     * @return 返回 列表
+     * 自动客户单位画像
+     *
+     * company        简称
+     * companyId      天眼查ID
+     * fullCompany    公司全称
+     * userName       用户名称
+     * enterpriseType 祥云企业类型
+     * @throws SQLException
      */
-    List<TyCompany> selectCompanyListByTyc(String keyword, Integer pageNum);
+    void addCustomerReportRemind(CustomerPortraitParameter testRequestDTO);
 
 }

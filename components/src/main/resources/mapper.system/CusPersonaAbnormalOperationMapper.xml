@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comp.components.mapper.CusPersonaAbnormalOperationMapper">
+    
+    <resultMap type="com.comp.components.domain.CusPersonaAbnormalOperation" id="CusPersonaAbnormalOperationResult">
+        <result property="id"    column="id"    />
+        <result property="removeDate"    column="remove_date"    />
+        <result property="putReason"    column="put_reason"    />
+        <result property="putDepartment"    column="put_department"    />
+        <result property="removeDepartment"    column="remove_department"    />
+        <result property="removeReason"    column="remove_reason"    />
+        <result property="putDate"    column="put_date"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="companyId"    column="company_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectCusPersonaAbnormalOperationVo">
+        select id, remove_date, put_reason, put_department, remove_department, remove_reason, put_date, company_name, company_id, create_by, create_time, update_by, update_time from cus_persona_abnormal_operation
+    </sql>
+        
+    <insert id="insertCusPersonaAbnormalOperation" parameterType="com.comp.components.domain.CusPersonaAbnormalOperation" useGeneratedKeys="true" keyProperty="id">
+        insert into cus_persona_abnormal_operation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="removeDate != null">remove_date,</if>
+            <if test="putReason != null">put_reason,</if>
+            <if test="putDepartment != null">put_department,</if>
+            <if test="removeDepartment != null">remove_department,</if>
+            <if test="removeReason != null">remove_reason,</if>
+            <if test="putDate != null">put_date,</if>
+            <if test="companyName != null">company_name,</if>
+            <if test="companyId != null">company_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="removeDate != null">#{removeDate},</if>
+            <if test="putReason != null">#{putReason},</if>
+            <if test="putDepartment != null">#{putDepartment},</if>
+            <if test="removeDepartment != null">#{removeDepartment},</if>
+            <if test="removeReason != null">#{removeReason},</if>
+            <if test="putDate != null">#{putDate},</if>
+            <if test="companyName != null">#{companyName},</if>
+            <if test="companyId != null">#{companyId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+    
+</mapper>
