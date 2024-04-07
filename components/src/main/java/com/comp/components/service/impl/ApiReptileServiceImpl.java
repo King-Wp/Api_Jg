@@ -5,8 +5,10 @@ import com.alibaba.fastjson2.JSONObject;
 import com.comp.components.domain.CustomerPortraitParameter;
 import com.comp.components.domain.TyCompany;
 import com.comp.components.domain.vo.CustomerBusinessVo;
+import com.comp.components.exception.CustomException;
 import com.comp.components.service.*;
 import com.comp.components.utils.PutBidUtils;
+import com.comp.components.utils.compareUtil;
 import com.ruoyi.common.utils.HttpApiUtils;
 import com.ruoyi.common.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -116,7 +118,6 @@ public class ApiReptileServiceImpl implements ApiReptileService {
     @Override
     public List<TyCompany> selectCompanyListByTyc(String keyword, Integer pageNum) {
         List<TyCompany> companies = new ArrayList<>();
-        List<TyCompany> temps = new ArrayList<>();
         //关键词查询天眼查公司列表(单位全称)
         String token ="6999f69e-60ab-4d88-8867-c5554915d36e"; //单价token
         String url ="http://open.api.tianyancha.com/services/open/search/2.0?word="+keyword+"&pageSize=20&pageNum="+pageNum;
@@ -126,10 +127,9 @@ public class ApiReptileServiceImpl implements ApiReptileService {
         if ("0".equals(resultObj.getString("error_code"))){
             //查询企业列表
             JSONArray lists=resultObj.getJSONObject("result").getJSONArray("items");
-            JSONObject temp = new JSONObject();
             if (lists.size()>0) {
                 for (Object object : lists) {
-                    temp = JSONObject.parseObject(object.toString());
+                    JSONObject temp = JSONObject.parseObject(object.toString());
                     String matchtype =temp.getString("matchType");
                     String regstatus =temp.getString("regStatus");
                     String name =temp.getString("name");

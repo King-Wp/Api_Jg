@@ -20,6 +20,12 @@ public interface ApiReptileService {
 
     int addAbnormalOperationByTyc(CustomerBusinessVo customerBusinessVo, String userName);
 
+    /**
+     * 关键词查询-第三方单位全称查询接口(天眼查) http://open.api.tianyancha
+     * @param keyword 关键字
+     * @param pageNum 页数
+     * @return 返回 列表
+     */
     List<TyCompany> selectCompanyListByTyc(String keyword, Integer pageNum);
 
 }
