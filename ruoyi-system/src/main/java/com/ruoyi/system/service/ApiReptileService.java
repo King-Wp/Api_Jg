@@ -1,6 +1,6 @@
 package com.ruoyi.system.service;
 
-import com.ruoyi.system.domain.TestRequestDTO;
+import com.ruoyi.system.domain.CustomerPortraitParameter;
 import com.ruoyi.system.domain.vo.CustomerBusinessVo;
 
 /**
@@ -11,7 +11,7 @@ import com.ruoyi.system.domain.vo.CustomerBusinessVo;
  */
 public interface ApiReptileService {
 
-    void aotoCustomerReportRemind(TestRequestDTO testRequestDTO);
+    void aotoCustomerReportRemind(CustomerPortraitParameter testRequestDTO);
 
 
     int addAbnormalOperationByTyc(CustomerBusinessVo customerBusinessVo, String userName);

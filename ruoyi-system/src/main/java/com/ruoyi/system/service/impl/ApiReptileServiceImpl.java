@@ -1,6 +1,6 @@
 package com.ruoyi.system.service.impl;
 
-import com.ruoyi.system.domain.TestRequestDTO;
+import com.ruoyi.system.domain.CustomerPortraitParameter;
 import com.ruoyi.system.domain.vo.CustomerBusinessVo;
 import com.ruoyi.system.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -56,37 +56,43 @@ public class ApiReptileServiceImpl implements ApiReptileService {
      * @throws SQLException
      */
     @Override
-    public void aotoCustomerReportRemind(TestRequestDTO testRequestDTO){
+    public void aotoCustomerReportRemind(CustomerPortraitParameter customerPortraitParameter) {
         try {
+
+            //TODO: 2024/3/21 根据名称获取天眼查公司名称、公司ID
+
             //更新客户单位画像信息
             CustomerBusinessVo tycCompanyInfo = new CustomerBusinessVo();
-            tycCompanyInfo.setCompany(testRequestDTO.getFullCompany());
-            tycCompanyInfo.setCompanyId(testRequestDTO.getCompanyId());
+            tycCompanyInfo.setCompany(customerPortraitParameter.getFullCompany());
+            tycCompanyInfo.setCompanyId(customerPortraitParameter.getCompanyId());
 
             //获取客户单位的工商信息
-            iCusPersonaCompanyBusinessService.addCompanyBusinessByTycCompanyId(tycCompanyInfo, testRequestDTO.getUserName(), testRequestDTO.getCompany(), testRequestDTO.getEnterpriseType());
+            iCusPersonaCompanyBusinessService.addCompanyBusinessByTycCompanyId(
+                    tycCompanyInfo, customerPortraitParameter.getUserName(),
+                    customerPortraitParameter.getCompany(),
+                    customerPortraitParameter.getEnterpriseType());
             //调用天眼查获取客户单位关系信息
-            iCusPersonaCompanyNodeService.addCorporateRelationsByTyc(tycCompanyInfo, testRequestDTO.getUserName());
+            iCusPersonaCompanyNodeService.addCorporateRelationsByTyc(tycCompanyInfo, customerPortraitParameter.getUserName());
             //调用天眼查获取客户单位对外投资信息（处理好的数据，含有对外地区投资和行业投资）
-            iCusPersonaAreaInvestService.addInvestByTycCompany(tycCompanyInfo, testRequestDTO.getUserName());
+            iCusPersonaAreaInvestService.addInvestByTycCompany(tycCompanyInfo, customerPortraitParameter.getUserName());
             //调用天眼查获取客户单位产品信息
-            iCusPersonaCompanyProductService.addProductByTyc(tycCompanyInfo, testRequestDTO.getUserName());
+            iCusPersonaCompanyProductService.addProductByTyc(tycCompanyInfo, customerPortraitParameter.getUserName());
             //调用天眼查获取客户单位证书信息
-            iCusPersonaCompanyCertService.addCertByTyc(tycCompanyInfo, testRequestDTO.getUserName());
+            iCusPersonaCompanyCertService.addCertByTyc(tycCompanyInfo, customerPortraitParameter.getUserName());
             //调用天眼查获取客户单位的客户数据
-            iCusPersonaCompanyCustomerService.addCompanyCustomerByTyc(tycCompanyInfo, testRequestDTO.getUserName());
+            iCusPersonaCompanyCustomerService.addCompanyCustomerByTyc(tycCompanyInfo, customerPortraitParameter.getUserName());
             //调用天眼查获取客户单位的供应商数据
-            iCusPersonaCompanySupplierService.addSupplierByTyc(tycCompanyInfo, testRequestDTO.getUserName());
+            iCusPersonaCompanySupplierService.addSupplierByTyc(tycCompanyInfo, customerPortraitParameter.getUserName());
             //调用天眼查获取客户单位司法解析数据
-            iCusPersonaJudicialCaseService.addJudicialCaseByTyc(tycCompanyInfo, testRequestDTO.getUserName());
+            iCusPersonaJudicialCaseService.addJudicialCaseByTyc(tycCompanyInfo, customerPortraitParameter.getUserName());
             //调用天眼查获取客户单位开庭公告数据
-            iCusPersonaCourtNoticeService.addTycCourtNoticeByCompany(tycCompanyInfo, testRequestDTO.getUserName());
+            iCusPersonaCourtNoticeService.addTycCourtNoticeByCompany(tycCompanyInfo, customerPortraitParameter.getUserName());
             //调用天眼查获取客户单位法律诉讼数据
-            iCusPersonaLegalService.addTycLegalByCompany(tycCompanyInfo, testRequestDTO.getUserName());
+            iCusPersonaLegalService.addTycLegalByCompany(tycCompanyInfo, customerPortraitParameter.getUserName());
             //调用天眼查获取企业年报信息
-            iCusPersonaAnnualReportsService.addAnnualReportsByTyc(tycCompanyInfo, testRequestDTO.getUserName());
+            iCusPersonaAnnualReportsService.addAnnualReportsByTyc(tycCompanyInfo, customerPortraitParameter.getUserName());
             //获取招投标数据
-            iPersonaBidsService.savePurchaserPersonaBidsByCompany(testRequestDTO.getUserName());
+            iPersonaBidsService.savePurchaserPersonaBidsByCompany(customerPortraitParameter.getUserName());
         } catch (Exception e) {
             e.printStackTrace();
         }

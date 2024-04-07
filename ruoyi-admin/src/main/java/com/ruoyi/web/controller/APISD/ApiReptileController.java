@@ -1,8 +1,10 @@
 package com.ruoyi.web.controller.APISD;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.ruoyi.system.domain.CustomerPortraitParameter;
+import com.ruoyi.system.service.ApiReptileService;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * @author: 11653
@@ -15,10 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/tianyan/reptile")
 public class ApiReptileController {
 
+    @Resource
+    private ApiReptileService apiReptileService;
 
-    @GetMapping("/test")
-    public void test(){
-        System.out.println("test");
+    @GetMapping("/addCustomerPortrait")
+    public String addCustomerPortrait(CustomerPortraitParameter testRequestDTO){
+        apiReptileService.aotoCustomerReportRemind(testRequestDTO);
+        return "测试成功";
     }
 
 }
