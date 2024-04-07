@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comp.components.mapper.CusPersonaAreaInvestMapper">
+
+    <resultMap type="com.comp.components.domain.CusPersonaAreaInvest" id="CusPersonaAreaInvestResult">
+        <result property="id" column="id"/>
+        <result property="areaName" column="area_name"/>
+        <result property="areaNum" column="area_num"/>
+        <result property="areaKey" column="area_key"/>
+        <result property="companyId" column="company_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="companyName" column="company_name"/>
+    </resultMap>
+        
+    <insert id="insertCusPersonaAreaInvest" parameterType="com.comp.components.domain.CusPersonaAreaInvest" useGeneratedKeys="true" keyProperty="id">
+        insert into cus_persona_area_invest
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="areaName != null">area_name,</if>
+            <if test="areaNum != null">area_num,</if>
+            <if test="areaKey != null">area_key,</if>
+            <if test="companyId != null">company_id,</if>
+            <if test="companyName != null">company_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="areaName != null">#{areaName},</if>
+            <if test="areaNum != null">#{areaNum},</if>
+            <if test="areaKey != null">#{areaKey},</if>
+            <if test="companyId != null">#{companyId},</if>
+            <if test="companyName != null">#{companyName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCusPersonaAreaInvest" parameterType="CusPersonaAreaInvest">
+        update cus_persona_area_invest
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areaName != null">area_name = #{areaName},</if>
+            <if test="areaNum != null">area_num = #{areaNum},</if>
+            <if test="areaKey != null">area_key = #{areaKey},</if>
+            <if test="companyId != null">company_id = #{companyId},</if>
+            <if test="companyName != null">company_name = #{companyName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+    
+</mapper>

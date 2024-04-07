@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comp.components.mapper.CusPersonaLegalMapper">
+    
+    <resultMap type="com.comp.components.domain.CusPersonaLegal" id="CusPersonaLegalResult">
+        <result property="id"    column="id"    />
+        <result property="docType"    column="doc_type"    />
+        <result property="lawsuitUrl"    column="lawsuit_url"    />
+        <result property="lawsuitH5Url"    column="lawsuit_h5_url"    />
+        <result property="title"    column="title"    />
+        <result property="court"    column="court"    />
+        <result property="judgeTime"    column="judge_time"    />
+        <result property="caseNo"    column="case_no"    />
+        <result property="courtUuid" column="court_uuid"/>
+        <result property="caseType"    column="case_type"    />
+        <result property="caseReason"    column="case_reason"    />
+        <result property="caseResult"    column="case_result"    />
+        <result property="caseRole"    column="case_role"    />
+        <result property="caseEmotion"    column="case_emotion"    />
+        <result property="caseMoney"    column="case_money"    />
+        <result property="companyId"    column="company_id"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+        
+    <insert id="insertCusPersonaLegal" parameterType="com.comp.components.domain.CusPersonaLegal">
+        insert into cus_persona_legal
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="docType != null">doc_type,</if>
+            <if test="lawsuitUrl != null">lawsuit_url,</if>
+            <if test="lawsuitH5Url != null">lawsuit_h5_url,</if>
+            <if test="title != null">title,</if>
+            <if test="court != null">court,</if>
+            <if test="judgeTime != null">judge_time,</if>
+            <if test="caseNo != null">case_no,</if>
+            <if test="courtUuid != null">court_uuid,</if>
+            <if test="caseType != null">case_type,</if>
+            <if test="caseReason != null">case_reason,</if>
+            <if test="caseResult != null">case_result,</if>
+            <if test="caseRole != null">case_role,</if>
+            <if test="caseEmotion != null">case_emotion,</if>
+            <if test="caseMoney != null">case_money,</if>
+            <if test="companyId != null">company_id,</if>
+            <if test="companyName != null">company_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="docType != null">#{docType},</if>
+            <if test="lawsuitUrl != null">#{lawsuitUrl},</if>
+            <if test="lawsuitH5Url != null">#{lawsuitH5Url},</if>
+            <if test="title != null">#{title},</if>
+            <if test="court != null">#{court},</if>
+            <if test="judgeTime != null">#{judgeTime},</if>
+            <if test="caseNo != null">#{caseNo},</if>
+            <if test="courtUuid != null">#{courtUuid},</if>
+            <if test="caseType != null">#{caseType},</if>
+            <if test="caseReason != null">#{caseReason},</if>
+            <if test="caseResult != null">#{caseResult},</if>
+            <if test="caseRole != null">#{caseRole},</if>
+            <if test="caseEmotion != null">#{caseEmotion},</if>
+            <if test="caseMoney != null">#{caseMoney},</if>
+            <if test="companyId != null">#{companyId},</if>
+            <if test="companyName != null">#{companyName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+</mapper>

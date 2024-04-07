@@ -1,6 +1,5 @@
 package com.ruoyi.web.controller.APISD;
 
-import com.ruoyi.system.domain.CustomerPortraitParameter;
 import com.ruoyi.system.service.ApiReptileService;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +21,7 @@ public class ApiReptileController {
 
     @GetMapping("/addCustomerPortrait")
     public String addCustomerPortrait(CustomerPortraitParameter testRequestDTO){
-        apiReptileService.aotoCustomerReportRemind(testRequestDTO);
+        apiReptileService.addCustomerReportRemind(testRequestDTO);
         return "测试成功";
     }
 

@@ -650,4 +650,16 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
     public static String subStringNumber(String str){
         return str.replaceAll("[^0-9.]", "");
     }
+
+    public static boolean containsWordsWithAC(String inputString, String[] words) {
+        boolean found = true;
+        for(String word : words) {
+            boolean contains = inputString.contains(word);
+            if (!contains) {
+                found = false;
+                break;
+            }
+        }
+        return found;
+    }
 }

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comp.components.mapper.CusPersonaAnnualReportsMapper">
+
+    <resultMap type="com.comp.components.domain.CusPersonaAnnualReports" id="CusPersonaAnnualReportsResult">
+        <result property="id"    column="id"    />
+        <result property="employeeNum"    column="employee_num"    />
+        <result property="totalAssets"    column="total_assets"    />
+        <result property="totalProfit"    column="total_profit"    />
+        <result property="totalLiability"    column="total_liability"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="postcode"    column="postcode"    />
+        <result property="totalSales"    column="total_sales"    />
+        <result property="retainedProfit"    column="retained_profit"    />
+        <result property="totalTax"    column="total_tax"    />
+        <result property="totalEquity"    column="total_equity"    />
+        <result property="creditCode"    column="credit_code"    />
+        <result property="phoneNumber"    column="phone_number"    />
+        <result property="postalAddress"    column="postal_address"    />
+        <result property="primeBusProfit"    column="prime_bus_profit"    />
+        <result property="manageState"    column="manage_state"    />
+        <result property="website"    column="website"    />
+        <result property="webName"    column="web_name"    />
+        <result property="email"    column="email"    />
+        <result property="releaseTime"    column="release_time"    />
+        <result property="medicalInsurancePayAmount"    column="medical_insurance_pay_amount"    />
+        <result property="medicalInsuranceOweAmount"    column="medical_insurance_owe_amount"    />
+        <result property="unemploymentInsuranceBase"    column="unemployment_insurance_base"    />
+        <result property="unemploymentInsuranceOweAmount"    column="unemployment_insurance_owe_amount"    />
+        <result property="unemploymentInsurancePayAmount"    column="unemployment_insurance_pay_amount"    />
+        <result property="endowmentInsurance"    column="endowment_insurance"    />
+        <result property="maternityInsurancePayAmount"    column="maternity_insurance_pay_amount"    />
+        <result property="employmentInjuryInsurancePayAmount"    column="employment_injury_insurance_pay_amount"    />
+        <result property="medicalInsurance"    column="medical_insurance"    />
+        <result property="medicalInsuranceBase"    column="medical_insurance_base"    />
+        <result property="unemploymentInsurance"    column="unemployment_insurance"    />
+        <result property="endowmentInsuranceBase"    column="endowment_insurance_base"    />
+        <result property="maternityInsuranceBase"    column="maternity_insurance_base"    />
+        <result property="endowmentInsurancePayAmount"    column="endowment_insurance_pay_amount"    />
+        <result property="employmentInjuryInsurance"    column="employment_injury_insurance"    />
+        <result property="endowmentInsuranceOweAmount"    column="endowment_insurance_owe_amount"    />
+        <result property="maternityInsurance"    column="maternity_insurance"    />
+        <result property="maternityInsuranceOweAmount"    column="maternity_insurance_owe_amount"    />
+        <result property="employmentInjuryInsuranceOweAmount"    column="employment_injury_insurance_owe_amount"    />
+        <result property="companyId"    column="company_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <insert id="insertCusPersonaAnnualReports" parameterType="com.comp.components.domain.CusPersonaAnnualReports" useGeneratedKeys="true" keyProperty="id">
+        insert into cus_persona_annual_reports
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="employeeNum != null">employee_num,</if>
+            <if test="totalAssets != null">total_assets,</if>
+            <if test="totalProfit != null">total_profit,</if>
+            <if test="totalLiability != null">total_liability,</if>
+            <if test="companyName != null">company_name,</if>
+            <if test="postcode != null">postcode,</if>
+            <if test="totalSales != null">total_sales,</if>
+            <if test="retainedProfit != null">retained_profit,</if>
+            <if test="totalTax != null">total_tax,</if>
+            <if test="totalEquity != null">total_equity,</if>
+            <if test="creditCode != null">credit_code,</if>
+            <if test="phoneNumber != null">phone_number,</if>
+            <if test="postalAddress != null">postal_address,</if>
+            <if test="primeBusProfit != null">prime_bus_profit,</if>
+            <if test="manageState != null">manage_state,</if>
+            <if test="website != null">website,</if>
+            <if test="webName != null">web_name,</if>
+            <if test="email != null">email,</if>
+            <if test="releaseTime != null">release_time,</if>
+            <if test="medicalInsurancePayAmount != null">medical_insurance_pay_amount,</if>
+            <if test="medicalInsuranceOweAmount != null">medical_insurance_owe_amount,</if>
+            <if test="unemploymentInsuranceBase != null">unemployment_insurance_base,</if>
+            <if test="unemploymentInsuranceOweAmount != null">unemployment_insurance_owe_amount,</if>
+            <if test="unemploymentInsurancePayAmount != null">unemployment_insurance_pay_amount,</if>
+            <if test="endowmentInsurance != null">endowment_insurance,</if>
+            <if test="maternityInsurancePayAmount != null">maternity_insurance_pay_amount,</if>
+            <if test="employmentInjuryInsurancePayAmount != null">employment_injury_insurance_pay_amount,</if>
+            <if test="medicalInsurance != null">medical_insurance,</if>
+            <if test="medicalInsuranceBase != null">medical_insurance_base,</if>
+            <if test="unemploymentInsurance != null">unemployment_insurance,</if>
+            <if test="endowmentInsuranceBase != null">endowment_insurance_base,</if>
+            <if test="maternityInsuranceBase != null">maternity_insurance_base,</if>
+            <if test="endowmentInsurancePayAmount != null">endowment_insurance_pay_amount,</if>
+            <if test="employmentInjuryInsurance != null">employment_injury_insurance,</if>
+            <if test="endowmentInsuranceOweAmount != null">endowment_insurance_owe_amount,</if>
+            <if test="maternityInsurance != null">maternity_insurance,</if>
+            <if test="maternityInsuranceOweAmount != null">maternity_insurance_owe_amount,</if>
+            <if test="employmentInjuryInsuranceOweAmount != null">employment_injury_insurance_owe_amount,</if>
+            <if test="companyId != null">company_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="employeeNum != null">#{employeeNum},</if>
+            <if test="totalAssets != null">#{totalAssets},</if>
+            <if test="totalProfit != null">#{totalProfit},</if>
+            <if test="totalLiability != null">#{totalLiability},</if>
+            <if test="companyName != null">#{companyName},</if>
+            <if test="postcode != null">#{postcode},</if>
+            <if test="totalSales != null">#{totalSales},</if>
+            <if test="retainedProfit != null">#{retainedProfit},</if>
+            <if test="totalTax != null">#{totalTax},</if>
+            <if test="totalEquity != null">#{totalEquity},</if>
+            <if test="creditCode != null">#{creditCode},</if>
+            <if test="phoneNumber != null">#{phoneNumber},</if>
+            <if test="postalAddress != null">#{postalAddress},</if>
+            <if test="primeBusProfit != null">#{primeBusProfit},</if>
+            <if test="manageState != null">#{manageState},</if>
+            <if test="website != null">#{website},</if>
+            <if test="webName != null">#{webName},</if>
+            <if test="email != null">#{email},</if>
+            <if test="releaseTime != null">#{releaseTime},</if>
+            <if test="medicalInsurancePayAmount != null">#{medicalInsurancePayAmount},</if>
+            <if test="medicalInsuranceOweAmount != null">#{medicalInsuranceOweAmount},</if>
+            <if test="unemploymentInsuranceBase != null">#{unemploymentInsuranceBase},</if>
+            <if test="unemploymentInsuranceOweAmount != null">#{unemploymentInsuranceOweAmount},</if>
+            <if test="unemploymentInsurancePayAmount != null">#{unemploymentInsurancePayAmount},</if>
+            <if test="endowmentInsurance != null">#{endowmentInsurance},</if>
+            <if test="maternityInsurancePayAmount != null">#{maternityInsurancePayAmount},</if>
+            <if test="employmentInjuryInsurancePayAmount != null">#{employmentInjuryInsurancePayAmount},</if>
+            <if test="medicalInsurance != null">#{medicalInsurance},</if>
+            <if test="medicalInsuranceBase != null">#{medicalInsuranceBase},</if>
+            <if test="unemploymentInsurance != null">#{unemploymentInsurance},</if>
+            <if test="endowmentInsuranceBase != null">#{endowmentInsuranceBase},</if>
+            <if test="maternityInsuranceBase != null">#{maternityInsuranceBase},</if>
+            <if test="endowmentInsurancePayAmount != null">#{endowmentInsurancePayAmount},</if>
+            <if test="employmentInjuryInsurance != null">#{employmentInjuryInsurance},</if>
+            <if test="endowmentInsuranceOweAmount != null">#{endowmentInsuranceOweAmount},</if>
+            <if test="maternityInsurance != null">#{maternityInsurance},</if>
+            <if test="maternityInsuranceOweAmount != null">#{maternityInsuranceOweAmount},</if>
+            <if test="employmentInjuryInsuranceOweAmount != null">#{employmentInjuryInsuranceOweAmount},</if>
+            <if test="companyId != null">#{companyId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+</mapper>

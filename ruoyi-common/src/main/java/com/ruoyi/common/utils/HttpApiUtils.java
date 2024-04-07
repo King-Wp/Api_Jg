@@ -20,7 +20,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 import static com.ruoyi.common.enums.UrlAddressEnum.COMPANY;
-import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN;
+import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_API;
 
 /**
  * @author: 11653
@@ -33,7 +33,7 @@ public class HttpApiUtils {
     public static String executeGetCompanyId(String url) {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet httpGet = new HttpGet(url);
-            httpGet.setHeader("Authorization", TOKEN.getUrl());
+            httpGet.setHeader("Authorization", TOKEN_API.getUrl());
             try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
                 return EntityUtils.toString(response.getEntity(), "UTF-8");
             }
@@ -43,10 +43,10 @@ public class HttpApiUtils {
         return null;
     }
 
-    public static String executeGet(String url) {
+    public static String executeGet(String url,String token) {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet httpGet = new HttpGet(url);
-            httpGet.setHeader("Authorization", TOKEN.getUrl());
+            httpGet.setHeader("Authorization", token);
             try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
                 return EntityUtils.toString(response.getEntity(), "UTF-8");
             }
@@ -62,7 +62,7 @@ public class HttpApiUtils {
             // 根据地址获取请求
             HttpGet request = new HttpGet(url);//这⾥发送get请求
             // 获取当前客户端对象
-            request.setHeader("Authorization", TOKEN.getUrl());
+            request.setHeader("Authorization", TOKEN_API.getUrl());
             HttpClient httpClient = new DefaultHttpClient();
             // 通过请求对象获取响应对象
             HttpResponse response = httpClient.execute(request);

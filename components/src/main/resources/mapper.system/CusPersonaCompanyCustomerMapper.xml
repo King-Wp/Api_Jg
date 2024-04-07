@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comp.components.mapper.CusPersonaCompanyCustomerMapper">
+    
+    <resultMap type="com.comp.components.domain.CusPersonaCompanyCustomer" id="CusPersonaCompanyCustomerResult">
+        <result property="id"    column="id"    />
+        <result property="announcementDate"    column="announcement_date"    />
+        <result property="amt"    column="amt"    />
+        <result property="logo"    column="logo"    />
+        <result property="alias"    column="alias"    />
+        <result property="clientGraphId"    column="client_graph_id"    />
+        <result property="relationship"    column="relationship"    />
+        <result property="clientName"    column="client_name"    />
+        <result property="dataSource"    column="data_source"    />
+        <result property="ratio"    column="ratio"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="companyId"    column="company_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+        
+    <insert id="insertCusPersonaCompanyCustomer" parameterType="com.comp.components.domain.CusPersonaCompanyCustomer" useGeneratedKeys="true" keyProperty="id">
+        insert into cus_persona_company_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="announcementDate != null">announcement_date,</if>
+            <if test="amt != null">amt,</if>
+            <if test="logo != null">logo,</if>
+            <if test="alias != null">alias,</if>
+            <if test="clientGraphId != null">client_graph_id,</if>
+            <if test="relationship != null">relationship,</if>
+            <if test="clientName != null">client_name,</if>
+            <if test="dataSource != null">data_source,</if>
+            <if test="ratio != null">ratio,</if>
+            <if test="companyName != null">company_name,</if>
+            <if test="companyId != null">company_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="announcementDate != null">#{announcementDate},</if>
+            <if test="amt != null">#{amt},</if>
+            <if test="logo != null">#{logo},</if>
+            <if test="alias != null">#{alias},</if>
+            <if test="clientGraphId != null">#{clientGraphId},</if>
+            <if test="relationship != null">#{relationship},</if>
+            <if test="clientName != null">#{clientName},</if>
+            <if test="dataSource != null">#{dataSource},</if>
+            <if test="ratio != null">#{ratio},</if>
+            <if test="companyName != null">#{companyName},</if>
+            <if test="companyId != null">#{companyId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+    
+</mapper>

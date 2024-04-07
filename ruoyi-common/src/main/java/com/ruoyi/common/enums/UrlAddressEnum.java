@@ -8,7 +8,7 @@ package com.ruoyi.common.enums;
  */
 public enum UrlAddressEnum {
 
-    TOKEN("7b1f73a2-3709-4be1-ae59-6536d47aae1b"),
+    TOKEN_API("7b1f73a2-3709-4be1-ae59-6536d47aae1b"),
     BASE_INFO_V2("http://open.api.tianyancha.com/services/open/ic/baseinfoV2/2.0"),
     APP_BK_INFO("http://open.api.tianyancha.com/services/open/m/"),
     PROFILE("http://open.api.tianyancha.com/services/v4/open/profile/"),
