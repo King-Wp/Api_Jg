@@ -1,6 +1,9 @@
 package com.comp.components.service;
 
+import com.comp.components.domain.CusPersonaCompanyBusiness;
 import com.comp.components.domain.vo.CustomerBusinessVo;
+
+import java.util.List;
 
 /**
  * 公司详情工商信息Service接口
@@ -20,4 +23,6 @@ public interface ICusPersonaCompanyBusinessService
      * @return 入库结果
      */
     int addCompanyBusinessByTycCompanyId(CustomerBusinessVo customerBusinessVo, String userName, String queryKeyword, String enterpriseType);
+
+    List<CusPersonaCompanyBusiness> selectCusPersonaCompanyBusinessList(CusPersonaCompanyBusiness cusPersonaCompanyBusiness);
 }

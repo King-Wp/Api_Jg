@@ -43,7 +43,6 @@ public class CusPersonaCompanyNodeServiceImpl implements ICusPersonaCompanyNodeS
 
     @Override
     public void addCorporateRelationsByTyc(CustomerBusinessVo customerBusinessVo, String userName) {
-//        List<CustomerBusinessVo> customerList = customersVoMapper.getHasCompanyIdCustomerList();
         String companyId = customerBusinessVo.getCompanyId();
         String companyName = customerBusinessVo.getCompany();
         int res = 0;

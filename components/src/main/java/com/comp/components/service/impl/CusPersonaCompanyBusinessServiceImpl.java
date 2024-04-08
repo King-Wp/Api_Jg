@@ -14,6 +14,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -191,6 +192,11 @@ public class CusPersonaCompanyBusinessServiceImpl implements ICusPersonaCompanyB
             }
         }
         return i;
+    }
+
+    @Override
+    public List<CusPersonaCompanyBusiness> selectCusPersonaCompanyBusinessList(CusPersonaCompanyBusiness cusPersonaCompanyBusiness) {
+        return cusPersonaCompanyBusinessMapper.selectCusPersonaCompanyBusinessList(cusPersonaCompanyBusiness);
     }
 
     /**

@@ -1,12 +1,31 @@
 package com.comp.components.service.impl;
 
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
+import com.comp.components.domain.CusPersonaAreaInvest;
+import com.comp.components.domain.CusPersonaCategoryInvest;
+import com.comp.components.domain.CusPersonaCompanyBusiness;
 import com.comp.components.domain.CustomerPortraitParameter;
 import com.comp.components.domain.vo.CustomerBusinessVo;
+import com.comp.components.mapper.CustomersVoMapper;
 import com.comp.components.service.*;
+import com.ruoyi.common.core.domain.model.LoginUser;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author: 11653

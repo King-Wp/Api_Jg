@@ -9,7 +9,7 @@ import java.sql.SQLException;
  * @author: 11653
  * @createTime: 2024/03/21 15:04
  * @package: com.ruoyi.system.service
- * @description:
+ * @description: 爬虫接口
  */
 public interface ApiReptileService {
 
@@ -24,5 +24,11 @@ public interface ApiReptileService {
      * @throws SQLException
      */
     void addCustomerReportRemind(CustomerPortraitParameter testRequestDTO);
+
+    /**
+     * 通过天眼查获取企业对外投资情况（包含地区和行业的投资情况）
+     * @return
+     */
+//    int addInvestByTyc();
 
 }
