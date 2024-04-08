@@ -9,7 +9,7 @@ import java.util.List;
  * @author: 11653
  * @createTime: 2024/04/07 16:57
  * @package: com.comp.components.service
- * @description:
+ * @description: 付费接口
  */
 public interface ApiThirdPartyService {
 
@@ -25,4 +25,10 @@ public interface ApiThirdPartyService {
      * 调用天眼查收费接口获取并入库企业经营异常信息
      */
     int addAbnormalOperationByTyc(CustomerBusinessVo customerBusinessVo, String userName);
+
+
+    /**
+     * 通过天眼查收费接口调用企业动产抵押信息
+     */
+    int addChattelMortgageByTyc(CustomerBusinessVo customerBusinessVo, String userName);
 }

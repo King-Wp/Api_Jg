@@ -10,5 +10,7 @@ public class CustomerBusinessVo {
     private String company;
     //天眼查公司ID
     private String companyId;
+    private String companyName;
+    private String sameRatio;
 
 }

@@ -3,16 +3,20 @@ package com.comp.components.service.impl;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.comp.components.domain.CusPersonaAbnormalOperation;
+import com.comp.components.domain.CusPersonaChattelMortgage;
 import com.comp.components.domain.TyCompany;
 import com.comp.components.domain.vo.CustomerBusinessVo;
 import com.comp.components.exception.CustomException;
 import com.comp.components.mapper.CusPersonaAbnormalOperationMapper;
+import com.comp.components.mapper.CusPersonaChattelMortgageMapper;
 import com.comp.components.service.ApiThirdPartyService;
 import com.comp.components.utils.PutBidUtils;
 import com.comp.components.utils.compareUtil;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.HttpApiUtils;
 import com.ruoyi.common.utils.StringUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
@@ -27,10 +31,14 @@ import java.util.List;
  * @package: com.comp.components.service.impl
  * @description:
  */
+@Slf4j
+@Service
 public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
 
     @Resource
     private CusPersonaAbnormalOperationMapper cusPersonaAbnormalOperationMapper;
+    @Resource
+    private CusPersonaChattelMortgageMapper cusPersonaChattelMortgageMapper;
 
     @Override
     public List<TyCompany> selectCompanyListByTyc(String keyword, Integer pageNum) {
@@ -188,6 +196,119 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
                     break;
                 }
             }
+        }
+        return num;
+    }
+
+    @Override
+    public int addChattelMortgageByTyc(CustomerBusinessVo customerBusinessVo, String userName) {
+        //新增数量
+        int num = 0;
+        String companyId = customerBusinessVo.getCompanyId();
+        String companyName = customerBusinessVo.getCompany();
+        //请求页码
+        int pageNum = 0;
+        //是否终止循环变量
+        boolean endLoop = false;
+        //循环的次数
+        int loopNum = 0;
+        //重连次数
+        int reconnect = 0;
+
+        while (!endLoop) {
+            //将访问的页数加一
+            pageNum++;
+            String token = "7b1f73a2-3709-4be1-ae59-6536d47aae1b";
+            String url = "http://open.api.tianyancha.com/services/open/mr/mortgageInfo/2.0?pageSize=20&keyword="+companyId+"&pageNum="+pageNum;
+            JSONObject resultObj = null;
+            try {
+                String result = HttpApiUtils.executeGet(url, token);
+                resultObj = JSONObject.parseObject(result);
+            } catch (RuntimeException e) {
+                //返回空时解析Json会出现异常，则将pageNum 减一，继续访问该页面
+                e.printStackTrace();
+                if (reconnect < 2) {
+                    pageNum = pageNum - 1;
+                    reconnect++;
+                } else {
+                    //重新访问超过一定次数则退出循环
+                    endLoop = true;
+                    reconnect = 0;
+                }
+            }
+            if (resultObj != null){
+                String code = resultObj.getString("error_code");
+                //判断异常信息
+                if ("0".equals(code)) {
+                    String totalString = resultObj.getJSONObject("result").getString("total");
+                    if (totalString == null) {
+                        //获取不到数据，退出本次循环
+                        break;
+                    }
+                    int total = Integer.parseInt(totalString);
+                    //total/20后得到整数部分，小数部分不会四舍五入，需+1以获取最后一页的数据
+                    loopNum = total / 20 + 1;
+                    //设置最多循环次数，避免出现过多请求接口导致收费过多
+                    if (pageNum > 5) {
+                        endLoop = true;
+                    } else if (pageNum <= loopNum) {
+                        //获取最后一页，获取完后结束循环
+                        if (pageNum == loopNum) {
+                            endLoop = true;
+                        }
+                        JSONArray lists = resultObj.getJSONObject("result").getJSONArray("items");
+
+                        JSONObject temp = new JSONObject();
+                        if (lists.size() > 0) {
+                            for (Object object : lists) {
+                                try {
+                                    temp = JSONObject.parseObject(object.toString()).getJSONObject("baseInfo");
+                                    CusPersonaChattelMortgage chattelMortgage = new CusPersonaChattelMortgage();
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                    chattelMortgage.setCompanyId(companyId);
+                                    chattelMortgage.setCompanyName(companyName);
+                                    if (!(temp.getString("regDate") == null || "".equals(temp.getString("regDate")))){
+                                        chattelMortgage.setRegDate(format.parse(temp.getString("regDate")));
+                                    }
+                                    chattelMortgage.setAmount(temp.getString("amount"));
+                                    if (!(temp.getString("publishDate") == null || "".equals(temp.getString("publishDate")))){
+                                        chattelMortgage.setPublishDate(DateUtils.dateToStamp(Long.valueOf(temp.getString("publishDate"))));
+                                    }
+                                    chattelMortgage.setRegDepartment(temp.getString("regDepartment"));
+                                    chattelMortgage.setTerm(temp.getString("term"));
+                                    chattelMortgage.setRegNum(temp.getString("regNum"));
+                                    chattelMortgage.setType(temp.getString("type"));
+                                    chattelMortgage.setCreateBy(userName);
+                                    chattelMortgage.setCreateTime(DateUtils.getNowDate());
+
+                                    num = num + cusPersonaChattelMortgageMapper.insertCusPersonaChattelMortgage(chattelMortgage);
+
+                                }catch (RuntimeException | ParseException e){
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
+                    } else {
+                        endLoop = true;
+                    }
+                }else if ("300004".equals(code) || "300001".equals(code)){
+                    //若频繁访问或访问失败，则重新访问该页面数据
+                    if (reconnect < 2) {
+                        pageNum = pageNum - 1;
+                        reconnect++;
+                    } else {
+                        //重新访问超过一定次数则退出循环
+                        endLoop = true;
+                        reconnect = 0;
+                    }
+                }else {
+                    //其他原因则退出循环
+                    break;
+                }
+
+            }
+
         }
         return num;
     }

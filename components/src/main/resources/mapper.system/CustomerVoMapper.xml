@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comp.components.mapper.CustomersVoMapper">
+
+    <resultMap type="com.comp.components.domain.vo.CustomersVo" id="CustomerResult">
+        <id property="id" column="cus_id"/>
+        <result property="name" column="cus_name"/>
+        <result property="company" column="company"/>
+        <result property="post" column="post"/>
+        <result property="photo" column="photo"/>
+        <result property="phone" column="phone" javaType="String"/>
+        <result property="clientType" column="client_type" javaType="String"/>
+        <result property="birthday" column="birthday"/>
+        <result property="address" column="address"/>
+        <result property="source" column="source"/>
+        <result property="state" column="state"/>
+        <result property="remark" column="remark"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="nick_name"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="parentName" column="parent_name"/>
+        <result property="isAttent" column="is_attent"/>
+        <result property="checkStatus" column="check_status"/>
+        <result property="cusRelation" column="cus_relation"/>
+        <result property="createTime" column="create_time"/>
+        <result property="industryType" column="industry_type"/>
+    </resultMap>
+
+    <resultMap id="customerPersonaResult" type="com.comp.components.domain.vo.CustomersVo">
+        <id property="id" column="cus_id"/>
+        <result property="userName" column="nick_name"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="parentName" column="parent_name"/>
+    </resultMap>
+    <resultMap id="customerPersonaVoResult" type="com.comp.components.domain.vo.CustomersVo">
+        <id property="cusId" column="cus_id"/>
+        <result property="userName" column="nick_name"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="parentName" column="parent_name"/>
+    </resultMap>
+    <resultMap id="CustomerBusinessVoResult" type="com.comp.components.domain.vo.CustomerBusinessVo">
+        <id property="id" column="cus_id"/>
+        <result property="company" column="company"/>
+        <result property="companyId" column="company_id"/>
+        <result property="companyName" column="company_name"/>
+        <result property="sameRatio" column="same_ratio"/>
+    </resultMap>
+
+    <sql id="selectCustomerVo">
+        select cus_id,
+               cus_name,
+               company,
+               post,
+               photo,
+               c.phone,
+               birthday,
+               address,
+               source,
+               state,
+               client_type,
+               check_status,
+               cus_relation,
+               c.remark,
+               c.user_id,
+               c.dept_id,
+               u.nick_name,
+               d.dept_name
+        from cus_persona_customer c
+                 left join sys_dept d on c.dept_id = d.dept_id
+                 left join sys_user u on c.user_id = u.user_id
+    </sql>
+
+    <select id="selectCustomerUnitList"  resultType="String">
+        <!--          select company from cus_persona_customer group by company order by company desc-->
+        SELECT company FROM cus_persona_customer order by cus_id desc limit 1
+    </select>
+</mapper>

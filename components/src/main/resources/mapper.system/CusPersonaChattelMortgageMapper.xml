@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.comp.components.mapper.CusPersonaChattelMortgageMapper">
+
+    <resultMap type="com.comp.components.domain.CusPersonaChattelMortgage" id="CusPersonaChattelMortgageResult">
+        <result property="id" column="id"/>
+        <result property="amount" column="amount"/>
+        <result property="publishDate" column="publish_date"/>
+        <result property="regDate" column="reg_date"/>
+        <result property="regNum" column="reg_num"/>
+        <result property="type" column="type"/>
+        <result property="regDepartment" column="reg_department"/>
+        <result property="term" column="term"/>
+        <result property="companyName" column="company_name"/>
+        <result property="companyId" column="company_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectCusPersonaChattelMortgageVo">
+        select id,
+               amount,
+               publish_date,
+               reg_date,
+               reg_num,
+               type,
+               reg_department,
+               term,
+               company_name,
+               company_id,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from cus_persona_chattel_mortgage
+    </sql>
+
+    <insert id="insertCusPersonaChattelMortgage" parameterType="com.comp.components.domain.CusPersonaChattelMortgage"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into cus_persona_chattel_mortgage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="amount != null">amount,</if>
+            <if test="publishDate != null">publish_date,</if>
+            <if test="regDate != null">reg_date,</if>
+            <if test="regNum != null">reg_num,</if>
+            <if test="type != null">type,</if>
+            <if test="regDepartment != null">reg_department,</if>
+            <if test="term != null">term,</if>
+            <if test="companyName != null">company_name,</if>
+            <if test="companyId != null">company_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="amount != null">#{amount},</if>
+            <if test="publishDate != null">#{publishDate},</if>
+            <if test="regDate != null">#{regDate},</if>
+            <if test="regNum != null">#{regNum},</if>
+            <if test="type != null">#{type},</if>
+            <if test="regDepartment != null">#{regDepartment},</if>
+            <if test="term != null">#{term},</if>
+            <if test="companyName != null">#{companyName},</if>
+            <if test="companyId != null">#{companyId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+</mapper>
