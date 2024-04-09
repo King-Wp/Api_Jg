@@ -39,6 +39,8 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
     private CusPersonaAbnormalOperationMapper cusPersonaAbnormalOperationMapper;
     @Resource
     private CusPersonaChattelMortgageMapper cusPersonaChattelMortgageMapper;
+    @Resource
+    private CusPersonaCompanyBusinessServiceImpl cusPersonaCompanyBusinessService;
 
     @Override
     public List<TyCompany> selectCompanyListByTyc(String keyword, Integer pageNum) {
@@ -311,5 +313,10 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
 
         }
         return num;
+    }
+
+    @Override
+    public int addCompanyBusinessByTyc() {
+        return cusPersonaCompanyBusinessService.addCompanyBusinessByTyc();
     }
 }

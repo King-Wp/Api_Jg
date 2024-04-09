@@ -31,4 +31,10 @@ public interface ApiThirdPartyService {
      * 通过天眼查收费接口调用企业动产抵押信息
      */
     int addChattelMortgageByTyc(CustomerBusinessVo customerBusinessVo, String userName);
+
+    /**
+     * 通过天眼查获取客户单位基本信息
+     * @return 入库结果
+     */
+    int addCompanyBusinessByTyc();
 }
