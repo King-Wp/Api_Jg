@@ -1,5 +1,6 @@
 package com.ruoyi.common.utils;
 
+import com.alibaba.fastjson2.JSONArray;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.text.StrFormatter;
 import org.springframework.util.AntPathMatcher;
@@ -661,5 +662,26 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
             }
         }
         return found;
+    }
+
+    public static String[] JsonToArray(JSONArray array){
+        TreeSet<String> set = new TreeSet<String>();
+        for(int i=0; i<array.size(); i++) {
+            Object object = array.get(i);
+            if(object instanceof JSONArray){//子元素为数组
+                JSONArray objects = array.getJSONArray(i);
+                //创建一个与JSONArray 长度相同的String数组
+                String[] arr = new String[objects.size()];
+                //使用JSONArray 中的toArray进行转换
+                String[] strings = objects.toArray(arr);
+                for (String s : strings) {
+                    set.add(s);
+                }
+            }else{//子元素为String
+                set.add(object.toString());
+            }
+        }
+        String[] result =set.toArray(new String[0]);
+        return result;
     }
 }

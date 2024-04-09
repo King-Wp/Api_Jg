@@ -22,8 +22,8 @@ import java.util.List;
 /**
  * 公司详情工商信息Service业务层处理
  *
- * @author wucilong
- * @date 2022-09-05
+ * @author Lgy
+ * @date 2024-04-09
  */
 @Service
 public class CusPersonaCompanyBusinessServiceImpl implements ICusPersonaCompanyBusinessService {
@@ -199,10 +199,9 @@ public class CusPersonaCompanyBusinessServiceImpl implements ICusPersonaCompanyB
     }
 
     @Override
-    public int addCompanyBusinessByTyc() {
+    public int addCompanyBusinessByTyc(List<String> customers) {
         //调用天眼查-新增入库
         //客户单位列表
-        List<String> customers = customersVoMapper.selectCustomerUnitList();
         String token = "7b1f73a2-3709-4be1-ae59-6536d47aae1b";
 //        String keyword = "广西电网有限责任公司";
         int i = 0;

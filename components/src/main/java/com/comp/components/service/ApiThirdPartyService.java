@@ -34,7 +34,8 @@ public interface ApiThirdPartyService {
 
     /**
      * 通过天眼查获取客户单位基本信息
+     * @param customers 客户单位列表
      * @return 入库结果
      */
-    int addCompanyBusinessByTyc();
+    int addCompanyBusinessByTyc(List<String> customers);
 }

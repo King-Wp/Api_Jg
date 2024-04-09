@@ -2,30 +2,17 @@ package com.comp.components.service.impl;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.comp.components.domain.CusPersonaAreaInvest;
-import com.comp.components.domain.CusPersonaCategoryInvest;
-import com.comp.components.domain.CusPersonaCompanyBusiness;
 import com.comp.components.domain.CustomerPortraitParameter;
+import com.comp.components.domain.RtbReportP;
 import com.comp.components.domain.vo.CustomerBusinessVo;
-import com.comp.components.mapper.CustomersVoMapper;
 import com.comp.components.service.*;
-import com.ruoyi.common.core.domain.model.LoginUser;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.SecurityUtils;
+import com.comp.components.utils.PutBidUtils;
+import com.ruoyi.common.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author: 11653
@@ -37,6 +24,8 @@ import java.util.List;
 @Slf4j
 @Service
 public class ApiReptileServiceImpl implements ApiReptileService {
+
+    private static final String KEYWORD_URL = "http://10.203.7.251:19002/CKE_out_results";
 
     @Resource
     private ICusPersonaCompanyBusinessService iCusPersonaCompanyBusinessService;
@@ -104,6 +93,114 @@ public class ApiReptileServiceImpl implements ApiReptileService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    @Override
+    public String[] keyToLevel(String company,List<String> bidTitles,List<String>contracts,String business) {
+        String[] keyword = null;
+        if (!(bidTitles.size() == 0 && contracts.size() == 0 && business == null)) {
+            //封装数据
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", 99999);
+            map.put("level-p1", "");
+            map.put("level-p2", bidTitles.toArray(new String[bidTitles.size()]));
+            map.put("level-p3", contracts.toArray(new String[contracts.size()]));
+            map.put("level-p4", com.ruoyi.common.utils.StringUtils.nvl(business, ""));
+            map.put("level-p5", "");
+            JSONArray arrs = new JSONArray();
+            arrs.add(map);
+
+            //提取关键词
+            String result = PutBidUtils.doPost(KEYWORD_URL, arrs.toJSONString());
+            JSONObject resultObj = JSONObject.parseObject(result);
+            String code = (String) resultObj.get("code");
+            JSONArray lists = resultObj.getJSONArray("data");
+            JSONObject data = new JSONObject();
+            if ("200".equals(code) && lists.size() > 0) {
+                data = (JSONObject) lists.get(0);
+            }
+            if (data.getJSONArray("level-p2").size() > 0) {
+                keyword = StringUtils.JsonToArray(data.getJSONArray("level-p2"));
+            } else if (data.getJSONArray("level-p3").size() > 0) {
+                keyword = com.ruoyi.common.utils.StringUtils.JsonToArray(data.getJSONArray("level-p3"));
+            } else if (data.getJSONArray("level-p4").size() > 0) {
+                keyword = StringUtils.JsonToArray(data.getJSONArray("level-p4"));
+            }
+        }
+        return keyword;
+    }
+
+    @Override
+    public String[] getVisitKeyword(Long baseId, String company, List<String> bidTitles, List<String> contracts, String business) {
+        JSONObject data = new JSONObject();
+        if (!(bidTitles.size() == 0 && contracts.size() == 0 && business == null)) {
+            //封装数据
+            /**
+             * "level-p2":"招投标标题",
+             * "level-p3":"业绩合同名称",
+             * "level-p4":"经营范围" ,  */
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", baseId);
+            map.put("level-p1", "");
+            map.put("level-p2", bidTitles.toArray(new String[bidTitles.size()]));
+            map.put("level-p3", contracts.toArray(new String[contracts.size()]));
+            map.put("level-p4", StringUtils.nvl(business, ""));
+            map.put("level-p5", "");
+            JSONArray arrs = new JSONArray();
+            arrs.add(map);
+
+            //提取关键词
+            String result = PutBidUtils.doPost(KEYWORD_URL, arrs.toJSONString());
+            JSONObject resultObj = JSONObject.parseObject(result);
+            String code = (String) resultObj.get("code");
+            JSONArray lists = resultObj.getJSONArray("data");
+            if ("200".equals(code) && lists.size() > 0) {
+                for (int i = 0; i < lists.size(); i++) {
+                    data = (JSONObject) lists.get(i);
+                }
+            }
+        }
+        String[] keyword = null;
+        if (data.size() > 0)
+            if (data.getJSONArray("level-p2").size() > 0) {
+                keyword = StringUtils.JsonToArray(data.getJSONArray("level-p2"));
+            } else if (data.getJSONArray("level-p3").size() > 0) {
+                keyword = StringUtils.JsonToArray(data.getJSONArray("level-p3"));
+            } else if (data.getJSONArray("level-p4").size() > 0) {
+                keyword = StringUtils.JsonToArray(data.getJSONArray("level-p4"));
+            }
+        return keyword;
+    }
+
+    @Override
+    public JSONObject getReportKeyword(Long baseId, RtbReportP info) {
+        JSONObject data = new JSONObject();
+        if (StringUtils.isNotNull(info)) {
+            String itemName = info.getItemName();//项目名称
+            String content = info.getContent();//建设内容
+
+            //封装数据
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", baseId);
+            map.put("level-p1", StringUtils.nvl(itemName, ""));
+            map.put("level-p2", StringUtils.nvl(content, ""));
+            map.put("level-p3", "");
+            map.put("level-p4", "");
+            map.put("level-p5", "");
+            JSONArray arrs = new JSONArray();
+            arrs.add(map);
+
+            //提取关键词
+            String result = PutBidUtils.doPost(KEYWORD_URL, arrs.toJSONString());
+            JSONObject resultObj = JSONObject.parseObject(result);
+            String code = (String) resultObj.get("code");
+            JSONArray lists = resultObj.getJSONArray("data");
+            if ("200".equals(code) && lists.size() > 0) {
+                for (int i = 0; i < lists.size(); i++) {
+                    data = (JSONObject) lists.get(i);
+                }
+            }
+        }
+        return data;
     }
 }

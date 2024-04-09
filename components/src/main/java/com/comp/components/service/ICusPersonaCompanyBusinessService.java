@@ -2,14 +2,15 @@ package com.comp.components.service;
 
 import com.comp.components.domain.vo.CustomerBusinessVo;
 
+import java.util.List;
+
 /**
  * 公司详情工商信息Service接口
  * 
  * @author wucilong
  * @date 2022-09-05
  */
-public interface ICusPersonaCompanyBusinessService 
-{
+public interface ICusPersonaCompanyBusinessService {
 
     /**
      *  客户单位的工商信息
@@ -26,5 +27,5 @@ public interface ICusPersonaCompanyBusinessService
      * 通过天眼查获取客户单位基本信息
      * @return 入库结果
      */
-    int addCompanyBusinessByTyc();
+    int addCompanyBusinessByTyc(List<String> customers);
 }

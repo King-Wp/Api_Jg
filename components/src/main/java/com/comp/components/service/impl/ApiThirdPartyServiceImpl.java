@@ -316,7 +316,7 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
     }
 
     @Override
-    public int addCompanyBusinessByTyc() {
-        return cusPersonaCompanyBusinessService.addCompanyBusinessByTyc();
+    public int addCompanyBusinessByTyc(List<String> customers) {
+        return cusPersonaCompanyBusinessService.addCompanyBusinessByTyc(customers);
     }
 }
