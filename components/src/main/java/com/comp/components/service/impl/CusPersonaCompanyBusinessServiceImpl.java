@@ -16,7 +16,6 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -203,8 +202,7 @@ public class CusPersonaCompanyBusinessServiceImpl implements ICusPersonaCompanyB
     public int addCompanyBusinessByTyc() {
         //调用天眼查-新增入库
         //客户单位列表
-        List<String> customers = new ArrayList<>();
-        customers = customersVoMapper.selectCustomerUnitList();
+        List<String> customers = customersVoMapper.selectCustomerUnitList();
         String token = "7b1f73a2-3709-4be1-ae59-6536d47aae1b";
 //        String keyword = "广西电网有限责任公司";
         int i = 0;
