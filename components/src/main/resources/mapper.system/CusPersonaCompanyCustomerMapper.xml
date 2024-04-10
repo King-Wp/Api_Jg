@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.comp.components.mapper.CusPersonaCompanyCustomerMapper">
+<mapper namespace="com.ruoyi.components.mapper.CusPersonaCompanyCustomerMapper">
     
-    <resultMap type="com.comp.components.domain.CusPersonaCompanyCustomer" id="CusPersonaCompanyCustomerResult">
+    <resultMap type="com.ruoyi.components.domain.CusPersonaCompanyCustomer" id="CusPersonaCompanyCustomerResult">
         <result property="id"    column="id"    />
         <result property="announcementDate"    column="announcement_date"    />
         <result property="amt"    column="amt"    />
@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
     </resultMap>
         
-    <insert id="insertCusPersonaCompanyCustomer" parameterType="com.comp.components.domain.CusPersonaCompanyCustomer" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCusPersonaCompanyCustomer" parameterType="com.ruoyi.components.domain.CusPersonaCompanyCustomer" useGeneratedKeys="true" keyProperty="id">
         insert into cus_persona_company_customer
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="announcementDate != null">announcement_date,</if>

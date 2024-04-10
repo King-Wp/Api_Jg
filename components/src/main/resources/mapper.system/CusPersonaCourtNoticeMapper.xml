@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.comp.components.mapper.CusPersonaCourtNoticeMapper">
+<mapper namespace="com.ruoyi.components.mapper.CusPersonaCourtNoticeMapper">
     
-    <resultMap type="com.comp.components.domain.CusPersonaCourtNotice" id="CusPersonaCourtNoticeResult">
+    <resultMap type="com.ruoyi.components.domain.CusPersonaCourtNotice" id="CusPersonaCourtNoticeResult">
         <result property="id"    column="id"    />
         <result property="contractors"    column="contractors"    />
         <result property="plaintiff"    column="plaintiff"    />
@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
     </resultMap>
         
-    <insert id="insertCusPersonaCourtNotice" parameterType="com.comp.components.domain.CusPersonaCourtNotice">
+    <insert id="insertCusPersonaCourtNotice" parameterType="com.ruoyi.components.domain.CusPersonaCourtNotice">
         insert into cus_persona_court_notice
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>

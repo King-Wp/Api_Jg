@@ -1,7 +1,11 @@
 package com.ruoyi.web.controller.APISD;
 
-import com.ruoyi.system.service.ApiReptileService;
-import org.springframework.web.bind.annotation.*;
+
+import com.ruoyi.components.domain.CustomerPortraitParameter;
+import com.ruoyi.components.service.IReptileService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -13,15 +17,15 @@ import javax.annotation.Resource;
  */
 
 @RestController
-@RequestMapping("/tianyan/reptile")
+@RequestMapping("/tianyan/reptile2")
 public class ApiReptileController {
 
     @Resource
-    private ApiReptileService apiReptileService;
+    private IReptileService reptileService;
 
     @GetMapping("/addCustomerPortrait")
     public String addCustomerPortrait(CustomerPortraitParameter testRequestDTO){
-        apiReptileService.addCustomerReportRemind(testRequestDTO);
+        reptileService.addCustomerReportRemind(testRequestDTO);
         return "测试成功";
     }
 

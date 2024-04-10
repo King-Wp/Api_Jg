@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.comp.components.mapper.CusPersonaCompanyRelationshipMapper">
+<mapper namespace="com.ruoyi.components.mapper.CusPersonaCompanyRelationshipMapper">
     
-    <resultMap type="com.comp.components.domain.CusPersonaCompanyRelationship" id="CusPersonaCompanyRelationshipResult">
+    <resultMap type="com.ruoyi.components.domain.CusPersonaCompanyRelationship" id="CusPersonaCompanyRelationshipResult">
         <result property="id"    column="id"    />
         <result property="startNode"    column="start_node"    />
         <result property="relationshipId"    column="relationship_id"    />
@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
     </resultMap>
         
-    <insert id="insertCusPersonaCompanyRelationship" parameterType="com.comp.components.domain.CusPersonaCompanyRelationship" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCusPersonaCompanyRelationship" parameterType="com.ruoyi.components.domain.CusPersonaCompanyRelationship" useGeneratedKeys="true" keyProperty="id">
         insert into cus_persona_company_relationship
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="startNode != null">start_node,</if>

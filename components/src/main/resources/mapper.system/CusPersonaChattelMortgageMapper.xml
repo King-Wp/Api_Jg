@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.comp.components.mapper.CusPersonaChattelMortgageMapper">
+<mapper namespace="com.ruoyi.components.mapper.CusPersonaChattelMortgageMapper">
 
-    <resultMap type="com.comp.components.domain.CusPersonaChattelMortgage" id="CusPersonaChattelMortgageResult">
+    <resultMap type="com.ruoyi.components.domain.CusPersonaChattelMortgage" id="CusPersonaChattelMortgageResult">
         <result property="id" column="id"/>
         <result property="amount" column="amount"/>
         <result property="publishDate" column="publish_date"/>
@@ -39,7 +39,7 @@
         from cus_persona_chattel_mortgage
     </sql>
 
-    <insert id="insertCusPersonaChattelMortgage" parameterType="com.comp.components.domain.CusPersonaChattelMortgage"
+    <insert id="insertCusPersonaChattelMortgage" parameterType="com.ruoyi.components.domain.CusPersonaChattelMortgage"
             useGeneratedKeys="true" keyProperty="id">
         insert into cus_persona_chattel_mortgage
         <trim prefix="(" suffix=")" suffixOverrides=",">

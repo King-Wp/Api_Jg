@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.comp.components.mapper.CustomersVoMapper">
+<mapper namespace="com.ruoyi.components.mapper.CustomersVoMapper">
 
-    <resultMap type="com.comp.components.domain.vo.CustomersVo" id="CustomerResult">
+    <resultMap type="com.ruoyi.components.domain.vo.CustomersVo" id="CustomerResult">
         <id property="id" column="cus_id"/>
         <result property="name" column="cus_name"/>
         <result property="company" column="company"/>
@@ -29,19 +29,19 @@
         <result property="industryType" column="industry_type"/>
     </resultMap>
 
-    <resultMap id="customerPersonaResult" type="com.comp.components.domain.vo.CustomersVo">
+    <resultMap id="customerPersonaResult" type="com.ruoyi.components.domain.vo.CustomersVo">
         <id property="id" column="cus_id"/>
         <result property="userName" column="nick_name"/>
         <result property="deptName" column="dept_name"/>
         <result property="parentName" column="parent_name"/>
     </resultMap>
-    <resultMap id="customerPersonaVoResult" type="com.comp.components.domain.vo.CustomersVo">
+    <resultMap id="customerPersonaVoResult" type="com.ruoyi.components.domain.vo.CustomersVo">
         <id property="cusId" column="cus_id"/>
         <result property="userName" column="nick_name"/>
         <result property="deptName" column="dept_name"/>
         <result property="parentName" column="parent_name"/>
     </resultMap>
-    <resultMap id="CustomerBusinessVoResult" type="com.comp.components.domain.vo.CustomerBusinessVo">
+    <resultMap id="CustomerBusinessVoResult" type="com.ruoyi.components.domain.vo.CustomerBusinessVo">
         <id property="id" column="cus_id"/>
         <result property="company" column="company"/>
         <result property="companyId" column="company_id"/>

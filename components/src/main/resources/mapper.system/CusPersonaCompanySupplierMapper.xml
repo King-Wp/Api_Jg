@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.comp.components.mapper.CusPersonaCompanySupplierMapper">
+<mapper namespace="com.ruoyi.components.mapper.CusPersonaCompanySupplierMapper">
 
-    <resultMap type="com.comp.components.domain.CusPersonaCompanySupplier" id="CusPersonaCompanySupplierResult">
+    <resultMap type="com.ruoyi.components.domain.CusPersonaCompanySupplier" id="CusPersonaCompanySupplierResult">
         <result property="id" column="id"/>
         <result property="supplierGraphId" column="supplier_graph_id"/>
         <result property="announcementDate" column="announcement_date"/>
@@ -23,7 +23,7 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
-    <insert id="insertCusPersonaCompanySupplier" parameterType="com.comp.components.domain.CusPersonaCompanySupplier" useGeneratedKeys="true"
+    <insert id="insertCusPersonaCompanySupplier" parameterType="com.ruoyi.components.domain.CusPersonaCompanySupplier" useGeneratedKeys="true"
             keyProperty="id">
         insert into cus_persona_company_supplier
         <trim prefix="(" suffix=")" suffixOverrides=",">

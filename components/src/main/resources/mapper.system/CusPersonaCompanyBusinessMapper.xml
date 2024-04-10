@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.comp.components.mapper.CusPersonaCompanyBusinessMapper">
+<mapper namespace="com.ruoyi.components.mapper.CusPersonaCompanyBusinessMapper">
 
-    <resultMap type="com.comp.components.domain.CusPersonaCompanyBusiness" id="CusPersonaCompanyBusinessResult">
+    <resultMap type="com.ruoyi.components.domain.CusPersonaCompanyBusiness" id="CusPersonaCompanyBusinessResult">
         <result property="id"    column="id"    />
         <result property="companyName"    column="company_name"    />
         <result property="creditCode"    column="credit_code"    />
@@ -52,7 +52,7 @@
         <result property="logo" column="logo"/>
         <result property="alias" column="alias"/>
     </resultMap>
-    <resultMap type="com.comp.components.domain.vo.PersonaVoCopy" id="PersonaVoResult">
+    <resultMap type="com.ruoyi.components.domain.vo.PersonaVoCopy" id="PersonaVoResult">
         <id property="id" column="cus_id"/>
         <result property="name" column="cus_name"/>
         <result property="company" column="company"/>
@@ -85,7 +85,7 @@
         order by create_time desc limit 50
     </select>
 
-    <select id="selectCusPersonaCompanyBusinessList" parameterType="com.comp.components.domain.CusPersonaCompanyBusiness" resultMap="CusPersonaCompanyBusinessResult">
+    <select id="selectCusPersonaCompanyBusinessList" parameterType="com.ruoyi.components.domain.CusPersonaCompanyBusiness" resultMap="CusPersonaCompanyBusinessResult">
         <include refid="selectCusPersonaCompanyBusinessVo"/>
         <where>
             <if test="companyName != null  and companyName != ''"> and company_name like concat('%', #{companyName}, '%')</if>
@@ -139,7 +139,7 @@
         LIMIT 1
     </select>
 
-    <insert id="insertCusPersonaCompanyBusiness" parameterType="com.comp.components.domain.CusPersonaCompanyBusiness" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCusPersonaCompanyBusiness" parameterType="com.ruoyi.components.domain.CusPersonaCompanyBusiness" useGeneratedKeys="true" keyProperty="id">
         insert into cus_persona_company_business
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="companyName != null">company_name,</if>
@@ -237,7 +237,7 @@
         </trim>
     </insert>
 
-    <insert id="insertCusPersonaBidsBusiness" parameterType="com.comp.components.domain.CusPersonaCompanyBusiness" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCusPersonaBidsBusiness" parameterType="com.ruoyi.components.domain.CusPersonaCompanyBusiness" useGeneratedKeys="true" keyProperty="id">
         insert into cus_persona_bids_business
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="companyName != null">company_name,</if>
@@ -355,7 +355,7 @@
         LIMIT 1
     </select>
 
-    <update id="updateCusPersonaCompanyBusiness" parameterType="com.comp.components.domain.CusPersonaCompanyBusiness">
+    <update id="updateCusPersonaCompanyBusiness" parameterType="com.ruoyi.components.domain.CusPersonaCompanyBusiness">
         update cus_persona_company_business
         <trim prefix="SET" suffixOverrides=",">
             <if test="companyName != null">company_name = #{companyName},</if>
@@ -407,7 +407,7 @@
         where id = #{id}
     </update>
 
-    <update id="completeCompanyProfile" parameterType="com.comp.components.domain.CusPersonaCompanyBusiness">
+    <update id="completeCompanyProfile" parameterType="com.ruoyi.components.domain.CusPersonaCompanyBusiness">
     update cus_persona_company_business set company_profile = #{companyProfile}
     where id = #{id}
     </update>

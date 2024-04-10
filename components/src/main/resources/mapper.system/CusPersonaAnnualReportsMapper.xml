@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.comp.components.mapper.CusPersonaAnnualReportsMapper">
+<mapper namespace="com.ruoyi.components.mapper.CusPersonaAnnualReportsMapper">
 
-    <resultMap type="com.comp.components.domain.CusPersonaAnnualReports" id="CusPersonaAnnualReportsResult">
+    <resultMap type="com.ruoyi.components.domain.CusPersonaAnnualReports" id="CusPersonaAnnualReportsResult">
         <result property="id"    column="id"    />
         <result property="employeeNum"    column="employee_num"    />
         <result property="totalAssets"    column="total_assets"    />
@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
     </resultMap>
 
-    <insert id="insertCusPersonaAnnualReports" parameterType="com.comp.components.domain.CusPersonaAnnualReports" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCusPersonaAnnualReports" parameterType="com.ruoyi.components.domain.CusPersonaAnnualReports" useGeneratedKeys="true" keyProperty="id">
         insert into cus_persona_annual_reports
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="employeeNum != null">employee_num,</if>

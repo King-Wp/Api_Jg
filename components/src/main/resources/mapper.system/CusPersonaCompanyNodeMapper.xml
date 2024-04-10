@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.comp.components.mapper.CusPersonaCompanyNodeMapper">
+<mapper namespace="com.ruoyi.components.mapper.CusPersonaCompanyNodeMapper">
 
-    <resultMap id="CusPersonaCompanyNodeResult" type="com.comp.components.domain.CusPersonaCompanyNode">
+    <resultMap id="CusPersonaCompanyNodeResult" type="com.ruoyi.components.domain.CusPersonaCompanyNode">
         <result property="id" column="id"/>
         <result property="nodeId" column="node_id"/>
         <result property="nodeAias" column="node_aias"/>
@@ -37,7 +37,7 @@
         from cus_persona_company_node
     </sql>
 
-    <insert id="insertCusPersonaCompanyNode" parameterType="com.comp.components.domain.CusPersonaCompanyNode" useGeneratedKeys="true"
+    <insert id="insertCusPersonaCompanyNode" parameterType="com.ruoyi.components.domain.CusPersonaCompanyNode" useGeneratedKeys="true"
             keyProperty="id">
         insert into cus_persona_company_node
         <trim prefix="(" suffix=")" suffixOverrides=",">

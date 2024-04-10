@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.comp.components.mapper.PersonaBidsMapper">
+<mapper namespace="com.ruoyi.components.mapper.PersonaBidsMapper">
 
-    <resultMap type="com.comp.components.domain.PersonaBids" id="PersonaBidsResult">
+    <resultMap type="com.ruoyi.components.domain.PersonaBids" id="PersonaBidsResult">
         <result property="id"    column="id"    />
         <result property="uuid"    column="uuid"    />
         <result property="publishTime"    column="publish_time"    />
@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="industryType"    column="industry_type"    />
     </resultMap>
 
-    <insert id="insertPersonaBids" parameterType="com.comp.components.domain.PersonaBids" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertPersonaBids" parameterType="com.ruoyi.components.domain.PersonaBids" useGeneratedKeys="true" keyProperty="id">
         insert into cus_persona_bids
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="uuid != null">uuid,</if>

@@ -684,4 +684,16 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
         String[] result =set.toArray(new String[0]);
         return result;
     }
+
+    public static String JsonToString(JSONArray array){
+        StringBuilder result = new StringBuilder();
+        //使用JSONArray 中的toArray进行转换
+        String[] arr = new String[array.size()];
+        String[] strings = array.toArray(arr);
+        for (String s : strings) {
+            result.append(s).append(System.getProperty("line.separator"));
+        }
+        String str =result.toString().replace("\r\n","");
+        return str;
+    }
 }
