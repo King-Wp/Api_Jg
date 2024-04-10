@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.components.mapper.TyCompanyMapper">
+
+    <resultMap type="TyCompany" id="TyCompanyResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="creditcode" column="creditCode"/>
+        <result property="regnumber" column="regNumber"/>
+        <result property="legalpersonname" column="legalPersonName"/>
+        <result property="type" column="type"/>
+        <result property="matchtype" column="matchType"/>
+        <result property="companytype" column="companyType"/>
+        <result property="regcapital" column="regCapital"/>
+        <result property="estiblishtime" column="estiblishTime"/>
+        <result property="regstatus" column="regStatus"/>
+        <result property="base" column="base"/>
+        <result property="orgnumber" column="orgNumber"/>
+    </resultMap>
+
+    <sql id="selectTyCompanyVo">
+        select id,
+               name,
+               creditCode,
+               regNumber,
+               legalPersonName,
+               type,
+               matchType,
+               companyType,
+               regCapital,
+               estiblishTime,
+               regStatus,
+               base,
+               orgNumber
+        from rtb_tyc_company
+    </sql>
+
+    <insert id="insertTyCompany" parameterType="TyCompany" useGeneratedKeys="true" keyProperty="id">
+        insert into rtb_tyc_company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="creditcode != null">creditCode,</if>
+            <if test="regnumber != null">regNumber,</if>
+            <if test="legalpersonname != null">legalPersonName,</if>
+            <if test="type != null">type,</if>
+            <if test="matchtype != null">matchType,</if>
+            <if test="companytype != null">companyType,</if>
+            <if test="regcapital != null">regCapital,</if>
+            <if test="estiblishtime != null">estiblishTime,</if>
+            <if test="regstatus != null">regStatus,</if>
+            <if test="base != null">base,</if>
+            <if test="orgnumber != null">orgNumber,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="creditcode != null">#{creditcode},</if>
+            <if test="regnumber != null">#{regnumber},</if>
+            <if test="legalpersonname != null">#{legalpersonname},</if>
+            <if test="type != null">#{type},</if>
+            <if test="matchtype != null">#{matchtype},</if>
+            <if test="companytype != null">#{companytype},</if>
+            <if test="regcapital != null">#{regcapital},</if>
+            <if test="estiblishtime != null">#{estiblishtime},</if>
+            <if test="regstatus != null">#{regstatus},</if>
+            <if test="base != null">#{base},</if>
+            <if test="orgnumber != null">#{orgnumber},</if>
+        </trim>
+    </insert>
+
+</mapper>

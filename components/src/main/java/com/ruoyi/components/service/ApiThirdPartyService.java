@@ -1,5 +1,6 @@
 package com.ruoyi.components.service;
 
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.components.domain.TyCompany;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 
@@ -38,4 +39,6 @@ public interface ApiThirdPartyService {
      * @return 入库结果
      */
     int addCompanyBusinessByTyc(List<String> customers);
+
+    AjaxResult selectTyCompanyByTyc(TyCompany tyCompany);
 }

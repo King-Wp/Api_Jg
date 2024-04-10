@@ -102,17 +102,6 @@ public class CusPersonaJudicialCaseServiceImpl implements ICusPersonaJudicialCas
                                     identityString.append(caseIdentity.get(j).toString()).append(",");
                                 }
                             }
-//                            if(temp.getJSONArray("caseIdentity").size() > 0){
-//                                StringBuilder identityString = new StringBuilder();
-//
-//                                for (Object s : temp.getJSONArray("caseIdentity")){
-//                                    identityString.append(s.toString());
-//                                    identityString.append(",");
-//                                }
-//                                //删除字符串多余的逗号
-//                                identityString.deleteCharAt(identityString.length() - 1);
-//                                judicial.setCaseIdentity(identityString.toString());
-//                            }
                             judicial.setCaseIdentity(identityString.toString());
                             judicial.setCaseCode(temp.getString("caseCode"));
                             judicial.setCaseReason(temp.getString("caseReason"));

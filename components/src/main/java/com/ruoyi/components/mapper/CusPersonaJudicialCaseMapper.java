@@ -17,6 +17,6 @@ public interface CusPersonaJudicialCaseMapper
      * @param cusPersonaJudicialCase 客户画像司法解析
      * @return 结果
      */
-    public int insertCusPersonaJudicialCase(CusPersonaJudicialCase cusPersonaJudicialCase);
+    int insertCusPersonaJudicialCase(CusPersonaJudicialCase cusPersonaJudicialCase);
 
 }

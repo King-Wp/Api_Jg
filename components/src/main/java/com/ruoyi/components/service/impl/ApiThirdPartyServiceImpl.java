@@ -2,6 +2,10 @@ package com.ruoyi.components.service.impl;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.HttpApiUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.components.domain.CusPersonaAbnormalOperation;
 import com.ruoyi.components.domain.CusPersonaChattelMortgage;
 import com.ruoyi.components.domain.TyCompany;
@@ -9,12 +13,10 @@ import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.exception.CustomException;
 import com.ruoyi.components.mapper.CusPersonaAbnormalOperationMapper;
 import com.ruoyi.components.mapper.CusPersonaChattelMortgageMapper;
+import com.ruoyi.components.mapper.TyCompanyMapper;
 import com.ruoyi.components.service.ApiThirdPartyService;
 import com.ruoyi.components.utils.PutBidUtils;
 import com.ruoyi.components.utils.compareUtil;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.HttpApiUtils;
-import com.ruoyi.common.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +43,8 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
     private CusPersonaChattelMortgageMapper cusPersonaChattelMortgageMapper;
     @Resource
     private CusPersonaCompanyBusinessServiceImpl cusPersonaCompanyBusinessService;
+    @Resource
+    private TyCompanyMapper tyCompanyMapper;
 
     @Override
     public List<TyCompany> selectCompanyListByTyc(String keyword, Integer pageNum) {
@@ -318,5 +322,83 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
     @Override
     public int addCompanyBusinessByTyc(List<String> customers) {
         return cusPersonaCompanyBusinessService.addCompanyBusinessByTyc(customers);
+    }
+
+    @Override
+    public AjaxResult selectTyCompanyByTyc(TyCompany tyCompany) {
+        //调用天眼查-新增入库
+        // token可以从 数据中心 -> 我的接口 中获取
+        String companyName =tyCompany.getKeyword();
+        String token = "7b1f73a2-3709-4be1-ae59-6536d47aae1b";
+        String url = "http://open.api.tianyancha.com/services/open/search/2.0?pageSize=20&pageNum=1&word="+companyName;
+        //System.out.println(executeGet(url, token));
+        //获取查询数据
+        String result = HttpApiUtils.executeGet(url, token);
+        //处理返回参数
+        JSONObject resultObj = JSONObject.parseObject(result);
+        String code =resultObj.getString("error_code");
+
+        if ("300000".equals(code)) {
+            return AjaxResult.error(500,"无数据");
+        }else if("300001".equals(code)){
+            return AjaxResult.error(500,"请求失败");
+        }else if("300002".equals(code)){
+            return AjaxResult.error(500,"账号失效");
+        }else if("300003".equals(code)){
+            return AjaxResult.error(500,"账号过期");
+        }else if("300004".equals(code)){
+            return AjaxResult.error(500,"访问频率过快");
+        }else if("300005".equals(code)){
+            return AjaxResult.error(500,"无权限访问此api");
+        }else if("300006".equals(code)){
+            return AjaxResult.error(500,"余额不足");
+        }else if("300007".equals(code)){
+            return AjaxResult.error(500,"剩余次数不足");
+        }else if("300008".equals(code)){
+            return AjaxResult.error(500,"缺少必要参数");
+        }else if("300009".equals(code)){
+            return AjaxResult.error(500,"账号信息有误");
+        }else if("3000010".equals(code)){
+            return AjaxResult.error(500,"URL不存在");
+        }else if("3000011".equals(code)){
+            return AjaxResult.error(500,"此IP无权限访问此api");
+        }else if("3000012".equals(code)){
+            return AjaxResult.error(500,"报告生成中");
+        }
+
+        if (StringUtils.isEmpty(result)){
+            return AjaxResult.error(500,"请求用户信息接口为空，请联系系统管理员进行处理。");
+        }
+
+        //查询企业列表
+        List<TyCompany> companies =new ArrayList<TyCompany>();
+        JSONArray lists=resultObj.getJSONObject("result").getJSONArray("items");
+        if (lists.size()>0) {
+            for (Object object : lists) {
+                JSONObject temp = JSONObject.parseObject(object.toString());
+                TyCompany cy =new TyCompany();
+                cy.setBase(temp.getString("base"));
+                cy.setRegnumber(temp.getString("regnumber"));
+                cy.setCompanytype(Long.valueOf(temp.getString("companyType")));
+                cy.setCreditcode(temp.getString("creditCode"));
+                cy.setEstiblishtime(temp.getString("estiblishTime"));
+                cy.setMatchtype(temp.getString("matchType"));
+                cy.setName(temp.getString("name"));
+                cy.setOrgnumber(temp.getString("orgNumber"));
+                cy.setType(Long.valueOf(temp.getString("type")));
+                cy.setRegstatus(temp.getString("regStatus"));
+                cy.setLegalpersonname(temp.getString("legalPersonName"));
+                cy.setRegcapital(temp.getString("regCapital"));
+                companies.add(cy);
+            }
+        }
+
+        int num=0;
+        if (companies.size()>0){
+            for (TyCompany company : companies){
+                num=tyCompanyMapper.insertTyCompany(company);
+            }
+        }
+        return AjaxResult.success(num);
     }
 }
