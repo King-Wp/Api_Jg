@@ -11,9 +11,9 @@ import com.ruoyi.components.service.ICusPersonaAnnualReportsService;
 import com.ruoyi.components.utils.HttpApiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.List;
 @Service
 public class CusPersonaAnnualReportsServiceImpl implements ICusPersonaAnnualReportsService
 {
-    @Autowired
+    @Resource
     private CusPersonaAnnualReportsMapper cusPersonaAnnualReportsMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(CusPersonaAnnualReportsServiceImpl.class);
