@@ -2,21 +2,23 @@ package com.ruoyi.components.service.impl;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.components.domain.CusPersonaCourtNotice;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaCourtNoticeMapper;
 import com.ruoyi.components.service.ICusPersonaCourtNoticeService;
-import com.ruoyi.common.enums.UrlAddressEnum;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.HttpApiUtils;
+import com.ruoyi.components.utils.HttpApiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_API;
 
 /**
  * 开庭公告Service业务层处理
@@ -27,7 +29,7 @@ import java.util.List;
 @Service
 public class CusPersonaCourtNoticeServiceImpl implements ICusPersonaCourtNoticeService
 {
-    @Autowired
+    @Resource
     private CusPersonaCourtNoticeMapper cusPersonaCourtNoticeMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(CusPersonaCourtNoticeServiceImpl.class);
@@ -54,7 +56,7 @@ public class CusPersonaCourtNoticeServiceImpl implements ICusPersonaCourtNoticeS
             pageNum++;
             String url = "http://open.api.tianyancha.com/services/open/jr/ktannouncement/2.0?pageSize=20&pageNum=" + pageNum + "&keyword=" + companyId;
             try {
-                String result = HttpApiUtils.executeGet(url, UrlAddressEnum.TOKEN_API.getUrl());
+                String result = HttpApiUtils.executeGet(url, TOKEN_API.getVal());
                 JSONObject resultObj = JSONObject.parseObject(result);
                 String code = resultObj.getString("error_code");
                 List<CusPersonaCourtNotice> courtNoticeList = new ArrayList<>();

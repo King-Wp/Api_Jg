@@ -2,21 +2,22 @@ package com.ruoyi.components.service.impl;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.components.domain.CusPersonaLegal;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaLegalMapper;
 import com.ruoyi.components.service.ICusPersonaLegalService;
-import com.ruoyi.common.enums.UrlAddressEnum;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.HttpApiUtils;
+import com.ruoyi.components.utils.HttpApiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
+import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_API;
 
 /**
  * 司法解析Service业务层处理
@@ -27,7 +28,7 @@ import java.text.SimpleDateFormat;
 @Service
 public class CusPersonaLegalServiceImpl implements ICusPersonaLegalService
 {
-    @Autowired
+    @Resource
     private CusPersonaLegalMapper cusPersonaLegalMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(CusPersonaLegalServiceImpl.class);
@@ -59,7 +60,7 @@ public class CusPersonaLegalServiceImpl implements ICusPersonaLegalService
             pageNum++;
             String url = "http://open.api.tianyancha.com/services/open/jr/lawSuit/3.0?pageSize=20&pageNum=" + pageNum + "&keyword=" + companyId;
             try {
-                String result = HttpApiUtils.executeGet(url, UrlAddressEnum.TOKEN_API.getUrl());
+                String result = HttpApiUtils.executeGet(url, TOKEN_API.getVal());
                 JSONObject resultObj = JSONObject.parseObject(result);
                 String code = resultObj.getString("error_code");
                 //判断异常信息

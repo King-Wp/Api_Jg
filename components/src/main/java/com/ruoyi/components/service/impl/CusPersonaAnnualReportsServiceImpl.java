@@ -2,13 +2,13 @@ package com.ruoyi.components.service.impl;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.ruoyi.common.enums.UrlAddressEnum;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.components.domain.CusPersonaAnnualReports;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaAnnualReportsMapper;
 import com.ruoyi.components.service.ICusPersonaAnnualReportsService;
-import com.ruoyi.common.enums.UrlAddressEnum;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.HttpApiUtils;
+import com.ruoyi.components.utils.HttpApiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ public class CusPersonaAnnualReportsServiceImpl implements ICusPersonaAnnualRepo
         while (!endLoop) {
             String url = "http://open.api.tianyancha.com/services/open/ic/annualreport/2.0?keyword=" + companyId;
             try {
-                String result = HttpApiUtils.executeGet(url, UrlAddressEnum.TOKEN_API.getUrl());
+                String result = HttpApiUtils.executeGet(url, UrlAddressEnum.TOKEN_API.getVal());
                 JSONObject resultObj = JSONObject.parseObject(result);
                 String code = resultObj.getString("error_code");
                 //判断异常信息

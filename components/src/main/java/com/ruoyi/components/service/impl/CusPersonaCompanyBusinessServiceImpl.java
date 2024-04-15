@@ -2,13 +2,16 @@ package com.ruoyi.components.service.impl;
 
 
 import com.alibaba.fastjson2.JSONObject;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.SecurityUtils;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.UserAgentUtil;
 import com.ruoyi.components.domain.CusPersonaCompanyBusiness;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaCompanyBusinessMapper;
 import com.ruoyi.components.mapper.CustomersVoMapper;
 import com.ruoyi.components.service.ICusPersonaCompanyBusinessService;
-import com.ruoyi.common.enums.UrlAddressEnum;
-import com.ruoyi.common.utils.*;
+import com.ruoyi.components.utils.HttpApiUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_API;
 
 
 /**
@@ -51,7 +56,7 @@ public class CusPersonaCompanyBusinessServiceImpl implements ICusPersonaCompanyB
         int i = 0;
         if (companyId != null) {
             //获取查询数据
-            String result = HttpApiUtils.executeGet(url, UrlAddressEnum.TOKEN_API.getUrl());
+            String result = HttpApiUtils.executeGet(url, TOKEN_API.getVal());
             //处理返回参数
             JSONObject resultObj = JSONObject.parseObject(result);
 
@@ -202,14 +207,13 @@ public class CusPersonaCompanyBusinessServiceImpl implements ICusPersonaCompanyB
     public int addCompanyBusinessByTyc(List<String> customers) {
         //调用天眼查-新增入库
         //客户单位列表
-        String token = "7b1f73a2-3709-4be1-ae59-6536d47aae1b";
 //        String keyword = "广西电网有限责任公司";
         int i = 0;
         if (!customers.isEmpty()){
             for (String keyword : customers){
                 String url = "http://open.api.tianyancha.com/services/open/ic/baseinfoV2/2.0?&keyword="+keyword;
                 //获取查询数据
-                String result = HttpApiUtils.executeGet(url, token);
+                String result = HttpApiUtils.executeGet(url, TOKEN_API.getVal());
                 //处理返回参数
                 JSONObject resultObj = JSONObject.parseObject(result);
 

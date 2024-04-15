@@ -1,7 +1,9 @@
-package com.ruoyi.common.utils;
+package com.ruoyi.components.utils;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.ruoyi.common.utils.BidStringUtils;
+import com.ruoyi.common.utils.UserAgentUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -19,7 +21,6 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
-import static com.ruoyi.common.enums.UrlAddressEnum.COMPANY;
 import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_API;
 
 /**
@@ -33,7 +34,7 @@ public class HttpApiUtils {
     public static String executeGetCompanyId(String url) {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet httpGet = new HttpGet(url);
-            httpGet.setHeader("Authorization", TOKEN_API.getUrl());
+            httpGet.setHeader("Authorization", TOKEN_API.getVal());
             try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
                 return EntityUtils.toString(response.getEntity(), "UTF-8");
             }
@@ -62,7 +63,7 @@ public class HttpApiUtils {
             // 根据地址获取请求
             HttpGet request = new HttpGet(url);//这⾥发送get请求
             // 获取当前客户端对象
-            request.setHeader("Authorization", TOKEN_API.getUrl());
+            request.setHeader("Authorization", TOKEN_API.getVal());
             HttpClient httpClient = new DefaultHttpClient();
             // 通过请求对象获取响应对象
             HttpResponse response = httpClient.execute(request);
@@ -78,7 +79,7 @@ public class HttpApiUtils {
     }
 
     public static String getCompanyDetailSpider(String companyId) {
-        String docPubUrl = COMPANY.getUrl() + companyId;
+        String docPubUrl = "https://www.tianyancha.com/company/" + companyId;
         Document doc = null;
         String companyProfile = "";
         // 利用jsoup连接目标url网页获取整个html对象
@@ -107,7 +108,7 @@ public class HttpApiUtils {
      * @return
      */
     public static JSONObject getBusinessLogoByTyc(String companyId) {
-        String docPubUrl = COMPANY.getUrl() + companyId;
+        String docPubUrl = "https://www.tianyancha.com/company/" + companyId;
         try {
             Document doc = Jsoup.connect(docPubUrl).userAgent(UserAgentUtil.getUserAgent()).get();
             if (ObjectUtils.isNotEmpty(doc)) {

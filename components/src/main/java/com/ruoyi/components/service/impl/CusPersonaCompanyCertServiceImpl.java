@@ -2,13 +2,13 @@ package com.ruoyi.components.service.impl;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.ruoyi.common.enums.UrlAddressEnum;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.components.domain.CusPersonaCompanyCert;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaCompanyCertMapper;
 import com.ruoyi.components.service.ICusPersonaCompanyCertService;
-import com.ruoyi.common.enums.UrlAddressEnum;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.HttpApiUtils;
+import com.ruoyi.components.utils.HttpApiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
@@ -59,7 +59,7 @@ public class CusPersonaCompanyCertServiceImpl implements ICusPersonaCompanyCertS
             pageNum++;
             String url = "http://open.api.tianyancha.com/services/open/m/certificate/2.0?pageSize=20&pageNum=" + pageNum + "&id=" + companyId;
             try {
-                String result = HttpApiUtils.executeGet(url, UrlAddressEnum.TOKEN_API.getUrl());
+                String result = HttpApiUtils.executeGet(url, UrlAddressEnum.TOKEN_API.getVal());
                 JSONObject resultObj = JSONObject.parseObject(result);
                 String code = resultObj.getString("error_code");
                 //判断异常信息

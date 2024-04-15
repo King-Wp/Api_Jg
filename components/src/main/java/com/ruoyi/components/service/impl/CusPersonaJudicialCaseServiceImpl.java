@@ -2,21 +2,22 @@ package com.ruoyi.components.service.impl;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.components.domain.CusPersonaJudicialCase;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaJudicialCaseMapper;
 import com.ruoyi.components.service.ICusPersonaJudicialCaseService;
-import com.ruoyi.common.enums.UrlAddressEnum;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.HttpApiUtils;
+import com.ruoyi.components.utils.HttpApiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
+import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_API;
 
 /**
  * 客户画像司法解析Service业务层处理
@@ -29,7 +30,7 @@ public class CusPersonaJudicialCaseServiceImpl implements ICusPersonaJudicialCas
 {
     private static final Logger logger = LoggerFactory.getLogger(CusPersonaJudicialCaseServiceImpl.class);
 
-    @Autowired
+    @Resource
     private CusPersonaJudicialCaseMapper cusPersonaJudicialCaseMapper;
 
     /**
@@ -60,7 +61,7 @@ public class CusPersonaJudicialCaseServiceImpl implements ICusPersonaJudicialCas
             pageNum++;
             String url = "http://open.api.tianyancha.com/services/open/jr/judicialCase/2.0?pageSize=20&pageNum=" + pageNum + "&id=" + companyId;
             try {
-                String result = HttpApiUtils.executeGet(url, UrlAddressEnum.TOKEN_API.getUrl());
+                String result = HttpApiUtils.executeGet(url, TOKEN_API.getVal());
                 JSONObject resultObj = JSONObject.parseObject(result);
                 String code = resultObj.getString("error_code");
                 //判断异常信息

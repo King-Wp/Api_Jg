@@ -2,21 +2,23 @@ package com.ruoyi.components.service.impl;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.components.domain.PersonaBids;
 import com.ruoyi.components.mapper.PersonaBidsMapper;
 import com.ruoyi.components.service.IPersonaBidsService;
-import com.ruoyi.common.enums.UrlAddressEnum;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.HttpApiUtils;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.components.utils.HttpApiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_API;
 
 /**
  * 招投标数据Service业务层处理
@@ -26,7 +28,7 @@ import java.util.List;
  */
 @Service
 public class PersonaBidsServiceImpl implements IPersonaBidsService {
-    @Autowired
+    @Resource
     private PersonaBidsMapper personaBidsMapper;
 
     @Override
@@ -56,7 +58,7 @@ public class PersonaBidsServiceImpl implements IPersonaBidsService {
             String url ="http://open.api.tianyancha.com/services/open/m/bids/search?pageSize=20&pageNum=" + pageNum + "&keyword=" + keyword + "&searchType=2,3&publishEndTime="+DateUtils.getDate()+"&publishStartTime="+publishStartTime+ "&type=1,2,4";
             //获取查询数据
             try {
-                String result = HttpApiUtils.executeGet(url, UrlAddressEnum.TOKEN_API.getUrl());
+                String result = HttpApiUtils.executeGet(url, TOKEN_API.getVal());
                 JSONObject resultObj = JSONObject.parseObject(result);
                 String code = resultObj.getString("error_code");
                 //判断异常信息

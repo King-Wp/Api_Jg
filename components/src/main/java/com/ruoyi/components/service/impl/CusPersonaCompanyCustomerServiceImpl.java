@@ -2,19 +2,19 @@ package com.ruoyi.components.service.impl;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.ruoyi.common.enums.UrlAddressEnum;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.components.domain.CusPersonaCompanyCustomer;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaCompanyCustomerMapper;
 import com.ruoyi.components.service.ICusPersonaCompanyCustomerService;
-import com.ruoyi.common.enums.UrlAddressEnum;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.HttpApiUtils;
+import com.ruoyi.components.utils.HttpApiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 
 /**
@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 @Service
 public class CusPersonaCompanyCustomerServiceImpl implements ICusPersonaCompanyCustomerService
 {
-    @Autowired
+    @Resource
     private CusPersonaCompanyCustomerMapper cusPersonaCompanyCustomerMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(CusPersonaCompanyCustomerServiceImpl.class);
@@ -57,7 +57,7 @@ public class CusPersonaCompanyCustomerServiceImpl implements ICusPersonaCompanyC
             pageNum++;
             String url = "http://open.api.tianyancha.com/services/open/m/customer/2.0?pageSize=20&pageNum=" + pageNum + "&id=" + companyId;
             try {
-                String result = HttpApiUtils.executeGet(url, UrlAddressEnum.TOKEN_API.getUrl());
+                String result = HttpApiUtils.executeGet(url, UrlAddressEnum.TOKEN_API.getVal());
                 JSONObject resultObj = JSONObject.parseObject(result);
                 String code = resultObj.getString("error_code");
                 //判断异常信息
