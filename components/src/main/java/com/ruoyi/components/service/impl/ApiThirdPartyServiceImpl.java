@@ -18,6 +18,7 @@ import com.ruoyi.components.service.ApiThirdPartyService;
 import com.ruoyi.components.utils.PutBidUtils;
 import com.ruoyi.components.utils.compareUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -99,7 +100,7 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
     }
 
     @Override
-    public int addAbnormalOperationByTyc(CustomerBusinessVo customerBusinessVo, String userName) {
+    public int addAbnormalOperationByTyc(CustomerBusinessVo customerBusinessVo) {
         //新增数量
         int num = 0;
         String companyId = customerBusinessVo.getCompanyId();
@@ -175,7 +176,7 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
                                         abnormalOperation.setRemoveDate(format.parse(temp.getString("removeDate")));
                                     }
                                     abnormalOperation.setRemoveReason(temp.getString("removeReason"));
-                                    abnormalOperation.setCreateBy(userName);
+                                    abnormalOperation.setCreateBy(customerBusinessVo.getCreateBy());
                                     abnormalOperation.setCreateTime(DateUtils.getNowDate());
                                     num = num + cusPersonaAbnormalOperationMapper.insertCusPersonaAbnormalOperation(abnormalOperation);
 
@@ -207,7 +208,7 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
     }
 
     @Override
-    public int addChattelMortgageByTyc(CustomerBusinessVo customerBusinessVo, String userName) {
+    public int addChattelMortgageByTyc(CustomerBusinessVo customerBusinessVo) {
         //新增数量
         int num = 0;
         String companyId = customerBusinessVo.getCompanyId();
@@ -284,7 +285,7 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
                                     chattelMortgage.setTerm(temp.getString("term"));
                                     chattelMortgage.setRegNum(temp.getString("regNum"));
                                     chattelMortgage.setType(temp.getString("type"));
-                                    chattelMortgage.setCreateBy(userName);
+                                    chattelMortgage.setCreateBy(customerBusinessVo.getCreateBy());
                                     chattelMortgage.setCreateTime(DateUtils.getNowDate());
 
                                     num = num + cusPersonaChattelMortgageMapper.insertCusPersonaChattelMortgage(chattelMortgage);
@@ -373,10 +374,10 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
         //查询企业列表
         List<TyCompany> companies =new ArrayList<TyCompany>();
         JSONArray lists=resultObj.getJSONObject("result").getJSONArray("items");
-        if (lists.size()>0) {
+        if (ObjectUtils.isNotEmpty(lists)) {
             for (Object object : lists) {
                 JSONObject temp = JSONObject.parseObject(object.toString());
-                TyCompany cy =new TyCompany();
+                TyCompany cy = new TyCompany();
                 cy.setBase(temp.getString("base"));
                 cy.setRegnumber(temp.getString("regnumber"));
                 cy.setCompanytype(Long.valueOf(temp.getString("companyType")));

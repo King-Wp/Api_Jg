@@ -25,13 +25,13 @@ public interface ApiThirdPartyService {
     /**
      * 调用天眼查收费接口获取并入库企业经营异常信息
      */
-    int addAbnormalOperationByTyc(CustomerBusinessVo customerBusinessVo, String userName);
+    int addAbnormalOperationByTyc(CustomerBusinessVo customerBusinessVo);
 
 
     /**
      * 通过天眼查收费接口调用企业动产抵押信息
      */
-    int addChattelMortgageByTyc(CustomerBusinessVo customerBusinessVo, String userName);
+    int addChattelMortgageByTyc(CustomerBusinessVo customerBusinessVo);
 
     /**
      * 通过天眼查获取客户单位基本信息
