@@ -4,15 +4,17 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.components.domain.CustomerPortraitParameter;
+import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
 import com.ruoyi.components.domain.RtbReportP;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.service.*;
 import com.ruoyi.components.utils.PutBidUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,9 +56,7 @@ public class ReptileServiceImpl implements IReptileService {
     @Override
     public void addCustomerReportRemind(CustomerPortraitParameter customerPortraitParameter) {
         try {
-
             //TODO: 2024/3/21 根据名称获取天眼查公司名称、公司ID
-
             //更新客户单位画像信息
             CustomerBusinessVo tycCompanyInfo = new CustomerBusinessVo();
             tycCompanyInfo.setCompany(customerPortraitParameter.getFullCompany());
@@ -95,16 +95,21 @@ public class ReptileServiceImpl implements IReptileService {
     }
 
     @Override
-    public String[] keyToLevel(String company,List<String> bidTitles,List<String>contracts,String business) {
+    public String[] keyToLevel(KeyWordsParams keyWordsParams) {
+        if (ObjectUtils.isEmpty(keyWordsParams)) {
+            return null;
+        }
         String[] keyword = null;
-        if (!(bidTitles.size() == 0 && contracts.size() == 0 && business == null)) {
+        if (CollectionUtils.isNotEmpty(keyWordsParams.getBidTitles())
+                && CollectionUtils.isNotEmpty(keyWordsParams.getContracts())
+                && StringUtils.isNotEmpty(keyWordsParams.getBusiness())) {
             //封装数据
             Map<String, Object> map = new HashMap<>();
             map.put("id", 99999);
             map.put("level-p1", "");
-            map.put("level-p2", bidTitles.toArray(new String[bidTitles.size()]));
-            map.put("level-p3", contracts.toArray(new String[contracts.size()]));
-            map.put("level-p4", com.ruoyi.common.utils.StringUtils.nvl(business, ""));
+            map.put("level-p2", keyWordsParams.getBidTitles().toArray(new String[0]));
+            map.put("level-p3", keyWordsParams.getContracts().toArray(new String[0]));
+            map.put("level-p4", StringUtils.nvl(keyWordsParams.getBusiness(), ""));
             map.put("level-p5", "");
             JSONArray arrs = new JSONArray();
             arrs.add(map);
@@ -130,20 +135,22 @@ public class ReptileServiceImpl implements IReptileService {
     }
 
     @Override
-    public String[] getVisitKeyword(Long baseId, String company, List<String> bidTitles, List<String> contracts, String business) {
+    public String[] getVisitKeyWord(KeyWordsParams keyWordsParams) {
         JSONObject data = new JSONObject();
-        if (!(bidTitles.size() == 0 && contracts.size() == 0 && business == null)) {
+        if (CollectionUtils.isNotEmpty(keyWordsParams.getBidTitles())
+                && CollectionUtils.isNotEmpty(keyWordsParams.getContracts())
+                && StringUtils.isNotEmpty(keyWordsParams.getBusiness())) {
             //封装数据
             /**
              * "level-p2":"招投标标题",
              * "level-p3":"业绩合同名称",
              * "level-p4":"经营范围" ,  */
             Map<String, Object> map = new HashMap<>();
-            map.put("id", baseId);
+            map.put("id", keyWordsParams.getBaseId());
             map.put("level-p1", "");
-            map.put("level-p2", bidTitles.toArray(new String[bidTitles.size()]));
-            map.put("level-p3", contracts.toArray(new String[contracts.size()]));
-            map.put("level-p4", StringUtils.nvl(business, ""));
+            map.put("level-p2", keyWordsParams.getBidTitles().toArray(new String[0]));
+            map.put("level-p3", keyWordsParams.getContracts().toArray(new String[0]));
+            map.put("level-p4", StringUtils.nvl(keyWordsParams.getBusiness(), ""));
             map.put("level-p5", "");
             JSONArray arrs = new JSONArray();
             arrs.add(map);
@@ -160,27 +167,28 @@ public class ReptileServiceImpl implements IReptileService {
             }
         }
         String[] keyword = null;
-        if (data.size() > 0)
-            if (data.getJSONArray("level-p2").size() > 0) {
+        if (ObjectUtils.isNotEmpty(data))
+            if (CollectionUtils.isNotEmpty(data.getJSONArray("level-p2"))) {
                 keyword = StringUtils.JsonToArray(data.getJSONArray("level-p2"));
-            } else if (data.getJSONArray("level-p3").size() > 0) {
+            } else if (CollectionUtils.isNotEmpty(data.getJSONArray("level-p3"))) {
                 keyword = StringUtils.JsonToArray(data.getJSONArray("level-p3"));
-            } else if (data.getJSONArray("level-p4").size() > 0) {
+            } else if (CollectionUtils.isNotEmpty(data.getJSONArray("level-p4"))) {
                 keyword = StringUtils.JsonToArray(data.getJSONArray("level-p4"));
             }
         return keyword;
     }
 
     @Override
-    public JSONObject getReportKeyword(Long baseId, RtbReportP info) {
+    public JSONObject getReportKeyword(KeyWordsParams keyWordsParams) {
         JSONObject data = new JSONObject();
+        RtbReportP info = keyWordsParams.getInfo();
         if (StringUtils.isNotNull(info)) {
             String itemName = info.getItemName();//项目名称
             String content = info.getContent();//建设内容
 
             //封装数据
             Map<String, Object> map = new HashMap<>();
-            map.put("id", baseId);
+            map.put("id", keyWordsParams.getBaseId());
             map.put("level-p1", StringUtils.nvl(itemName, ""));
             map.put("level-p2", StringUtils.nvl(content, ""));
             map.put("level-p3", "");
@@ -194,7 +202,7 @@ public class ReptileServiceImpl implements IReptileService {
             JSONObject resultObj = JSONObject.parseObject(result);
             String code = (String) resultObj.get("code");
             JSONArray lists = resultObj.getJSONArray("data");
-            if ("200".equals(code) && lists.size() > 0) {
+            if ("200".equals(code) && CollectionUtils.isNotEmpty(lists)) {
                 for (int i = 0; i < lists.size(); i++) {
                     data = (JSONObject) lists.get(i);
                 }
