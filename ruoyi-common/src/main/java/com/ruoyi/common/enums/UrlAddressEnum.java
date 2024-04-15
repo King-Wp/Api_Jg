@@ -11,7 +11,8 @@ import lombok.Getter;
 @Getter
 public enum UrlAddressEnum {
 
-    TOKEN_API("7b1f73a2-3709-4be1-ae59-6536d47aae1b");
+    TOKEN_API("7b1f73a2-3709-4be1-ae59-6536d47aae1b"),
+    TOKEN_UNIT_PRICE("6999f69e-60ab-4d88-8867-c5554915d36e");
 //    BASE_INFO_V2("http://open.api.tianyancha.com/services/open/ic/baseinfoV2/2.0"),
 //    APP_BK_INFO("http://open.api.tianyancha.com/services/open/m/"),
 //    PROFILE("http://open.api.tianyancha.com/services/v4/open/profile/"),

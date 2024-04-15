@@ -18,6 +18,7 @@ import com.ruoyi.components.utils.HttpApiUtils;
 import com.ruoyi.components.utils.PutBidUtils;
 import com.ruoyi.components.utils.compareUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_API;
+import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_UNIT_PRICE;
 
 /**
  * @author: 11653
@@ -51,25 +55,24 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
     public List<TyCompany> selectCompanyListByTyc(String keyword, Integer pageNum) {
         List<TyCompany> companies = new ArrayList<>();
         //关键词查询天眼查公司列表(单位全称)
-        String token ="6999f69e-60ab-4d88-8867-c5554915d36e"; //单价token
-        String url ="http://open.api.tianyancha.com/services/open/search/2.0?word="+keyword+"&pageSize=20&pageNum="+pageNum;
-        String result = HttpApiUtils.executeGet(url, token);
+        String url = "http://open.api.tianyancha.com/services/open/search/2.0?word=" + keyword + "&pageSize=20&pageNum=" + pageNum;
+        String result = HttpApiUtils.executeGet(url, TOKEN_UNIT_PRICE.getVal());
         //处理数据
         JSONObject resultObj = JSONObject.parseObject(result);
-        if ("0".equals(resultObj.getString("error_code"))){
+        if (ObjectUtils.isNotEmpty(resultObj) && "0".equals(resultObj.getString("error_code"))) {
             //查询企业列表
-            JSONArray lists=resultObj.getJSONObject("result").getJSONArray("items");
-            if (lists.size()>0) {
+            JSONArray lists = resultObj.getJSONObject("result").getJSONArray("items");
+            if (ObjectUtils.isNotEmpty(lists)) {
                 for (Object object : lists) {
                     JSONObject temp = JSONObject.parseObject(object.toString());
-                    String matchtype =temp.getString("matchType");
-                    String regstatus =temp.getString("regStatus");
-                    String name =temp.getString("name");
+                    String matchtype = temp.getString("matchType");
+                    String regstatus = temp.getString("regStatus");
+                    String name = temp.getString("name");
 
                     //匹配度筛选
                     String[] strs = PutBidUtils.doKeyPost(keyword);
-                    Boolean isMatch = StringUtils.containsWordsWithAC(name,strs);
-                    if("公司名称匹配".equals(matchtype) && !"注销".equals(regstatus))  {
+                    Boolean isMatch = StringUtils.containsWordsWithAC(name, strs);
+                    if ("公司名称匹配".equals(matchtype) && !"注销".equals(regstatus)) {
                         TyCompany cy = new TyCompany();
                         cy.setRegnumber(temp.getString("regnumber"));//注册号
                         cy.setRegstatus(regstatus);//经营状态
@@ -84,7 +87,7 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
                         cy.setBase(temp.getString("base"));//省份
                         cy.setLegalpersonname(temp.getString("legalPersonName"));//法人
                         cy.setMatchtype(matchtype);//匹配原因
-                        cy.setSameRatio(compareUtil.getSimilarityRatio(keyword,name));//匹配相似度
+                        cy.setSameRatio(compareUtil.getSimilarityRatio(keyword, name));//匹配相似度
                         cy.setIsMatch(isMatch);//是否匹配关键词
                         companies.add(cy);
                     }
@@ -92,7 +95,7 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
                 //排序
                 companies.sort(Comparator.comparing(TyCompany::getSameRatio).reversed());//倒序
             }
-        }else{
+        } else {
             throw new CustomException("第三方查询服务异常，请联系系统管理员。");
         }
 
@@ -117,11 +120,10 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
         while (!endLoop) {
             //将访问的页数加一
             pageNum++;
-            String token = "7b1f73a2-3709-4be1-ae59-6536d47aae1b";
-            String url = "http://open.api.tianyancha.com/services/open/mr/abnormal/2.0?pageSize=20&keyword="+companyId+"&pageNum="+pageNum;
+            String url = "http://open.api.tianyancha.com/services/open/mr/abnormal/2.0?pageSize=20&keyword=" + companyId + "&pageNum=" + pageNum;
             JSONObject resultObj = null;
             try {
-                String result = HttpApiUtils.executeGet(url, token);
+                String result = HttpApiUtils.executeGet(url, TOKEN_API.getVal());
                 resultObj = JSONObject.parseObject(result);
             } catch (RuntimeException e) {
                 //返回空时解析Json会出现异常，则将pageNum 减一，继续访问该页面
@@ -135,7 +137,7 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
                     reconnect = 0;
                 }
             }
-            if (resultObj != null){
+            if (resultObj != null) {
                 String code = resultObj.getString("error_code");
                 //判断异常信息
                 if ("0".equals(code)) {
@@ -166,13 +168,13 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
                                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                                     abnormalOperation.setCompanyName(companyName);
                                     abnormalOperation.setCompanyId(companyId);
-                                    if (!(temp.getString("putDate") == null || "".equals(temp.getString("putDate")))){
+                                    if (!(temp.getString("putDate") == null || "".equals(temp.getString("putDate")))) {
                                         abnormalOperation.setPutDate(format.parse(temp.getString("putDate")));
                                     }
 
                                     abnormalOperation.setPutDepartment(temp.getString("putDepartment"));
                                     abnormalOperation.setPutReason(temp.getString("putReason"));
-                                    if (!(temp.getString("removeDate") == null || "".equals(temp.getString("removeDate")))){
+                                    if (!(temp.getString("removeDate") == null || "".equals(temp.getString("removeDate")))) {
                                         abnormalOperation.setRemoveDate(format.parse(temp.getString("removeDate")));
                                     }
                                     abnormalOperation.setRemoveReason(temp.getString("removeReason"));
@@ -180,7 +182,7 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
                                     abnormalOperation.setCreateTime(DateUtils.getNowDate());
                                     num = num + cusPersonaAbnormalOperationMapper.insertCusPersonaAbnormalOperation(abnormalOperation);
 
-                                }catch (RuntimeException | ParseException e){
+                                } catch (RuntimeException | ParseException e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -188,7 +190,7 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
                     } else {
                         endLoop = true;
                     }
-                }else if ("300004".equals(code) || "300001".equals(code)){
+                } else if ("300004".equals(code) || "300001".equals(code)) {
                     //若频繁访问或访问失败，则重新访问该页面数据
                     if (reconnect < 2) {
                         pageNum = pageNum - 1;
@@ -198,7 +200,7 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
                         endLoop = true;
                         reconnect = 0;
                     }
-                }else {
+                } else {
                     //其他原因则退出循环
                     break;
                 }
@@ -225,11 +227,10 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
         while (!endLoop) {
             //将访问的页数加一
             pageNum++;
-            String token = "7b1f73a2-3709-4be1-ae59-6536d47aae1b";
-            String url = "http://open.api.tianyancha.com/services/open/mr/mortgageInfo/2.0?pageSize=20&keyword="+companyId+"&pageNum="+pageNum;
+            String url = "http://open.api.tianyancha.com/services/open/mr/mortgageInfo/2.0?pageSize=20&keyword=" + companyId + "&pageNum=" + pageNum;
             JSONObject resultObj = null;
             try {
-                String result = HttpApiUtils.executeGet(url, token);
+                String result = HttpApiUtils.executeGet(url, TOKEN_API.getVal());
                 resultObj = JSONObject.parseObject(result);
             } catch (RuntimeException e) {
                 //返回空时解析Json会出现异常，则将pageNum 减一，继续访问该页面
@@ -243,7 +244,7 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
                     reconnect = 0;
                 }
             }
-            if (resultObj != null){
+            if (resultObj != null) {
                 String code = resultObj.getString("error_code");
                 //判断异常信息
                 if ("0".equals(code)) {
@@ -274,11 +275,11 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
                                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                                     chattelMortgage.setCompanyId(companyId);
                                     chattelMortgage.setCompanyName(companyName);
-                                    if (!(temp.getString("regDate") == null || "".equals(temp.getString("regDate")))){
+                                    if (!(temp.getString("regDate") == null || "".equals(temp.getString("regDate")))) {
                                         chattelMortgage.setRegDate(format.parse(temp.getString("regDate")));
                                     }
                                     chattelMortgage.setAmount(temp.getString("amount"));
-                                    if (!(temp.getString("publishDate") == null || "".equals(temp.getString("publishDate")))){
+                                    if (!(temp.getString("publishDate") == null || "".equals(temp.getString("publishDate")))) {
                                         chattelMortgage.setPublishDate(DateUtils.dateToStamp(Long.valueOf(temp.getString("publishDate"))));
                                     }
                                     chattelMortgage.setRegDepartment(temp.getString("regDepartment"));
@@ -290,7 +291,7 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
 
                                     num = num + cusPersonaChattelMortgageMapper.insertCusPersonaChattelMortgage(chattelMortgage);
 
-                                }catch (RuntimeException | ParseException e){
+                                } catch (RuntimeException | ParseException e) {
                                     e.printStackTrace();
                                 }
 
@@ -299,7 +300,7 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
                     } else {
                         endLoop = true;
                     }
-                }else if ("300004".equals(code) || "300001".equals(code)){
+                } else if ("300004".equals(code) || "300001".equals(code)) {
                     //若频繁访问或访问失败，则重新访问该页面数据
                     if (reconnect < 2) {
                         pageNum = pageNum - 1;
@@ -309,7 +310,7 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
                         endLoop = true;
                         reconnect = 0;
                     }
-                }else {
+                } else {
                     //其他原因则退出循环
                     break;
                 }
@@ -329,51 +330,51 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
     public AjaxResult selectTyCompanyByTyc(TyCompany tyCompany) {
         //调用天眼查-新增入库
         // token可以从 数据中心 -> 我的接口 中获取
-        String companyName =tyCompany.getKeyword();
-        String token = "7b1f73a2-3709-4be1-ae59-6536d47aae1b";
-        String url = "http://open.api.tianyancha.com/services/open/search/2.0?pageSize=20&pageNum=1&word="+companyName;
-        //System.out.println(executeGet(url, token));
+        String companyName = tyCompany.getKeyword();
+        String url = "http://open.api.tianyancha.com/services/open/search/2.0?pageSize=20&pageNum=1&word=" + companyName;
         //获取查询数据
-        String result = HttpApiUtils.executeGet(url, token);
+        String result = HttpApiUtils.executeGet(url, TOKEN_API.getVal());
+        if (StringUtils.isEmpty(result)) {
+            return AjaxResult.error(500, "请求用户信息接口为空，请联系系统管理员进行处理。");
+        }
         //处理返回参数
         JSONObject resultObj = JSONObject.parseObject(result);
-        String code =resultObj.getString("error_code");
-
-        if ("300000".equals(code)) {
-            return AjaxResult.error(500,"无数据");
-        }else if("300001".equals(code)){
-            return AjaxResult.error(500,"请求失败");
-        }else if("300002".equals(code)){
-            return AjaxResult.error(500,"账号失效");
-        }else if("300003".equals(code)){
-            return AjaxResult.error(500,"账号过期");
-        }else if("300004".equals(code)){
-            return AjaxResult.error(500,"访问频率过快");
-        }else if("300005".equals(code)){
-            return AjaxResult.error(500,"无权限访问此api");
-        }else if("300006".equals(code)){
-            return AjaxResult.error(500,"余额不足");
-        }else if("300007".equals(code)){
-            return AjaxResult.error(500,"剩余次数不足");
-        }else if("300008".equals(code)){
-            return AjaxResult.error(500,"缺少必要参数");
-        }else if("300009".equals(code)){
-            return AjaxResult.error(500,"账号信息有误");
-        }else if("3000010".equals(code)){
-            return AjaxResult.error(500,"URL不存在");
-        }else if("3000011".equals(code)){
-            return AjaxResult.error(500,"此IP无权限访问此api");
-        }else if("3000012".equals(code)){
-            return AjaxResult.error(500,"报告生成中");
+        String code = null;
+        if (ObjectUtils.isNotEmpty(resultObj)) {
+            code = resultObj.getString("error_code");
         }
 
-        if (StringUtils.isEmpty(result)){
-            return AjaxResult.error(500,"请求用户信息接口为空，请联系系统管理员进行处理。");
+        if ("300000".equals(code) || StringUtils.isEmpty(code)) {
+            return AjaxResult.error(500, "无数据");
+        } else if ("300001".equals(code)) {
+            return AjaxResult.error(500, "请求失败");
+        } else if ("300002".equals(code)) {
+            return AjaxResult.error(500, "账号失效");
+        } else if ("300003".equals(code)) {
+            return AjaxResult.error(500, "账号过期");
+        } else if ("300004".equals(code)) {
+            return AjaxResult.error(500, "访问频率过快");
+        } else if ("300005".equals(code)) {
+            return AjaxResult.error(500, "无权限访问此api");
+        } else if ("300006".equals(code)) {
+            return AjaxResult.error(500, "余额不足");
+        } else if ("300007".equals(code)) {
+            return AjaxResult.error(500, "剩余次数不足");
+        } else if ("300008".equals(code)) {
+            return AjaxResult.error(500, "缺少必要参数");
+        } else if ("300009".equals(code)) {
+            return AjaxResult.error(500, "账号信息有误");
+        } else if ("3000010".equals(code)) {
+            return AjaxResult.error(500, "URL不存在");
+        } else if ("3000011".equals(code)) {
+            return AjaxResult.error(500, "此IP无权限访问此api");
+        } else if ("3000012".equals(code)) {
+            return AjaxResult.error(500, "报告生成中");
         }
 
         //查询企业列表
-        List<TyCompany> companies =new ArrayList<TyCompany>();
-        JSONArray lists=resultObj.getJSONObject("result").getJSONArray("items");
+        List<TyCompany> companies = new ArrayList<TyCompany>();
+        JSONArray lists = resultObj.getJSONObject("result").getJSONArray("items");
         if (ObjectUtils.isNotEmpty(lists)) {
             for (Object object : lists) {
                 JSONObject temp = JSONObject.parseObject(object.toString());
@@ -394,10 +395,10 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
             }
         }
 
-        int num=0;
-        if (companies.size()>0){
-            for (TyCompany company : companies){
-                num=tyCompanyMapper.insertTyCompany(company);
+        int num = 0;
+        if (CollectionUtils.isNotEmpty(companies)) {
+            for (TyCompany company : companies) {
+                num = tyCompanyMapper.insertTyCompany(company);
             }
         }
         return AjaxResult.success(num);

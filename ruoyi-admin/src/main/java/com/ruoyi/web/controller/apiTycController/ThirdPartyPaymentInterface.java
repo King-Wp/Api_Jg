@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.apiTycController;
 
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.components.domain.TyCompany;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.service.ApiThirdPartyService;
@@ -35,17 +36,37 @@ public class ThirdPartyPaymentInterface {
 
     /**
      * 获取并入库企业经营异常信息
-     * @param customerBusinessVo 查询条件
+     * @param customerBusinessVo Url参数
+     * @return 添加条数
      */
     @PostMapping("/businessExInfo")
     public int businessExInfo(@RequestBody CustomerBusinessVo customerBusinessVo) {
         return apiThirdPartyService.addAbnormalOperationByTyc(customerBusinessVo);
     }
 
+    /**
+     * 企业动产抵押信息
+     * @param customerBusinessVo Url参数
+     * @return 添加条数
+     */
     @PostMapping("/chattelMortgage")
     public int chattelMortgage(@RequestBody CustomerBusinessVo customerBusinessVo) {
         return apiThirdPartyService.addChattelMortgageByTyc(customerBusinessVo);
     }
 
+    /**
+     * 客户单位基本信息
+     * @param customers Url参数
+     * @return 添加条数
+     */
+    @PostMapping("/business")
+    public int business(@RequestBody List<String> customers) {
+        return apiThirdPartyService.addCompanyBusinessByTyc(customers);
+    }
+
+    @PostMapping("/Company")
+    public AjaxResult Company(@RequestBody TyCompany tyCompany) {
+        return apiThirdPartyService.selectTyCompanyByTyc(tyCompany);
+    }
 
 }
