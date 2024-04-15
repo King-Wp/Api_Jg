@@ -36,8 +36,6 @@ public class ThirdPartyPaymentInterface {
     /**
      * 获取并入库企业经营异常信息
      * @param customerBusinessVo 查询条件
-     * @param userName 用户名称
-     * @return
      */
     @PostMapping("/businessExInfo")
     public int businessExInfo(@RequestBody CustomerBusinessVo customerBusinessVo) {

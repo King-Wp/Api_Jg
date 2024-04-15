@@ -8,15 +8,13 @@ import com.ruoyi.components.domain.PersonaBids;
 import com.ruoyi.components.mapper.PersonaBidsMapper;
 import com.ruoyi.components.service.IPersonaBidsService;
 import com.ruoyi.components.utils.HttpApiUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_API;
 
@@ -42,8 +40,6 @@ public class PersonaBidsServiceImpl implements IPersonaBidsService {
         String publishStartTime = format.format(y);
         //请求页码
         int pageNum = 0;
-        //查询企业列表
-        List<PersonaBids> bids = new ArrayList<PersonaBids>();
         //是否终止循环变量
         boolean endLoop = false;
 
@@ -83,10 +79,9 @@ public class PersonaBidsServiceImpl implements IPersonaBidsService {
                     }
                     JSONArray lists = resultObj.getJSONObject("result").getJSONArray("items");
 
-                    JSONObject temp = new JSONObject();
-                    if (lists.size() > 0) {
+                    if (ObjectUtils.isNotEmpty(lists)) {
                         for (Object object : lists) {
-                            temp = JSONObject.parseObject(object.toString());
+                            JSONObject temp = JSONObject.parseObject(object.toString());
                             PersonaBids bid = new PersonaBids();
                             //cy.setCompanytype(Long.valueOf(temp.getString("")));
                             bid.setPublishTime(DateUtils.dateToStamp(Long.valueOf(temp.getString("publishTime"))));
@@ -111,8 +106,8 @@ public class PersonaBidsServiceImpl implements IPersonaBidsService {
                             JSONArray jsonArray = JSONArray.parseArray(temp.getString("companies"));
                             if (jsonArray != null) {
                                 StringBuilder stringBuilder = new StringBuilder();
-                                for (int i = 0; i < jsonArray.size(); i++) {
-                                    JSONObject jsonObject = JSONObject.parseObject(jsonArray.get(i).toString());
+                                for (Object o : jsonArray) {
+                                    JSONObject jsonObject = JSONObject.parseObject(o.toString());
                                     stringBuilder.append(jsonObject.getString("cname"));
                                     stringBuilder.append(",");
                                 }
@@ -120,7 +115,6 @@ public class PersonaBidsServiceImpl implements IPersonaBidsService {
                                 stringBuilder.deleteCharAt(stringBuilder.length() - 1);
                                 bid.setCompetitiveCompany(stringBuilder.toString());
                             }
-                            bids.add(bid);
                             num = personaBidsMapper.insertPersonaBids(bid);
                         }
                     }

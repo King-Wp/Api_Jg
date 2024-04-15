@@ -1,11 +1,14 @@
 package com.ruoyi.common.enums;
 
+import lombok.Getter;
+
 /**
  * @author: 11653
  * @createTime: 2024/03/25 11:40
  * @package: com.ruoyi.common.enums
  * @description:
  */
+@Getter
 public enum UrlAddressEnum {
 
     TOKEN_API("7b1f73a2-3709-4be1-ae59-6536d47aae1b");
@@ -20,7 +23,4 @@ public enum UrlAddressEnum {
         this.val = url;
     }
 
-    public String getVal() {
-        return val;
-    }
 }
