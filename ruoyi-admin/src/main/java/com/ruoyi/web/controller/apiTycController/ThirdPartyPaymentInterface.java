@@ -64,7 +64,7 @@ public class ThirdPartyPaymentInterface {
         return apiThirdPartyService.addCompanyBusinessByTyc(customers);
     }
 
-    @PostMapping("/Company")
+    @PostMapping("/company")
     public AjaxResult Company(@RequestBody TyCompany tyCompany) {
         return apiThirdPartyService.selectTyCompanyByTyc(tyCompany);
     }

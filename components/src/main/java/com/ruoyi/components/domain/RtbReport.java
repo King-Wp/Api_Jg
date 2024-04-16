@@ -23,7 +23,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class RtbReportP extends BaseEntity {
+public class RtbReport extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -282,7 +282,7 @@ public class RtbReportP extends BaseEntity {
 
     private String prop;
 
-    private List<RtbReportP> children = new ArrayList<>();
+    private List<RtbReport> children = new ArrayList<>();
 
     @Override
     public String getCreateBy() {

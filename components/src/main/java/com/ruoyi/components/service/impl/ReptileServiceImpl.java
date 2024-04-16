@@ -5,7 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.components.domain.CustomerPortraitParameter;
 import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
-import com.ruoyi.components.domain.RtbReportP;
+import com.ruoyi.components.domain.RtbReport;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.service.*;
 import com.ruoyi.components.utils.PutBidUtils;
@@ -181,7 +181,7 @@ public class ReptileServiceImpl implements IReptileService {
     @Override
     public JSONObject getReportKeyword(KeyWordsParams keyWordsParams) {
         JSONObject data = new JSONObject();
-        RtbReportP info = keyWordsParams.getInfo();
+        RtbReport info = keyWordsParams.getInfo();
         if (StringUtils.isNotNull(info)) {
             String itemName = info.getItemName();//项目名称
             String content = info.getContent();//建设内容

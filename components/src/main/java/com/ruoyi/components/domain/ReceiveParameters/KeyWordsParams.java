@@ -1,6 +1,6 @@
 package com.ruoyi.components.domain.ReceiveParameters;
 
-import com.ruoyi.components.domain.RtbReportP;
+import com.ruoyi.components.domain.RtbReport;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -40,6 +40,6 @@ public class KeyWordsParams implements Serializable {
     /**
      * 商机报备列表
      */
-    private RtbReportP info;
+    private RtbReport info;
 
 }

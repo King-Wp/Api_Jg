@@ -6,9 +6,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.components.domain.CustomerPortraitParameter;
 import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
 import com.ruoyi.components.service.IReptileService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -30,8 +28,8 @@ public class ApiReptileController {
      * 新增客户画像
      * @param customerPortraitParameter 传递参数
      */
-    @GetMapping("/addCustomerPortrait")
-    public AjaxResult addCustomerPortrait(CustomerPortraitParameter customerPortraitParameter){
+    @PostMapping("/addCustomerPortrait")
+    public AjaxResult addCustomerPortrait(@RequestBody CustomerPortraitParameter customerPortraitParameter){
         reptileService.addCustomerReportRemind(customerPortraitParameter);
         return AjaxResult.success();
     }
@@ -42,8 +40,8 @@ public class ApiReptileController {
      * bidTitles 单位名称查询招投标标题金额top10
      * contracts 单位名称查询业绩合同名称
      */
-    @GetMapping("/customer/keyWords")
-    public String[] keyToLevel(KeyWordsParams keyWordsParams){
+    @PostMapping("/customer/keyWords")
+    public String[] keyToLevel(@RequestBody KeyWordsParams keyWordsParams){
         return reptileService.keyToLevel(keyWordsParams);
     }
 
@@ -56,8 +54,8 @@ public class ApiReptileController {
      * info
      * @param keyWordsParams 参数对象
      */
-    @GetMapping("/customer/visitKeyWord")
-    public String[] visitKeyWord(KeyWordsParams keyWordsParams){
+    @PostMapping("/customer/visitKeyWord")
+    public String[] visitKeyWord(@RequestBody KeyWordsParams keyWordsParams){
         return reptileService.getVisitKeyWord(keyWordsParams);
     }
 
@@ -66,8 +64,8 @@ public class ApiReptileController {
      * baseId 商机id
      * @param keyWordsParams 参数对象
      */
-    @GetMapping("/customer/reportKeyWord")
-    public JSONObject reportKeyWord(KeyWordsParams keyWordsParams){
+    @PostMapping("/customer/reportKeyWord")
+    public JSONObject reportKeyWord(@RequestBody KeyWordsParams keyWordsParams){
         return reptileService.getReportKeyword(keyWordsParams);
     }
 
