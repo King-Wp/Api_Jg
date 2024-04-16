@@ -13,11 +13,11 @@ import java.util.List;
  * @author: 11653
  * @createTime: 2024/04/15 10:29
  * @package: com.ruoyi.web.controller.apiTycController
- * @description: 付费APU 远程开放接口
+ * @description: 付费API 远程开放接口
  */
 
 @RestController
-@RequestMapping("/tianyan/paidAPI")
+@RequestMapping("/crawl/paidAPI")
 public class ThirdPartyPaymentInterface {
 
     @Resource

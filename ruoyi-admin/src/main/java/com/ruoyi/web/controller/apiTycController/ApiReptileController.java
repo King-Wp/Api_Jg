@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  */
 
 @RestController
-@RequestMapping("/tianyan/reptile")
+@RequestMapping("/crawl/reptile")
 public class ApiReptileController {
 
     @Resource
