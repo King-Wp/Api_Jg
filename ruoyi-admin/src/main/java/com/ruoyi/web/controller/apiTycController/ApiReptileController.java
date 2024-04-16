@@ -29,7 +29,6 @@ public class ApiReptileController {
     /**
      * 新增客户画像
      * @param customerPortraitParameter 传递参数
-     * @return
      */
     @GetMapping("/addCustomerPortrait")
     public AjaxResult addCustomerPortrait(CustomerPortraitParameter customerPortraitParameter){
@@ -42,7 +41,6 @@ public class ApiReptileController {
      * business 单位经营范围
      * bidTitles 单位名称查询招投标标题金额top10
      * contracts 单位名称查询业绩合同名称
-     * @return
      */
     @GetMapping("/customer/keyWords")
     public String[] keyToLevel(KeyWordsParams keyWordsParams){
@@ -57,7 +55,6 @@ public class ApiReptileController {
      * contracts 单位名称查询业绩合同名称
      * info
      * @param keyWordsParams 参数对象
-     * @return
      */
     @GetMapping("/customer/visitKeyWord")
     public String[] visitKeyWord(KeyWordsParams keyWordsParams){
@@ -68,7 +65,6 @@ public class ApiReptileController {
      * RtbReportP 商机报备列表
      * baseId 商机id
      * @param keyWordsParams 参数对象
-     * @return
      */
     @GetMapping("/customer/reportKeyWord")
     public JSONObject reportKeyWord(KeyWordsParams keyWordsParams){
