@@ -70,7 +70,7 @@ public class CusPersonaCompanyBusinessServiceImpl implements ICusPersonaCompanyB
                     if (companyProfile != null) {
                         business.setCompanyProfile(companyProfile);
                     } else {//调用天眼查接口获取简介
-                        business.setCompanyProfile(getCompanyProfile(companyId));
+                        business.setCompanyProfile(iReptileService.getCompanyProfile(companyId));
                     }
                 }
                 if (StringUtils.isNotNull(companyBusiness.getString("name"))) {
@@ -340,15 +340,6 @@ public class CusPersonaCompanyBusinessServiceImpl implements ICusPersonaCompanyB
             }
         }
         return i;
-    }
-
-    /**
-     * 公司简介
-     * @param companyId 天眼查ID
-     * @return
-     */
-    private String getCompanyProfile(String companyId) {
-        return iReptileService.getCompanyProfile(companyId);
     }
 
     /**
