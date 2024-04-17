@@ -2,10 +2,7 @@ package com.ruoyi.components.service;
 
 
 import com.alibaba.fastjson2.JSONObject;
-import com.ruoyi.components.domain.CustomerPortraitParameter;
 import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
-
-import java.sql.SQLException;
 
 /**
  * @author: 11653
@@ -15,18 +12,6 @@ import java.sql.SQLException;
  */
 
 public interface IReptileService {
-
-    /**
-     * 自动客户单位画像
-     *
-     * company        简称
-     * companyId      天眼查ID
-     * fullCompany    公司全称
-     * userName       用户名称
-     * enterpriseType 祥云企业类型
-     * @throws SQLException
-     */
-    void addCustomerReportRemind(CustomerPortraitParameter testRequestDTO);
 
     /**
      * 客户洞察 优先级如下：招投标标题金额top10、业绩合同名称、经营范围。

@@ -2,9 +2,8 @@ package com.ruoyi.web.controller.apiTycController;
 
 
 import com.alibaba.fastjson2.JSONObject;
-import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.components.domain.CustomerPortraitParameter;
 import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
+import com.ruoyi.components.service.ICusPersonaCompanyBusinessService;
 import com.ruoyi.components.service.IReptileService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,16 +22,8 @@ public class ApiReptileController {
 
     @Resource
     private IReptileService reptileService;
-
-    /**
-     * 新增客户画像
-     * @param customerPortraitParameter 传递参数
-     */
-    @PostMapping("/addCustomerPortrait")
-    public AjaxResult addCustomerPortrait(@RequestBody CustomerPortraitParameter customerPortraitParameter){
-        reptileService.addCustomerReportRemind(customerPortraitParameter);
-        return AjaxResult.success();
-    }
+    @Resource
+    private ICusPersonaCompanyBusinessService iPersonaCompanyBusinessService;
 
     /**
      * 客户洞察关键词获取
@@ -88,5 +79,19 @@ public class ApiReptileController {
     public String getCompanyProfile(String companyId){
         return reptileService.getCompanyProfile(companyId);
     }
+
+    /**
+     *  客户单位的工商信息
+     * @param companyId 企业id
+     * @param userName 用户名称
+     * @param queryKeyword 查询关键字
+     * @param enterpriseType 获取祥云中的企业性质
+     * @return 入库结果
+     */
+    @GetMapping("/addCompanyBusiness")
+    public Integer addCompanyBusinessByTycCompanyId(String companyId, String userName, String queryKeyword, String enterpriseType){
+        return iPersonaCompanyBusinessService.addCompanyBusinessByTycCompanyId(companyId, userName, queryKeyword, enterpriseType);
+    }
+
 
 }

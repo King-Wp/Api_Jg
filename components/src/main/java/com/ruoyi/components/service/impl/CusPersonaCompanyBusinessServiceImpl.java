@@ -7,10 +7,9 @@ import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.UserAgentUtil;
 import com.ruoyi.components.domain.CusPersonaCompanyBusiness;
-import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaCompanyBusinessMapper;
-import com.ruoyi.components.mapper.CustomersVoMapper;
 import com.ruoyi.components.service.ICusPersonaCompanyBusinessService;
+import com.ruoyi.components.service.IReptileService;
 import com.ruoyi.components.utils.HttpApiUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.jsoup.Jsoup;
@@ -38,20 +37,19 @@ public class CusPersonaCompanyBusinessServiceImpl implements ICusPersonaCompanyB
     @Resource
     private CusPersonaCompanyBusinessMapper cusPersonaCompanyBusinessMapper;
     @Resource
-    private CustomersVoMapper customersVoMapper;
+    private IReptileService iReptileService;
 
     /**
      *  客户单位的工商信息
-     * @param customerBusinessVo 天眼查对象
+     * @param companyId 企业id
      * @param userName 用户名称
      * @param queryKeyword 查询关键字
      * @param enterpriseType 获取祥云中的企业性质
      * @return 入库结果
      */
     @Override
-    public int addCompanyBusinessByTycCompanyId(CustomerBusinessVo customerBusinessVo, String userName, String queryKeyword, String enterpriseType) {
+    public int addCompanyBusinessByTycCompanyId(String companyId, String userName, String queryKeyword, String enterpriseType) {
         //调用天眼查-新增入库
-        String companyId = customerBusinessVo.getCompanyId();
         String url = "http://open.api.tianyancha.com/services/open/ic/baseinfoV2/2.0?&keyword=" + companyId;
         int i = 0;
         if (companyId != null) {
@@ -350,16 +348,7 @@ public class CusPersonaCompanyBusinessServiceImpl implements ICusPersonaCompanyB
      * @return
      */
     private String getCompanyProfile(String companyId) {
-        String data = "";
-        //获取查询数据
-        String result = HttpApiUtils.getMessageByUrlToken(companyId);
-        //处理返回参数
-        JSONObject resultObj = JSONObject.parseObject(result);
-        String code = resultObj.getString("error_code");
-        if (SUCCESS_CODE.equals(code)) {
-            data = resultObj.getString("result");
-        }
-        return data;
+        return iReptileService.getCompanyProfile(companyId);
     }
 
     /**

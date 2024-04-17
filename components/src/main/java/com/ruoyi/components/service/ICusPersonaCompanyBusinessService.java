@@ -1,7 +1,5 @@
 package com.ruoyi.components.service;
 
-import com.ruoyi.components.domain.vo.CustomerBusinessVo;
-
 import java.util.List;
 
 /**
@@ -20,7 +18,7 @@ public interface ICusPersonaCompanyBusinessService {
      * @param enterpriseType 获取祥云中的企业性质
      * @return 入库结果
      */
-    int addCompanyBusinessByTycCompanyId(CustomerBusinessVo customerBusinessVo, String userName, String queryKeyword, String enterpriseType);
+    int addCompanyBusinessByTycCompanyId(String companyId, String userName, String queryKeyword, String enterpriseType);
 
 
     /**
