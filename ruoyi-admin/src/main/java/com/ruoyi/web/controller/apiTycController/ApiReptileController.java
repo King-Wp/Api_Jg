@@ -14,7 +14,7 @@ import javax.annotation.Resource;
  * @author: 11653
  * @createTime: 2024/03/21 14:25
  * @package: com.ruoyi.web.controller.system
- * @description:
+ * @description: 爬虫接口 AI接口
  */
 
 @RestController
@@ -69,6 +69,11 @@ public class ApiReptileController {
         return reptileService.getReportKeyword(keyWordsParams);
     }
 
+    /**
+     * 免费获取工商信息
+     * @param companyName 企业名称
+     * @param userName 创建用户
+     */
     @GetMapping("/addBusinessFreeByTyc")
     public void addBusinessFreeByTyc(String companyName, String userName){
         reptileService.addBusinessFreeByTyc(companyName, userName);

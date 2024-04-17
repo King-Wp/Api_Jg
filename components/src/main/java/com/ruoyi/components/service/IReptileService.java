@@ -52,6 +52,13 @@ public interface IReptileService {
      */
     JSONObject getReportKeyword(KeyWordsParams keyWordsParams);
 
+    /**
+     * 免费获取工商信息
+     * @param companyName 企业名称
+     * @param userName 创建用户
+     */
     void addBusinessFreeByTyc(String companyName, String userName);
+
+
 
 }
