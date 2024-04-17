@@ -79,4 +79,14 @@ public class ApiReptileController {
         reptileService.addBusinessFreeByTyc(companyName, userName);
     }
 
+    /**
+     * 获取公司简介
+     * @param companyId 企业id
+     * @return 简介
+     */
+    @GetMapping("/introduction")
+    public String getCompanyProfile(String companyId){
+        return reptileService.getCompanyProfile(companyId);
+    }
+
 }

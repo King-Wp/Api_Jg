@@ -12,6 +12,7 @@ import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
 import com.ruoyi.components.domain.RtbReport;
 import com.ruoyi.components.mapper.CusPersonaCompanyBusinessMapper;
 import com.ruoyi.components.service.*;
+import com.ruoyi.components.utils.HttpApiUtils;
 import com.ruoyi.components.utils.PutBidUtils;
 import io.jsonwebtoken.lang.Assert;
 import org.apache.commons.collections4.CollectionUtils;
@@ -38,6 +39,8 @@ import java.util.Map;
 public class ReptileServiceImpl implements IReptileService {
 
     private static final String KEYWORD_URL = "http://10.203.7.251:19002/CKE_out_results";
+
+    private static final String SUCCESS_CODE = "0";
 
     @Resource
     private ICusPersonaCompanyBusinessService iCusPersonaCompanyBusinessService;
@@ -455,5 +458,20 @@ public class ReptileServiceImpl implements IReptileService {
             }
 
         }
+    }
+
+    @Override
+    public String getCompanyProfile(String companyId) {
+        String data ="";
+        String url = "http://open.api.tianyancha.com/services/v4/open/profile?keyword=" + companyId;
+        //获取查询数据
+        String result = HttpApiUtils.getMessageByUrlToken(url);
+        //处理返回参数
+        JSONObject resultObj = JSONObject.parseObject(result);
+        String code = resultObj.getString("error_code");
+        if (SUCCESS_CODE.equals(code)){
+            data = resultObj.getString("result");
+        }
+        return data;
     }
 }

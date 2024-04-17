@@ -59,6 +59,5 @@ public interface IReptileService {
      */
     void addBusinessFreeByTyc(String companyName, String userName);
 
-
-
+    String getCompanyProfile(String companyId);
 }
