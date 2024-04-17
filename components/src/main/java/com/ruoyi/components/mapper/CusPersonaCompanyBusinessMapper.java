@@ -111,4 +111,14 @@ public interface CusPersonaCompanyBusinessMapper
 	List<CusPersonaCompanyBusiness> selectCompanyBusinessNullList();
 
     void completeCompanyProfile(CusPersonaCompanyBusiness info);
+
+    /**
+     * 根据公司名称以及天眼查ID查询公司详情工商信息
+     * @param companyName 公司全称
+     * @param companyId 天眼查ID
+     * @return 公司工商信息
+     */
+    CusPersonaCompanyBusiness queryBusinessInformation(@Param("companyName")String companyName,@Param("companyId")String companyId);
+
+    Integer DeleteCompanyId(String companyId);
 }

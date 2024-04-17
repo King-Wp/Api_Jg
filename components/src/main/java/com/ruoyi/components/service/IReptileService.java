@@ -48,11 +48,10 @@ public interface IReptileService {
 
     /**
      * 商机关键词 需要传入商机ID
-     *
-     * @param baseId 商机ID
-     * @param info 商机报备列表
      * @return 生态伙伴列表
      */
     JSONObject getReportKeyword(KeyWordsParams keyWordsParams);
+
+    void addBusinessFreeByTyc(String companyName, String userName);
 
 }

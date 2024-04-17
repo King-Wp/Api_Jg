@@ -69,4 +69,9 @@ public class ApiReptileController {
         return reptileService.getReportKeyword(keyWordsParams);
     }
 
+    @GetMapping("/addBusinessFreeByTyc")
+    public void addBusinessFreeByTyc(String companyName, String userName){
+        reptileService.addBusinessFreeByTyc(companyName, userName);
+    }
+
 }
