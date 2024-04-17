@@ -1,5 +1,7 @@
 package com.ruoyi.components.service;
 
+import com.ruoyi.components.domain.CusPersonaCompanyBusiness;
+
 import java.util.List;
 
 /**
@@ -26,4 +28,9 @@ public interface ICusPersonaCompanyBusinessService {
      * @return 入库结果
      */
     int addCompanyBusinessByTyc(List<String> customers);
+
+    CusPersonaCompanyBusiness getBusinessLogoByTyc(String companyId);
+
+    String getBusinessAliasByTyc(String companyId);
+
 }

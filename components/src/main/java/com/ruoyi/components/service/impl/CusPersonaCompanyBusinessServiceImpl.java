@@ -1,11 +1,9 @@
 package com.ruoyi.components.service.impl;
 
 
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.SecurityUtils;
-import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.common.utils.UserAgentUtil;
+import com.ruoyi.common.utils.*;
 import com.ruoyi.components.domain.CusPersonaCompanyBusiness;
 import com.ruoyi.components.mapper.CusPersonaCompanyBusinessMapper;
 import com.ruoyi.components.service.ICusPersonaCompanyBusinessService;
@@ -14,10 +12,11 @@ import com.ruoyi.components.utils.HttpApiUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
 
 import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_API;
@@ -223,7 +222,7 @@ public class CusPersonaCompanyBusinessServiceImpl implements ICusPersonaCompanyB
                     if (StringUtils.isNotNull(companyBusiness.getString("id"))){
                         business.setCompanyId(Long.parseLong(companyBusiness.getString("id")));
                         //爬取天眼查中的企业简介
-                        String companyProfile = getCompanyDetailSpider(companyBusiness.getString("id"));
+                        String companyProfile = getBusinessAliasByTyc(companyBusiness.getString("id"));
                         if (companyProfile != null){
                             business.setCompanyProfile(companyProfile);
                         }
@@ -345,10 +344,11 @@ public class CusPersonaCompanyBusinessServiceImpl implements ICusPersonaCompanyB
     /**
      * 获取工商信息的logo
      *
-     * @param companyId
+     * @param companyId 企业id
      * @return
      */
-    private CusPersonaCompanyBusiness getBusinessLogoByTyc(String companyId) {
+    @Override
+    public CusPersonaCompanyBusiness getBusinessLogoByTyc(String companyId) {
         JSONObject companyBusiness = HttpApiUtils.getBusinessLogoByTyc(companyId);
         CusPersonaCompanyBusiness business = new CusPersonaCompanyBusiness();
 
@@ -363,28 +363,35 @@ public class CusPersonaCompanyBusinessServiceImpl implements ICusPersonaCompanyB
         return business;
     }
 
-    private static String getCompanyDetailSpider(String companyId){
-        String docPubUrl = "https://www.tianyancha.com/company/"+companyId;
+    @Override
+    public String getBusinessAliasByTyc(String companyId) {
+        String docPubUrl = "https://www.tianyancha.com/company/" + companyId;
         Document doc = null;
-        String companyProfile = "";
-        // 利用jsoup连接目标url网页获取整个html对象
+        String alias = "";
         try {
+            // 利用jsoup连接目标url网页获取整个html对象
             doc = Jsoup.connect(docPubUrl).userAgent(UserAgentUtil.getUserAgent()).get();
             //防止频繁访问（模拟网络延迟）
-            int temp = (int)(Math.random()*10000);
-            Thread.sleep(temp);
+//                            Thread.sleep(500);
             if (doc != null) {
+                Element nextData = doc.getElementById("__NEXT_DATA__");
+                if (nextData != null) {
+                    String s = BidStringUtils.subStringBetween(nextData.toString(), "<script id=\"__NEXT_DATA__\" type=\"application/json\">", "</script>");
+                    JSONObject jsonObject = JSONObject.parseObject(s);
+                    JSONArray queries = jsonObject.getJSONObject("props").getJSONObject("pageProps").getJSONObject("dehydratedState").getJSONArray("queries");
+                    if (queries.size() > 0) {
+                        JSONObject companyBusiness = queries.getJSONObject(0).getJSONObject("state").getJSONObject("data").getJSONObject("data");
+                        if (companyBusiness.getString("alias") != null){
+                            alias = companyBusiness.getString("alias");
+                        }
 
-                //获取主页面的HTML对象
-                Elements span = doc.select("div[class^=index_detail-linewrap__AKtCa index_-intro__ma3Qd]").select("span");
-                if (span.size() > 0){
-                    companyProfile = doc.select("div[class^=index_detail-linewrap__AKtCa index_-intro__ma3Qd]").select("span").get(1).text();
+                    }
                 }
             }
-        }catch (Exception e){
+        }catch (IOException e){
             e.printStackTrace();
         }
-        return companyProfile;
+        return alias;
     }
 
 }

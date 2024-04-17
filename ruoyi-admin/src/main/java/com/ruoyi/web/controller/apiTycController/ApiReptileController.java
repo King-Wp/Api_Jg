@@ -2,6 +2,7 @@ package com.ruoyi.web.controller.apiTycController;
 
 
 import com.alibaba.fastjson2.JSONObject;
+import com.ruoyi.components.domain.CusPersonaCompanyBusiness;
 import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
 import com.ruoyi.components.service.ICusPersonaCompanyBusinessService;
 import com.ruoyi.components.service.IReptileService;
@@ -99,6 +100,17 @@ public class ApiReptileController {
             @RequestParam("queryKeyword") String queryKeyword, @RequestParam("enterpriseType") String enterpriseType
     ) {
         return iPersonaCompanyBusinessService.addCompanyBusinessByTycCompanyId(companyId, userName, queryKeyword, enterpriseType);
+    }
+
+    /**
+     * 获取工商信息的logo
+     *
+     * @param companyId 企业id
+     * @return
+     */
+    @GetMapping("/businessLogo")
+    public CusPersonaCompanyBusiness getBusinessLogoByTyc(@RequestParam("companyId")String companyId){
+        return iPersonaCompanyBusinessService.getBusinessLogoByTyc(companyId);
     }
 
 
