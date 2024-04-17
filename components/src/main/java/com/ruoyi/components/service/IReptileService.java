@@ -29,12 +29,6 @@ public interface IReptileService {
     void addCustomerReportRemind(CustomerPortraitParameter testRequestDTO);
 
     /**
-     * 通过天眼查获取企业对外投资情况（包含地区和行业的投资情况）
-     * @return
-     */
-//    int addInvestByTyc();
-
-    /**
      * 客户洞察 优先级如下：招投标标题金额top10、业绩合同名称、经营范围。
      * @param keyWordsParams 关键词获取参数
      * @return 关键词

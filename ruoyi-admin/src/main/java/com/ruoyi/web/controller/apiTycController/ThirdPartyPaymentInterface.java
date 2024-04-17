@@ -1,6 +1,5 @@
 package com.ruoyi.web.controller.apiTycController;
 
-import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.components.domain.TyCompany;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.service.ApiThirdPartyService;
@@ -63,10 +62,4 @@ public class ThirdPartyPaymentInterface {
     public int business(@RequestBody List<String> customers) {
         return apiThirdPartyService.addCompanyBusinessByTyc(customers);
     }
-
-    @PostMapping("/company")
-    public AjaxResult Company(@RequestBody TyCompany tyCompany) {
-        return apiThirdPartyService.selectTyCompanyByTyc(tyCompany);
-    }
-
 }
