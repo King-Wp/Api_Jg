@@ -29,6 +29,16 @@ public interface ICusPersonaCompanyBusinessService {
      */
     int addCompanyBusinessByTyc(List<String> customers);
 
+    /**
+     * 入库中标单位及客户表的工商信息
+     * @param companyName 企业名称
+     * @param userName 用户名称
+     * @param id id
+     * @param enterpriseType 祥云行业
+     * @return 结果
+     */
+    int cusPersonaBidsBusiness(String companyName, String userName,String id,String enterpriseType);
+
     CusPersonaCompanyBusiness getBusinessLogoByTyc(String companyId);
 
     String getBusinessAliasByTyc(String companyId);

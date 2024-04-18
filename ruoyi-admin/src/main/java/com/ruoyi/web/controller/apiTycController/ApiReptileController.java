@@ -24,7 +24,7 @@ public class ApiReptileController {
     @Resource
     private IReptileService reptileService;
     @Resource
-    private ICusPersonaCompanyBusinessService iPersonaCompanyBusinessService;
+    private ICusPersonaCompanyBusinessService icusPersonaCompanyBusinessService;
 
     /**
      * 客户洞察关键词获取
@@ -99,7 +99,7 @@ public class ApiReptileController {
             @RequestParam("companyId") String companyId, @RequestParam("userName") String userName,
             @RequestParam("queryKeyword") String queryKeyword, @RequestParam("enterpriseType") String enterpriseType
     ) {
-        return iPersonaCompanyBusinessService.addCompanyBusinessByTycCompanyId(companyId, userName, queryKeyword, enterpriseType);
+        return icusPersonaCompanyBusinessService.addCompanyBusinessByTycCompanyId(companyId, userName, queryKeyword, enterpriseType);
     }
 
     /**
@@ -110,8 +110,25 @@ public class ApiReptileController {
      */
     @GetMapping("/businessLogo")
     public CusPersonaCompanyBusiness getBusinessLogoByTyc(@RequestParam("companyId")String companyId){
-        return iPersonaCompanyBusinessService.getBusinessLogoByTyc(companyId);
+        return icusPersonaCompanyBusinessService.getBusinessLogoByTyc(companyId);
     }
+
+    /**
+     * 调用天眼查接口，入库中标单位及客户表的工商信息
+     * @param companyName 企业名称
+     * @param userName 用户名称
+     * @param id 企业id
+     * @param enterpriseType 祥云行业
+     * @return 结果
+     */
+    @GetMapping("/cusPersonaBidsBusiness")
+    public int CusPersonaBidsBusiness (
+            @RequestParam("companyName")String companyName, @RequestParam("userName")String userName,
+            @RequestParam("id")String id,@RequestParam("enterpriseType")String enterpriseType
+    ){
+        return icusPersonaCompanyBusinessService.cusPersonaBidsBusiness(companyName, userName, id, enterpriseType);
+    }
+
 
 
 }
