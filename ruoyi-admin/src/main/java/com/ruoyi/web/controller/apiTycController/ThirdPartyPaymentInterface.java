@@ -29,7 +29,7 @@ public class ThirdPartyPaymentInterface {
      * @return 每页返回对多20条数据
      */
     @GetMapping("/companyList")
-    public List<TyCompany> companyList(String keyword, Integer pageNum) {
+    public List<TyCompany> companyList(@RequestParam("keyword")String keyword, @RequestParam("pageNum")Integer pageNum) {
         return apiThirdPartyService.selectCompanyListByTyc(keyword, pageNum);
     }
 
