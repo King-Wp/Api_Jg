@@ -5,7 +5,6 @@ import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.enums.UrlAddressEnum;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.components.domain.CusPersonaAnnualReports;
-import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaAnnualReportsMapper;
 import com.ruoyi.components.service.ICusPersonaAnnualReportsService;
 import com.ruoyi.components.utils.HttpApiUtils;
@@ -34,13 +33,9 @@ public class CusPersonaAnnualReportsServiceImpl implements ICusPersonaAnnualRepo
     private static final Logger logger = LoggerFactory.getLogger(CusPersonaAnnualReportsServiceImpl.class);
 
     @Override
-    public void addAnnualReportsByTyc(CustomerBusinessVo customerBusinessVo, String userName) {
+    public int addAnnualReportsByTyc(String companyId ,String companyName, String userName) {
         //新增数量
         int num = 0;
-        //调用天眼查-新增入库
-        String companyId = customerBusinessVo.getCompanyId();
-        String companyName = customerBusinessVo.getCompany();
-
         //是否终止循环变量
         boolean endLoop = false;
         // 重连次数
@@ -56,13 +51,10 @@ public class CusPersonaAnnualReportsServiceImpl implements ICusPersonaAnnualRepo
                 if (!"0".equals(code)) {
                     break;
                 }
-
                 JSONArray lists = resultObj.getJSONObject("result").getJSONArray("items");
-
-                JSONObject temp = new JSONObject();
                 if (lists.size() > 0) {
                     for (Object object : lists) {
-                        temp = JSONObject.parseObject(object.toString());
+                        JSONObject temp = JSONObject.parseObject(object.toString());
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         CusPersonaAnnualReports annualReports = new CusPersonaAnnualReports();
                         annualReports.setCompanyId(companyId);
@@ -89,7 +81,6 @@ public class CusPersonaAnnualReportsServiceImpl implements ICusPersonaAnnualRepo
                             annualReports.setManageState(baseInfo.getString("manageState"));
                             annualReports.setEmail(baseInfo.getString("email"));
                         }
-
 
                         //获取年报社保信息
                         JSONObject socialSecurity = temp.getJSONObject("reportSocialSecurityInfo");
@@ -151,5 +142,6 @@ public class CusPersonaAnnualReportsServiceImpl implements ICusPersonaAnnualRepo
             }
         }
         logger.info(companyName + "入库" + num + "条企业年报记录");
+        return num;
     }
 }

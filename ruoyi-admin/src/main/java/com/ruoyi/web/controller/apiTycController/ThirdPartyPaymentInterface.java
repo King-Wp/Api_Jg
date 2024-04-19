@@ -3,6 +3,7 @@ package com.ruoyi.web.controller.apiTycController;
 import com.ruoyi.components.domain.TyCompany;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.service.ApiThirdPartyService;
+import com.ruoyi.components.service.ICusPersonaAnnualReportsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -21,6 +22,8 @@ public class ThirdPartyPaymentInterface {
 
     @Resource
     private ApiThirdPartyService apiThirdPartyService;
+    @Resource
+    private ICusPersonaAnnualReportsService iCusPersonaAnnualReportsService;
 
     /**
      * 关键字查询公司名称列表
@@ -61,5 +64,18 @@ public class ThirdPartyPaymentInterface {
     @PostMapping("/business")
     public int business(@RequestBody List<String> customers) {
         return apiThirdPartyService.addCompanyBusinessByTyc(customers);
+    }
+
+    /**
+     * 调用天眼查获取企业年报信息
+     * @param companyId 企业id
+     * @param companyName 企业名称
+     * @param userName 用户名称
+     */
+    @GetMapping("/annualReports")
+    public int addAnnualReportsByTyc(@RequestParam("companyId")String companyId ,
+                                      @RequestParam("companyName")String companyName,
+                                      @RequestParam("userName")String userName){
+        return iCusPersonaAnnualReportsService.addAnnualReportsByTyc(companyId,companyName,userName);
     }
 }
