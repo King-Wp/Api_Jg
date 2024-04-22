@@ -5,7 +5,6 @@ import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.enums.UrlAddressEnum;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.components.domain.CusPersonaCompanyProduct;
-import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaCompanyProductMapper;
 import com.ruoyi.components.service.ICusPersonaCompanyProductService;
 import com.ruoyi.components.utils.HttpApiUtils;
@@ -37,14 +36,9 @@ public class CusPersonaCompanyProductServiceImpl implements ICusPersonaCompanyPr
      */
     @Async
     @Override
-    public void addProductByTyc(CustomerBusinessVo customerBusinessVo, String userName) {
+    public Integer addProductByTyc(String companyId, String companyName,String userName) {
         //新增数量
         int num = 0;
-
-        //调用天眼查-新增入库
-        String companyId = customerBusinessVo.getCompanyId();
-        String companyName = customerBusinessVo.getCompany();
-
         //请求页码
         int pageNum = 0;
         //是否终止循环变量
@@ -119,6 +113,7 @@ public class CusPersonaCompanyProductServiceImpl implements ICusPersonaCompanyPr
             }
         }
         logger.info(companyName + "入库" + num + "条产品记录");
+        return num;
     }
 
 }

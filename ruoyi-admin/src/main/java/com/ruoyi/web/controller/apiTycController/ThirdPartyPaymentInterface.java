@@ -121,7 +121,7 @@ public class ThirdPartyPaymentInterface {
      * @return 插入条数
      */
     @GetMapping("/corporateRelations")
-    Integer addCorporateRelationsByTyc(@RequestParam("companyId")String companyId,
+    public Integer addCorporateRelationsByTyc(@RequestParam("companyId")String companyId,
                                        @RequestParam("companyName")String companyName,
                                        @RequestParam("userName")String userName){
         return iCusPersonaCompanyNodeService.addCorporateRelationsByTyc(companyId,companyName,userName);
@@ -134,7 +134,7 @@ public class ThirdPartyPaymentInterface {
      * @return 插入条数
      */
     @PostMapping("/corporateRelations")
-    Integer addCorporateRelationsByTyc(@RequestBody List<CustomerBusinessVo> customerList ,
+    public Integer addCorporateRelationsByTyc(@RequestBody List<CustomerBusinessVo> customerList ,
                                        @RequestParam("userName") String userName){
         return iCusPersonaCompanyNodeService.addCorporateRelationsByTyc(customerList,userName);
     }

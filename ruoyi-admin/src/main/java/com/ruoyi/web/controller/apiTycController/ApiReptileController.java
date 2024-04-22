@@ -7,6 +7,7 @@ import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.service.ICusPersonaAreaInvestService;
 import com.ruoyi.components.service.ICusPersonaCompanyBusinessService;
+import com.ruoyi.components.service.ICusPersonaCompanyProductService;
 import com.ruoyi.components.service.IReptileService;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,8 @@ public class ApiReptileController {
     private ICusPersonaCompanyBusinessService icusPersonaCompanyBusinessService;
     @Resource
     private ICusPersonaAreaInvestService iCusPersonaAreaInvestService;
+    @Resource
+    private ICusPersonaCompanyProductService iCusPersonaCompanyProductService;
 
 
     /**
@@ -159,5 +162,19 @@ public class ApiReptileController {
     public int addInvestByTyc(@RequestBody List<CustomerBusinessVo> hasCompanyIdCustomerList, @RequestParam("userName") String userName){
         return iCusPersonaAreaInvestService.addInvestByTyc(hasCompanyIdCustomerList, userName);
     }
+
+    /**
+     * 入库客户表中单位的产品信息
+     * @param companyId 天眼查企业id
+     * @param companyName 企业名称
+     * @param userName 用户名称
+     */
+    @GetMapping("/product")
+    public Integer addProductByTyc(@RequestParam("companyId")String companyId,
+                                @RequestParam("companyName")String companyName,
+                                @RequestParam("userName")String userName){
+        return iCusPersonaCompanyProductService.addProductByTyc(companyId,companyName,userName);
+    }
+
 
 }
