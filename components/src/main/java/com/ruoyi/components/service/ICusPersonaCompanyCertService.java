@@ -1,7 +1,5 @@
 package com.ruoyi.components.service;
 
-import com.ruoyi.components.domain.vo.CustomerBusinessVo;
-
 /**
  * 企业证书信息Service接口
  * 
@@ -15,6 +13,6 @@ public interface ICusPersonaCompanyCertService
      * 通过天眼查新增客户表中的企业证书信息
      * @return
      */
-    public void addCertByTyc(CustomerBusinessVo customerBusinessVo, String userName);
+    Integer addCertByTyc(String companyId, String companyName, String userName);
 
 }

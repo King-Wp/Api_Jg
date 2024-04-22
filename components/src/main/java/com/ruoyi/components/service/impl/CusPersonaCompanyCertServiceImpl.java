@@ -5,13 +5,11 @@ import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.enums.UrlAddressEnum;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.components.domain.CusPersonaCompanyCert;
-import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaCompanyCertMapper;
 import com.ruoyi.components.service.ICusPersonaCompanyCertService;
 import com.ruoyi.components.utils.HttpApiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -39,14 +37,11 @@ public class CusPersonaCompanyCertServiceImpl implements ICusPersonaCompanyCertS
      * 调用天眼查接口入库客户单位的证书信息
      * @return
      */
-    @Async
     @Override
-    public void addCertByTyc(CustomerBusinessVo customerBusinessVo, String userName) {
+    public Integer addCertByTyc(String companyId, String companyName ,String userName) {
         //新增数量
         int num = 0;
         //调用天眼查-新增入库
-        String companyId = customerBusinessVo.getCompanyId();
-        String companyName = customerBusinessVo.getCompany();
         //请求页码
         int pageNum = 0;
         //是否终止循环变量
@@ -134,6 +129,7 @@ public class CusPersonaCompanyCertServiceImpl implements ICusPersonaCompanyCertS
             }
         }
         logger.info(companyName + "入库" + num + "条证书记录");
+        return num;
     }
 
 }

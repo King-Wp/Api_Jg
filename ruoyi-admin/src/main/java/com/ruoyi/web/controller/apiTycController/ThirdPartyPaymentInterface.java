@@ -4,6 +4,7 @@ import com.ruoyi.components.domain.TyCompany;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.service.ApiThirdPartyService;
 import com.ruoyi.components.service.ICusPersonaAnnualReportsService;
+import com.ruoyi.components.service.ICusPersonaCompanyCertService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -24,6 +25,9 @@ public class ThirdPartyPaymentInterface {
     private ApiThirdPartyService apiThirdPartyService;
     @Resource
     private ICusPersonaAnnualReportsService iCusPersonaAnnualReportsService;
+    @Resource
+    private ICusPersonaCompanyCertService iCusPersonaCompanyCertService;
+
 
     /**
      * 关键字查询公司名称列表
@@ -78,4 +82,19 @@ public class ThirdPartyPaymentInterface {
                                       @RequestParam("userName")String userName){
         return iCusPersonaAnnualReportsService.addAnnualReportsByTyc(companyId,companyName,userName);
     }
+
+    /**
+     * 新增客户表中的企业证书信息
+     * @param companyId 天眼查企业id
+     * @param companyName 企业名称
+     * @param userName 用户名称
+     * @return 新增条数
+     */
+    @GetMapping("/addCertByTyc")
+    public Integer addCertByTyc(@RequestParam("companyId")String companyId,
+                                @RequestParam("companyName")String companyName,
+                                @RequestParam("userName")String userName){
+        return iCusPersonaCompanyCertService.addCertByTyc(companyId,companyName,userName);
+    }
+
 }
