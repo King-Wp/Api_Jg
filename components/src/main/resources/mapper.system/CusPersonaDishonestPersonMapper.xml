@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.components.mapper.CusPersonaDishonestPersonMapper">
+    
+    <resultMap type="CusPersonaDishonestPerson" id="CusPersonaDishonestPersonResult">
+        <result property="id"    column="id"    />
+        <result property="publishDate"    column="publish_date"    />
+        <result property="regDate"    column="reg_date"    />
+        <result property="caseCode"    column="case_code"    />
+        <result property="courtName"    column="court_name"    />
+        <result property="performance"    column="performance"    />
+        <result property="disruptTypeName"    column="disrupt_type_name"    />
+        <result property="gistId"    column="gist_id"    />
+        <result property="duty"    column="duty"    />
+        <result property="gistUnit"    column="gist_unit"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="companyId"    column="company_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectCusPersonaDishonestPersonVo">
+        select id, publish_date, reg_date, case_code, court_name, performance, disrupt_type_name, gist_id, duty, gist_unit, company_name, company_id, create_by, create_time, update_by, update_time from cus_persona_dishonest_person
+    </sql>
+        
+    <insert id="insertCusPersonaDishonestPerson" parameterType="CusPersonaDishonestPerson" useGeneratedKeys="true" keyProperty="id">
+        insert into cus_persona_dishonest_person
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="publishDate != null">publish_date,</if>
+            <if test="regDate != null">reg_date,</if>
+            <if test="caseCode != null">case_code,</if>
+            <if test="courtName != null">court_name,</if>
+            <if test="performance != null">performance,</if>
+            <if test="disruptTypeName != null">disrupt_type_name,</if>
+            <if test="gistId != null">gist_id,</if>
+            <if test="duty != null">duty,</if>
+            <if test="gistUnit != null">gist_unit,</if>
+            <if test="companyName != null">company_name,</if>
+            <if test="companyId != null">company_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="publishDate != null">#{publishDate},</if>
+            <if test="regDate != null">#{regDate},</if>
+            <if test="caseCode != null">#{caseCode},</if>
+            <if test="courtName != null">#{courtName},</if>
+            <if test="performance != null">#{performance},</if>
+            <if test="disruptTypeName != null">#{disruptTypeName},</if>
+            <if test="gistId != null">#{gistId},</if>
+            <if test="duty != null">#{duty},</if>
+            <if test="gistUnit != null">#{gistUnit},</if>
+            <if test="companyName != null">#{companyName},</if>
+            <if test="companyId != null">#{companyId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+</mapper>

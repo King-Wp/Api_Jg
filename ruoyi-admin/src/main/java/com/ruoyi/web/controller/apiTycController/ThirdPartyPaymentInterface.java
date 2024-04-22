@@ -31,6 +31,8 @@ public class ThirdPartyPaymentInterface {
     private ICusPersonaCompanyNodeService iCusPersonaCompanyNodeService;
     @Resource
     private ICusPersonaCompanySupplierService iCusPersonaCompanySupplierService;
+    @Resource
+    private ICusPersonaDishonestPersonService iCusPersonaDishonestPersonService;
 
 
     /**
@@ -167,6 +169,20 @@ public class ThirdPartyPaymentInterface {
                                     @RequestParam("companyName")String companyName,
                                     @RequestParam("userName")String userName){
         return iCusPersonaCompanySupplierService.addSupplierByTyc(companyId, companyName, userName);
+    }
+
+    /**
+     * 入库失信被执行人信息
+     * @param companyId 天眼查ID
+     * @param companyName 企业名称
+     * @param userName 用户名称
+     * @return 新增条数
+     */
+    @GetMapping("/dishonestPerson")
+    public Integer addDishonestPersonByTyc(@RequestParam("companyId")String companyId,
+                                           @RequestParam("companyName")String companyName,
+                                           @RequestParam("userName")String userName){
+        return iCusPersonaDishonestPersonService.addDishonestPersonByTyc(companyId, companyName, userName);
     }
 
 }
