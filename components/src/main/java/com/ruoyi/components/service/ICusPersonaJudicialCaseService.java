@@ -1,7 +1,5 @@
 package com.ruoyi.components.service;
 
-import com.ruoyi.components.domain.vo.CustomerBusinessVo;
-
 /**
  * 客户画像司法解析Service接口
  * 
@@ -15,6 +13,6 @@ public interface ICusPersonaJudicialCaseService
      *
      * @param customerBusinessVo company 客户单位名称 companyId 天眼查公司ID
      */
-    public void addJudicialCaseByTyc(CustomerBusinessVo customerBusinessVo, String userName);
+    Integer addJudicialCaseByTyc(String companyId,String companyName, String userName);
 
 }

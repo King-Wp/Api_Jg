@@ -4,13 +4,12 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.components.domain.CusPersonaJudicialCase;
-import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaJudicialCaseMapper;
 import com.ruoyi.components.service.ICusPersonaJudicialCaseService;
 import com.ruoyi.components.utils.HttpApiUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -38,16 +37,10 @@ public class CusPersonaJudicialCaseServiceImpl implements ICusPersonaJudicialCas
      *
      * @param customerBusinessVo company 客户单位名称 companyId 天眼查公司ID
      */
-    @Async
     @Override
-    public void addJudicialCaseByTyc(CustomerBusinessVo customerBusinessVo, String userName) {
+    public Integer addJudicialCaseByTyc(String companyId,String companyName, String userName) {
         //新增数量
         int num = 0;
-
-        //调用天眼查-新增入库
-        String companyId = customerBusinessVo.getCompanyId();
-        String companyName = customerBusinessVo.getCompany();
-
         //请求页码
         int pageNum = 0;
         //是否终止循环变量
@@ -86,10 +79,9 @@ public class CusPersonaJudicialCaseServiceImpl implements ICusPersonaJudicialCas
                     }
                     JSONArray lists = resultObj.getJSONObject("result").getJSONArray("items");
 
-                    JSONObject temp = new JSONObject();
-                    if (lists.size() > 0) {
+                    if (ObjectUtils.isNotEmpty(lists)) {
                         for (Object object : lists) {
-                            temp = JSONObject.parseObject(object.toString());
+                            JSONObject temp = JSONObject.parseObject(object.toString());
                             CusPersonaJudicialCase judicial = new CusPersonaJudicialCase();
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                             //以逗号连接添加数组到case_identity字段中
@@ -137,8 +129,8 @@ public class CusPersonaJudicialCaseServiceImpl implements ICusPersonaJudicialCas
                 e.printStackTrace();
             }
         }
-        logger.info(companyName + "入库" + num + "条司法解析记录");
+        logger.info("{}入库{}条司法解析记录", companyName, num);
+        return num;
     }
-
 
 }
