@@ -10,7 +10,6 @@ import com.ruoyi.components.service.ICusPersonaCompanyProductService;
 import com.ruoyi.components.utils.HttpApiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,7 +33,6 @@ public class CusPersonaCompanyProductServiceImpl implements ICusPersonaCompanyPr
      * 入库客户表中单位的产品信息
      * @return 插入结果
      */
-    @Async
     @Override
     public Integer addProductByTyc(String companyId, String companyName,String userName) {
         //新增数量
