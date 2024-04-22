@@ -4,13 +4,11 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.components.domain.CusPersonaCompanySupplier;
-import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaCompanySupplierMapper;
 import com.ruoyi.components.service.ICusPersonaCompanySupplierService;
 import com.ruoyi.components.utils.HttpApiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -36,16 +34,10 @@ public class CusPersonaCompanySupplierServiceImpl implements ICusPersonaCompanyS
      * 调用天眼查入库公司供应商信息
      * @return 插入结果
      */
-    @Async
     @Override
-    public void addSupplierByTyc(CustomerBusinessVo customerBusinessVo, String userName) {
+    public Integer addSupplierByTyc(String companyId , String companyName, String userName) {
         //新增数量
         int num = 0;
-
-        //调用天眼查-新增入库
-        String companyId = customerBusinessVo.getCompanyId();
-        String companyName = customerBusinessVo.getCompany();
-
 //            String companyId = "476909213";
         //请求页码
         int pageNum = 0;
@@ -133,5 +125,6 @@ public class CusPersonaCompanySupplierServiceImpl implements ICusPersonaCompanyS
             }
         }
         logger.info(companyName + "入库" + num + "条供应商记录");
+        return num;
     }
 }

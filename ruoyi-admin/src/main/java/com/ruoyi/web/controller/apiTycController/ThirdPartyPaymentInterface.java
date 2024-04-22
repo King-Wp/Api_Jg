@@ -12,7 +12,7 @@ import java.util.List;
  * @author: 11653
  * @createTime: 2024/04/15 10:29
  * @package: com.ruoyi.web.controller.apiTycController
- * @description: 付费API 远程开放接口
+ * @description: 付费API、官方API接口
  */
 
 @RestController
@@ -29,6 +29,8 @@ public class ThirdPartyPaymentInterface {
     private ICusPersonaCompanyCustomerService iCusPersonaCompanyCustomerService;
     @Resource
     private ICusPersonaCompanyNodeService iCusPersonaCompanyNodeService;
+    @Resource
+    private ICusPersonaCompanySupplierService iCusPersonaCompanySupplierService;
 
 
     /**
@@ -137,6 +139,20 @@ public class ThirdPartyPaymentInterface {
     public Integer addCorporateRelationsByTyc(@RequestBody List<CustomerBusinessVo> customerList ,
                                        @RequestParam("userName") String userName){
         return iCusPersonaCompanyNodeService.addCorporateRelationsByTyc(customerList,userName);
+    }
+
+    /**
+     * 入库客户表中单位的供应商信息
+     * @param companyId 天眼查ID
+     * @param companyName 企业名称
+     * @param userName 用户名称
+     * @return 新增条数
+     */
+    @GetMapping("/supplier")
+    public Integer addSupplierByTyc(@RequestParam("companyId")String companyId,
+                                    @RequestParam("companyName")String companyName,
+                                    @RequestParam("userName")String userName){
+        return iCusPersonaCompanySupplierService.addSupplierByTyc(companyId, companyName, userName);
     }
 
 }
