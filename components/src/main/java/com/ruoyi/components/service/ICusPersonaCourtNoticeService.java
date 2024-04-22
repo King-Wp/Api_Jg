@@ -1,7 +1,5 @@
 package com.ruoyi.components.service;
 
-import com.ruoyi.components.domain.vo.CustomerBusinessVo;
-
 /**
  * 开庭公告Service接口
  * 
@@ -11,5 +9,5 @@ import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 public interface ICusPersonaCourtNoticeService 
 {
 
-    public void addTycCourtNoticeByCompany(CustomerBusinessVo customerBusinessVo, String userName);
+    Integer addTycCourtNoticeByCompany(String companyId,String companyName, String userName);
 }

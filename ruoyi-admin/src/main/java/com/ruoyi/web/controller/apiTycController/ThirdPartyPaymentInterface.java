@@ -155,4 +155,18 @@ public class ThirdPartyPaymentInterface {
         return iCusPersonaCompanySupplierService.addSupplierByTyc(companyId, companyName, userName);
     }
 
+    /**
+     * 入库客户表中单位的供应商信息
+     * @param companyId 天眼查ID
+     * @param companyName 企业名称
+     * @param userName 用户名称
+     * @return 新增条数
+     */
+    @GetMapping("/courtNotice")
+    public Integer addTycCourtNoticeByCompany(@RequestParam("companyId")String companyId,
+                                    @RequestParam("companyName")String companyName,
+                                    @RequestParam("userName")String userName){
+        return iCusPersonaCompanySupplierService.addSupplierByTyc(companyId, companyName, userName);
+    }
+
 }

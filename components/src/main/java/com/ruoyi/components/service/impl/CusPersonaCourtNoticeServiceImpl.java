@@ -4,13 +4,11 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.components.domain.CusPersonaCourtNotice;
-import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaCourtNoticeMapper;
 import com.ruoyi.components.service.ICusPersonaCourtNoticeService;
 import com.ruoyi.components.utils.HttpApiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,15 +31,10 @@ public class CusPersonaCourtNoticeServiceImpl implements ICusPersonaCourtNoticeS
 
     private static final Logger logger = LoggerFactory.getLogger(CusPersonaCourtNoticeServiceImpl.class);
 
-    @Async
     @Override
-    public void addTycCourtNoticeByCompany(CustomerBusinessVo customerBusinessVo, String userName) {
+    public Integer addTycCourtNoticeByCompany(String companyId,String companyName, String userName) {
         //新增数量
         int num = 0;
-
-        //调用天眼查-新增入库
-        String companyId = customerBusinessVo.getCompanyId();
-        String companyName = customerBusinessVo.getCompany();
         //请求页码
         int pageNum = 0;
         //是否终止循环变量
@@ -106,7 +99,6 @@ public class CusPersonaCourtNoticeServiceImpl implements ICusPersonaCourtNoticeS
                                 else {
                                     plaintiffString.append(plaintiffsJSONObject.getString("name")).append(",");
                                 }
-//                                plaintiffString.append(plaintiffsJSONObject.getString("name"));
                             }
                             cusPersonaCourtNotice.setPlaintiff(plaintiffString.toString());
 
@@ -128,7 +120,6 @@ public class CusPersonaCourtNoticeServiceImpl implements ICusPersonaCourtNoticeS
                             cusPersonaCourtNotice.setCreateBy(userName);
                             cusPersonaCourtNotice.setCompanyName(companyName);
                             courtNoticeList.add(cusPersonaCourtNotice);
-//                            num = num + cusPersonaCourtNoticeMapper.insertCusPersonaCourtNotice(cusPersonaCourtNotice);
                         }
                     }
                 } else {
@@ -150,7 +141,8 @@ public class CusPersonaCourtNoticeServiceImpl implements ICusPersonaCourtNoticeS
                 }
             }
         }
-        logger.info(companyName + "入库" + num + "条开庭报告记录");
+        logger.info("{}入库{}条开庭报告记录", companyName, num);
+        return num;
     }
 
 }
