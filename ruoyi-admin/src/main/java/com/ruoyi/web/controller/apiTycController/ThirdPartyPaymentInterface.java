@@ -2,10 +2,7 @@ package com.ruoyi.web.controller.apiTycController;
 
 import com.ruoyi.components.domain.TyCompany;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
-import com.ruoyi.components.service.ApiThirdPartyService;
-import com.ruoyi.components.service.ICusPersonaAnnualReportsService;
-import com.ruoyi.components.service.ICusPersonaCompanyCertService;
-import com.ruoyi.components.service.ICusPersonaCompanyCustomerService;
+import com.ruoyi.components.service.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -30,6 +27,8 @@ public class ThirdPartyPaymentInterface {
     private ICusPersonaCompanyCertService iCusPersonaCompanyCertService;
     @Resource
     private ICusPersonaCompanyCustomerService iCusPersonaCompanyCustomerService;
+    @Resource
+    private ICusPersonaCompanyNodeService iCusPersonaCompanyNodeService;
 
 
     /**
@@ -112,6 +111,32 @@ public class ThirdPartyPaymentInterface {
                                 @RequestParam("companyName")String companyName,
                                 @RequestParam("userName")String userName){
         return iCusPersonaCompanyCustomerService.addCompanyCustomerByTyc(companyId,companyName,userName);
+    }
+
+    /**
+     * 根据公司名称通过天眼查入库企业关系图谱
+     * @param companyId 天眼查企业id
+     * @param companyName 企业名称
+     * @param userName 用户名称
+     * @return 插入条数
+     */
+    @GetMapping("/corporateRelations")
+    Integer addCorporateRelationsByTyc(@RequestParam("companyId")String companyId,
+                                       @RequestParam("companyName")String companyName,
+                                       @RequestParam("userName")String userName){
+        return iCusPersonaCompanyNodeService.addCorporateRelationsByTyc(companyId,companyName,userName);
+    }
+
+    /**
+     * 通过天眼查入库企业关系图谱 (批量)
+     * @param customerList 获取通过天眼查查询过的客户公司列表（可级联获取天眼查companyId）
+     * @param userName 用户名
+     * @return 插入条数
+     */
+    @PostMapping("/corporateRelations")
+    Integer addCorporateRelationsByTyc(@RequestBody List<CustomerBusinessVo> customerList ,
+                                       @RequestParam("userName") String userName){
+        return iCusPersonaCompanyNodeService.addCorporateRelationsByTyc(customerList,userName);
     }
 
 }
