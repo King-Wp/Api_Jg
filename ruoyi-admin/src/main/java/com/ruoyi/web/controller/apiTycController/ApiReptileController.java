@@ -4,6 +4,7 @@ package com.ruoyi.web.controller.apiTycController;
 import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.components.domain.CusPersonaCompanyBusiness;
 import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
+import com.ruoyi.components.service.ICusPersonaAreaInvestService;
 import com.ruoyi.components.service.ICusPersonaCompanyBusinessService;
 import com.ruoyi.components.service.IReptileService;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,8 @@ public class ApiReptileController {
     private IReptileService reptileService;
     @Resource
     private ICusPersonaCompanyBusinessService icusPersonaCompanyBusinessService;
+    @Resource
+    private ICusPersonaAreaInvestService iCusPersonaAreaInvestService;
 
     /**
      * 客户洞察关键词获取
@@ -129,6 +132,18 @@ public class ApiReptileController {
         return icusPersonaCompanyBusinessService.cusPersonaBidsBusiness(companyName, userName, id, enterpriseType);
     }
 
-
+    /**
+     * 通过天眼查入库客户单位对外投资情况
+     * @param companyId 天眼查id
+     * @param companyName 公司名称
+     * @param userName 用户名称
+     * @return 入库条数
+     */
+    @GetMapping("/investByTycCompany")
+    public int investByTycCompany(
+            @RequestParam("companyId")String companyId , @RequestParam("companyName")String companyName,
+            @RequestParam("userName")String userName){
+        return iCusPersonaAreaInvestService.addInvestByTycCompany(companyId, companyName, userName);
+    }
 
 }

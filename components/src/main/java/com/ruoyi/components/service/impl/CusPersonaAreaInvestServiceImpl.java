@@ -2,13 +2,12 @@ package com.ruoyi.components.service.impl;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.components.domain.CusPersonaAreaInvest;
 import com.ruoyi.components.domain.CusPersonaCategoryInvest;
-import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaAreaInvestMapper;
 import com.ruoyi.components.mapper.CusPersonaCategoryInvestMapper;
 import com.ruoyi.components.service.ICusPersonaAreaInvestService;
-import com.ruoyi.common.utils.DateUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -49,9 +48,7 @@ public class CusPersonaAreaInvestServiceImpl implements ICusPersonaAreaInvestSer
      */
     @Async
     @Override
-    public void addInvestByTycCompany(CustomerBusinessVo customerBusinessVo, String userName) {
-        String companyId = customerBusinessVo.getCompanyId();
-        String companyName = customerBusinessVo.getCompany();
+    public int addInvestByTycCompany(String companyId , String companyName, String userName) {
         int res = 0;
         long timeFromDate = new Date().getTime();
         String url = "https://capi.tianyancha.com/cloud-company-background/company/invest/statistics?_="+timeFromDate+"&gid="+companyId;
@@ -110,5 +107,6 @@ public class CusPersonaAreaInvestServiceImpl implements ICusPersonaAreaInvestSer
             throw new RuntimeException(e);
         }
         logger.info(companyName + "入库" + res + "条对外投资记录");
+        return res;
     }
 }
