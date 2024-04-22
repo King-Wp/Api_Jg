@@ -10,7 +10,6 @@ import com.ruoyi.components.service.ICusPersonaCompanyCustomerService;
 import com.ruoyi.components.utils.HttpApiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,7 +33,6 @@ public class CusPersonaCompanyCustomerServiceImpl implements ICusPersonaCompanyC
      * 调用天眼查批量新增客户表中企业单位的客户信息
      * @return 添加结果
      */
-    @Async
     @Override
     public Integer addCompanyCustomerByTyc(String companyId, String companyName, String userName) {
         //新增数量
