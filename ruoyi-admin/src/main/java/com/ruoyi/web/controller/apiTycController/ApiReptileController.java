@@ -4,12 +4,14 @@ package com.ruoyi.web.controller.apiTycController;
 import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.components.domain.CusPersonaCompanyBusiness;
 import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
+import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.service.ICusPersonaAreaInvestService;
 import com.ruoyi.components.service.ICusPersonaCompanyBusinessService;
 import com.ruoyi.components.service.IReptileService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author: 11653
@@ -28,6 +30,7 @@ public class ApiReptileController {
     private ICusPersonaCompanyBusinessService icusPersonaCompanyBusinessService;
     @Resource
     private ICusPersonaAreaInvestService iCusPersonaAreaInvestService;
+
 
     /**
      * 客户洞察关键词获取
@@ -144,6 +147,17 @@ public class ApiReptileController {
             @RequestParam("companyId")String companyId , @RequestParam("companyName")String companyName,
             @RequestParam("userName")String userName){
         return iCusPersonaAreaInvestService.addInvestByTycCompany(companyId, companyName, userName);
+    }
+
+    /**
+     * 通过天眼查批量入库客户单位对外投资情况
+     * @param hasCompanyIdCustomerList 获取通过天眼查查询过的客户公司列表
+     * @param userName 用户名称
+     * @return 插入条数
+     */
+    @PostMapping("/batchInvest")
+    public int addInvestByTyc(@RequestBody List<CustomerBusinessVo> hasCompanyIdCustomerList, @RequestParam("userName") String userName){
+        return iCusPersonaAreaInvestService.addInvestByTyc(hasCompanyIdCustomerList, userName);
     }
 
 }

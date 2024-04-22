@@ -1,5 +1,9 @@
 package com.ruoyi.components.service;
 
+import com.ruoyi.components.domain.vo.CustomerBusinessVo;
+
+import java.util.List;
+
 /**
  * areaInvestService接口
  *
@@ -16,4 +20,7 @@ public interface ICusPersonaAreaInvestService {
      */
 
     int addInvestByTycCompany(String companyId , String companyName, String userName);
+
+
+    int addInvestByTyc(List<CustomerBusinessVo> hasCompanyIdCustomerList, String userName);
 }
