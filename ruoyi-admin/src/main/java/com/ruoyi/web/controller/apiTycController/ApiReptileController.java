@@ -33,6 +33,8 @@ public class ApiReptileController {
     private ICusPersonaCompanyProductService iCusPersonaCompanyProductService;
     @Resource
     private ICusPersonaJudicialCaseService iCusPersonaJudicialCaseService;
+    @Resource
+    private ICusPersonaPunishmentAdministrativeService iCusPersonaPunishmentAdministrativeService;
 
 
     /**
@@ -186,4 +188,17 @@ public class ApiReptileController {
         return iCusPersonaJudicialCaseService.addJudicialCase(companyName);
     }
 
+    /**
+     * 通过天眼查获取企业行政处罚信息（非收费接口）
+     * @param companyId 天眼查企业id
+     * @param companyName 企业名称
+     * @param userName 用户名称
+     * @return 插入条数
+     */
+    @GetMapping("/penalties")
+    public int addPunishmentAdministrativeByTyc(@RequestParam("companyId")String companyId,
+                                                @RequestParam("companyName")String companyName,
+                                                @RequestParam("userName")String userName){
+        return iCusPersonaPunishmentAdministrativeService.addPunishmentAdministrativeByTyc(companyId,companyName,userName);
+    }
 }

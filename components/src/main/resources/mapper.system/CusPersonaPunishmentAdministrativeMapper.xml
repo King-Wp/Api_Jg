@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.components.mapper.CusPersonaPunishmentAdministrativeMapper">
+    
+    <resultMap type="CusPersonaPunishmentAdministrative" id="CusPersonaPunishmentAdministrativeResult">
+        <result property="id"    column="id"    />
+        <result property="decisionDate"    column="decision_date"    />
+        <result property="punishNumber"    column="punish_number"    />
+        <result property="reason"    column="reason"    />
+        <result property="content"    column="content"    />
+        <result property="departmentName"    column="department_name"    />
+        <result property="source"    column="source"    />
+        <result property="punishStatus"    column="punish_status"    />
+        <result property="punishAmount"    column="punish_amount"    />
+        <result property="evidence"    column="evidence"    />
+        <result property="punishName"    column="punish_name"    />
+        <result property="companyId"    column="company_id"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectCusPersonaPunishmentAdministrativeVo">
+        select id, decision_date, punish_number, reason, content, department_name, source, punish_status, punish_amount, evidence, punish_name, company_id, company_name, create_by, create_time, update_by, update_time from cus_persona_punishment_administrative
+    </sql>
+        
+    <insert id="insertCusPersonaPunishmentAdministrative" parameterType="CusPersonaPunishmentAdministrative" useGeneratedKeys="true" keyProperty="id">
+        insert into cus_persona_punishment_administrative
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="decisionDate != null">decision_date,</if>
+            <if test="punishNumber != null">punish_number,</if>
+            <if test="reason != null">reason,</if>
+            <if test="content != null">content,</if>
+            <if test="departmentName != null">department_name,</if>
+            <if test="source != null">source,</if>
+            <if test="punishStatus != null">punish_status,</if>
+            <if test="punishAmount != null">punish_amount,</if>
+            <if test="evidence != null">evidence,</if>
+            <if test="punishName != null">punish_name,</if>
+            <if test="companyId != null">company_id,</if>
+            <if test="companyName != null">company_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="decisionDate != null">#{decisionDate},</if>
+            <if test="punishNumber != null">#{punishNumber},</if>
+            <if test="reason != null">#{reason},</if>
+            <if test="content != null">#{content},</if>
+            <if test="departmentName != null">#{departmentName},</if>
+            <if test="source != null">#{source},</if>
+            <if test="punishStatus != null">#{punishStatus},</if>
+            <if test="punishAmount != null">#{punishAmount},</if>
+            <if test="evidence != null">#{evidence},</if>
+            <if test="punishName != null">#{punishName},</if>
+            <if test="companyId != null">#{companyId},</if>
+            <if test="companyName != null">#{companyName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+    
+</mapper>
