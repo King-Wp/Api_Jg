@@ -1,15 +1,13 @@
 package com.ruoyi.common.utils;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
+
 import java.lang.management.ManagementFactory;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
+import java.util.Calendar;
 import java.util.Date;
-import org.apache.commons.lang3.time.DateFormatUtils;
 
 /**
  * 时间工具类
@@ -194,5 +192,24 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
         LocalDateTime localDateTime = LocalDateTime.of(temporalAccessor, LocalTime.of(0, 0, 0));
         ZonedDateTime zdt = localDateTime.atZone(ZoneId.systemDefault());
         return Date.from(zdt.toInstant());
+    }
+
+    /**
+     * 获取三个月前的日期时间戳
+     */
+    public static final Long lastMonthStamp(){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -3);
+        Date d = cal.getTime();
+        long ts = d.getTime();
+        return ts;
+    }
+
+    public static final Long nextMonthStamp(){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -3);
+        Date d = cal.getTime();
+        long ts = d.getTime();
+        return ts;
     }
 }

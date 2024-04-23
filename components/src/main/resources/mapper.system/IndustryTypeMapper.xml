@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.components.mapper.IndustryTypeMapper">
+
+    <resultMap type="IndustryType" id="IndustryTypeResult">
+        <result property="id"    column="id"    />
+        <result property="industryNum"    column="industry_num"    />
+        <result property="industryType"    column="industry_type"    />
+        <result property="cusTypeContent"    column="cus_type_content"    />
+        <result property="cusNameContent"    column="cus_name_content"    />
+        <result property="bidKeywordFirst" column="bid_keyword_first"/>
+        <result property="bidKeywordSecond" column="bid_keyword_second"/>
+    </resultMap>
+
+    <sql id="selectIndustryTypeVo">
+        select id, industry_num, industry_type, cus_type_content, cus_name_content, bid_keyword_first, bid_keyword_second from cus_persona_industry
+    </sql>
+
+    <select id="selectIndustryTypeList" parameterType="IndustryType" resultMap="IndustryTypeResult">
+        <include refid="selectIndustryTypeVo"/>
+        <where>
+            <if test="industryType != null  and industryType != ''"> and industry_type = #{industryType}</if>
+        </where>
+    </select>
+
+    <select id="selectIndustry" parameterType="IndustryType" resultMap="IndustryTypeResult">
+        <include refid="selectIndustryTypeVo"/>
+        <where>
+            <if test="industryType != null  and industryType != ''"> and industry_type = #{industryType}</if>
+        </where>
+    </select>
+
+    <select id="selectIndustryTypeByIds" parameterType="String" resultMap="IndustryTypeResult">
+        <include refid="selectIndustryTypeVo"/> WHERE id IN
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>
