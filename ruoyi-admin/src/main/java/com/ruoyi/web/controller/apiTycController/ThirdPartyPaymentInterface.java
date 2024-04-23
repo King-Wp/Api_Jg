@@ -194,7 +194,6 @@ public class ThirdPartyPaymentInterface {
      * @param userName 用户名称
      * @return 新增条数
      */
-
     @GetMapping("/judicialCase")
     public Integer addJudicialCaseByTyc(@RequestParam("companyId")String companyId,
                                         @RequestParam("companyName")String companyName,

@@ -52,4 +52,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
+    <insert id="saveBatchJudicialCase" >
+        insert into cus_persona_judicial_case
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            case_code,trial_time,case_identity,trial_procedure,case_title,case_reason,case_type,company_name,create_by,create_time,update_by,update_time
+        </trim>
+        <!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" separator="," item="item">
+                (#{item.caseCode},
+                #{item.trialTime},
+                #{item.caseIdentity},
+                #{item.trialProcedure},
+                #{item.caseTitle},
+                #{item.caseReason},
+                #{item.caseType},
+                #{item.companyName},
+                #{item.createBy},
+                #{item.createTime},
+                #{item.updateBy},
+                #{item.updateTime})
+            </foreach>
+
+        </trim>
+    </insert>
+
 </mapper>

@@ -2,6 +2,8 @@ package com.ruoyi.components.mapper;
 
 import com.ruoyi.components.domain.CusPersonaJudicialCase;
 
+import java.util.List;
+
 /**
  * 客户画像司法解析Mapper接口
  * 
@@ -18,5 +20,7 @@ public interface CusPersonaJudicialCaseMapper
      * @return 结果
      */
     int insertCusPersonaJudicialCase(CusPersonaJudicialCase cusPersonaJudicialCase);
+
+    int saveBatchJudicialCase(List<CusPersonaJudicialCase> list);
 
 }
