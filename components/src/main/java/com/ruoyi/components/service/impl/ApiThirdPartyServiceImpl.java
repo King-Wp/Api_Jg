@@ -6,13 +6,15 @@ import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.components.domain.CusPersonaAbnormalOperation;
 import com.ruoyi.components.domain.CusPersonaChattelMortgage;
+import com.ruoyi.components.domain.CusPersonaCompanyBusiness;
 import com.ruoyi.components.domain.TyCompany;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.exception.CustomException;
 import com.ruoyi.components.mapper.CusPersonaAbnormalOperationMapper;
 import com.ruoyi.components.mapper.CusPersonaChattelMortgageMapper;
-import com.ruoyi.components.mapper.TyCompanyMapper;
 import com.ruoyi.components.service.ApiThirdPartyService;
+import com.ruoyi.components.service.ICusPersonaCompanyBusinessService;
+import com.ruoyi.components.service.IReptileService;
 import com.ruoyi.components.utils.HttpApiUtils;
 import com.ruoyi.components.utils.PutBidUtils;
 import com.ruoyi.components.utils.compareUtil;
@@ -29,6 +31,7 @@ import java.util.List;
 
 import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_API;
 import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_UNIT_PRICE;
+import static com.ruoyi.components.utils.HttpApiUtils.getCompanyDetailSpider;
 
 /**
  * @author: 11653
@@ -40,6 +43,8 @@ import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_UNIT_PRICE;
 @Service
 public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
 
+    private static final String SUCCESS_CODE = "0";
+
     @Resource
     private CusPersonaAbnormalOperationMapper cusPersonaAbnormalOperationMapper;
     @Resource
@@ -47,7 +52,9 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
     @Resource
     private CusPersonaCompanyBusinessServiceImpl cusPersonaCompanyBusinessService;
     @Resource
-    private TyCompanyMapper tyCompanyMapper;
+    private IReptileService iReptileService;
+    @Resource
+    private ICusPersonaCompanyBusinessService icusPersonaCompanyBusinessService;
 
     @Override
     public List<TyCompany> selectCompanyListByTyc(String keyword, Integer pageNum) {
@@ -322,5 +329,155 @@ public class ApiThirdPartyServiceImpl implements ApiThirdPartyService {
     @Override
     public int addCompanyBusinessByTyc(List<String> customers) {
         return cusPersonaCompanyBusinessService.addCompanyBusinessByTyc(customers);
+    }
+
+    @Override
+    public CusPersonaCompanyBusiness getNewBusinessInformation(String companyId, String companyName, String userName,
+                                                String queryKeyword,String enterpriseType) {
+        CusPersonaCompanyBusiness business = new CusPersonaCompanyBusiness();
+        if (companyId != null) {
+            String url = "http://open.api.tianyancha.com/services/open/ic/baseinfoV2/2.0?&keyword=" + companyId;
+            //获取查询数据
+            String result = HttpApiUtils.executeGet(url, TOKEN_API.getVal());
+            //处理返回参数
+            JSONObject resultObj = JSONObject.parseObject(result);
+
+            String code = resultObj.getString("error_code");
+            if (SUCCESS_CODE.equals(code)) {
+                //获取企业基本信息
+                JSONObject companyBusiness = resultObj.getJSONObject("result");
+                if (StringUtils.isNotNull(companyBusiness.getString("id"))) {
+                    business.setCompanyId(Long.parseLong(companyBusiness.getString("id")));
+                    //爬取天眼查中的企业简介
+                    String companyProfile = getCompanyDetailSpider(companyBusiness.getString("id"));
+                    if (companyProfile != null) {
+                        business.setCompanyProfile(companyProfile);
+                    } else {//调用天眼查接口获取简介
+                        business.setCompanyProfile(iReptileService.getCompanyProfile(companyId));
+                    }
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("name"))) {
+                    business.setCompanyName(companyBusiness.getString("name"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("percentileScore"))) {
+                    business.setPercentileScore(companyBusiness.getString("percentileScore"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("email"))) {
+                    business.setCompanyEmail(companyBusiness.getString("email"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("actualCapital"))) {
+                    business.setActualCapital(companyBusiness.getString("actualCapital"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("actualCapitalCurrency"))) {
+                    business.setActualCapitalCurrency(companyBusiness.getString("actualCapitalCurrency"));
+                }
+
+                if (StringUtils.isNotNull(companyBusiness.getString("approvedTime"))) {
+                    business.setApprovedTime(DateUtils.dateToStamp(Long.valueOf(companyBusiness.getString("approvedTime"))));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("base"))) {
+                    business.setBase(companyBusiness.getString("base"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("companyOrgType"))) {
+                    business.setCompanyOrgType(companyBusiness.getString("companyOrgType"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("property3"))) {
+                    business.setEnglishName(companyBusiness.getString("property3"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("alias"))) {
+                    business.setAlias(companyBusiness.getString("alias"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("estiblishTime"))) {
+                    business.setEstiblishTime(DateUtils.dateToStamp(Long.valueOf(companyBusiness.getString("estiblishTime"))));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("businessScope"))) {
+                    business.setBusinessScope(companyBusiness.getString("businessScope"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("historyNames"))) {
+                    business.setHistoryNames(companyBusiness.getString("historyNames"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("industry"))) {
+                    business.setIndustry(companyBusiness.getString("industry"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("isMicroEnt"))) {
+                    business.setIsMicroEnt(Integer.parseInt(companyBusiness.getString("isMicroEnt")));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("legalPersonName"))) {
+                    business.setLegalPersonName(companyBusiness.getString("legalPersonName"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("orgNumber"))) {
+                    business.setOrgNumber(companyBusiness.getString("orgNumber"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("phoneNumber"))) {
+                    business.setPhoneNumber(companyBusiness.getString("phoneNumber"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("regCapital"))) {
+                    business.setRegCapital(companyBusiness.getString("regCapital"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("regCapitalCurrency"))) {
+                    business.setRegCapitalCurrency(companyBusiness.getString("regCapitalCurrency"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("regInstitute"))) {
+                    business.setRegInstitute(companyBusiness.getString("regInstitute"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("regLocation"))) {
+                    business.setRegLocation(companyBusiness.getString("regLocation"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("regNumber"))) {
+                    business.setRegNumber(companyBusiness.getString("regNumber"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("regStatus"))) {
+                    business.setRegStatus(companyBusiness.getString("regStatus"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("socialStaffNum"))) {
+                    business.setSocialStaffNum(companyBusiness.getString("socialStaffNum"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("staffNumRange"))) {
+                    business.setStaffNumRange(companyBusiness.getString("staffNumRange"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("taxNumber"))) {
+                    business.setTaxNumber(companyBusiness.getString("taxNumber"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("toTime"))) {
+                    business.setToTime(DateUtils.dateToStamp(Long.valueOf(companyBusiness.getString("toTime"))));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("websiteList"))) {
+                    business.setWebsiteList(companyBusiness.getString("websiteList"));
+                }
+                if (StringUtils.isNotNull(companyBusiness.getString("creditCode"))) {
+                    business.setCreditCode(companyBusiness.getString("creditCode"));
+                }
+                JSONObject industryObj = companyBusiness.getJSONObject("industryAll");
+                if (industryObj != null) {
+                    if (StringUtils.isNotEmpty(industryObj.getString("category"))) {
+                        business.setCategory(industryObj.getString("category"));
+                    }
+                    if (StringUtils.isNotNull(industryObj.getString("categoryBig"))) {
+                        business.setCategoryBig(industryObj.getString("categoryBig"));
+                    }
+                    if (StringUtils.isNotNull(industryObj.getString("categoryMiddle"))) {
+                        business.setCategoryMiddle(industryObj.getString("categoryMiddle"));
+                    }
+                    if (StringUtils.isNotNull(industryObj.getString("categorySmall"))) {
+                        business.setCategorySmall(industryObj.getString("categorySmall"));
+                    }
+                }
+                business.setCreateBy(userName);
+                business.setQueryKeyword(queryKeyword);
+                //获取祥云中的企业性质
+                if (!(enterpriseType == null || "".equals(enterpriseType))) {
+                    business.setEnterpriseType(enterpriseType);
+                }
+                //调用天眼查免费的获取工商信息接口，拿到企业logo和纳税人资质
+                CusPersonaCompanyBusiness businessFree = icusPersonaCompanyBusinessService.getBusinessLogoByTyc(companyId);;
+                if (!(businessFree.getLogo() == null || "".equals(businessFree.getLogo()))) {
+                    business.setLogo(businessFree.getLogo());
+                }
+                if (!(businessFree.getTaxQualification() == null || "".equals(businessFree.getTaxQualification()))) {
+                    business.setTaxQualification(businessFree.getTaxQualification());
+                }
+            }
+        }
+        return business;
     }
 }

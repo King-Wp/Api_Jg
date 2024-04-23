@@ -1,5 +1,6 @@
 package com.ruoyi.components.service;
 
+import com.ruoyi.components.domain.CusPersonaCompanyBusiness;
 import com.ruoyi.components.domain.TyCompany;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 
@@ -38,4 +39,17 @@ public interface ApiThirdPartyService {
      * @return 入库结果
      */
     int addCompanyBusinessByTyc(List<String> customers);
+
+    /**
+     *  获取客户单位的工商信息
+     * @param companyId 企业id
+     * @param companyName 企业名称
+     * @param userName 用户名
+     * @param queryKeyword 查询关键词
+     * @param enterpriseType 祥云字段
+     * @return 工商信息对象
+     */
+    CusPersonaCompanyBusiness getNewBusinessInformation(String companyId , String companyName,
+                                         String userName, String queryKeyword,String enterpriseType);
+
 }

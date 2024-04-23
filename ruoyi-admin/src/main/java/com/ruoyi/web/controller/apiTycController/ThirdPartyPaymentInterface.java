@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.apiTycController;
 
+import com.ruoyi.components.domain.CusPersonaCompanyBusiness;
 import com.ruoyi.components.domain.TyCompany;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.service.*;
@@ -215,6 +216,25 @@ public class ThirdPartyPaymentInterface {
                                         @RequestParam("companyName")String companyName,
                                         @RequestParam("userName")String userName){
         return iCusPersonaLegalService.addTycLegalByCompany(companyId, companyName, userName);
+    }
+
+
+    /**
+     *  获取客户单位的工商信息
+     * @param companyId 企业id
+     * @param companyName 企业名称
+     * @param userName 用户名
+     * @param queryKeyword 查询关键词
+     * @param enterpriseType 祥云字段
+     * @return 工商信息对象
+     */
+    @GetMapping("/newBusiness")
+    CusPersonaCompanyBusiness getNewBusinessInformation(
+            @RequestParam("companyId")String companyId, @RequestParam("companyName")String companyName,
+            @RequestParam("userName")String userName, @RequestParam("queryKeyword")String queryKeyword,
+            @RequestParam("enterpriseType")String enterpriseType)
+    {
+        return apiThirdPartyService.getNewBusinessInformation(companyId,companyName, userName, queryKeyword, enterpriseType);
     }
 
 }
