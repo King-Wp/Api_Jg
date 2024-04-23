@@ -20,6 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.ruoyi.common.enums.UrlAddressEnum.TOKEN_API;
 
@@ -71,7 +72,10 @@ public class CusPersonaJudicialCaseServiceImpl implements ICusPersonaJudicialCas
                 if (totalString == null) {
                     endLoop = true;
                 }
-                int total = Integer.parseInt(totalString);
+                int total = 0;
+                if (StringUtils.isNotEmpty(totalString)){
+                    total = Integer.parseInt(Objects.requireNonNull(totalString));
+                }
                 //total/20后得到整数部分，小数部分不会四舍五入，需+1以获取最后一页的数据
                 loopNum = total / 20 + 1;
                 //设置最多循环次数，避免出现过多请求接口导致收费过多

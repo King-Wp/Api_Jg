@@ -176,6 +176,11 @@ public class ApiReptileController {
         return iCusPersonaCompanyProductService.addProductByTyc(companyId,companyName,userName);
     }
 
+    /**
+     * 获取法院公告
+     * @param companyName 企业名称
+     * @return 公告
+     */
     @GetMapping("/judicialCase")
     public AjaxResult addJudicialCase(@RequestParam("companyName") String companyName){
         return iCusPersonaJudicialCaseService.addJudicialCase(companyName);
