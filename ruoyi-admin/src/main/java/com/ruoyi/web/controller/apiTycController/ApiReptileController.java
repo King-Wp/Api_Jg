@@ -2,13 +2,11 @@ package com.ruoyi.web.controller.apiTycController;
 
 
 import com.alibaba.fastjson2.JSONObject;
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.components.domain.CusPersonaCompanyBusiness;
 import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
-import com.ruoyi.components.service.ICusPersonaAreaInvestService;
-import com.ruoyi.components.service.ICusPersonaCompanyBusinessService;
-import com.ruoyi.components.service.ICusPersonaCompanyProductService;
-import com.ruoyi.components.service.IReptileService;
+import com.ruoyi.components.service.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -33,6 +31,8 @@ public class ApiReptileController {
     private ICusPersonaAreaInvestService iCusPersonaAreaInvestService;
     @Resource
     private ICusPersonaCompanyProductService iCusPersonaCompanyProductService;
+    @Resource
+    private ICusPersonaJudicialCaseService iCusPersonaJudicialCaseService;
 
 
     /**
@@ -176,5 +176,9 @@ public class ApiReptileController {
         return iCusPersonaCompanyProductService.addProductByTyc(companyId,companyName,userName);
     }
 
+    @GetMapping("/judicialCase")
+    public AjaxResult addJudicialCase(@RequestParam("companyName") String companyName){
+        return iCusPersonaJudicialCaseService.addJudicialCase(companyName);
+    }
 
 }
