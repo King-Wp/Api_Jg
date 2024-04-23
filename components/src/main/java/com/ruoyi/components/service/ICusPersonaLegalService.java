@@ -1,7 +1,5 @@
 package com.ruoyi.components.service;
 
-import com.ruoyi.components.domain.vo.CustomerBusinessVo;
-
 /**
  * 司法解析Service接口
  *
@@ -17,5 +15,5 @@ public interface ICusPersonaLegalService {
      * @param customerBusinessVo 天眼查公司ID
      * @return 插入结果
      */
-    public void addTycLegalByCompany(CustomerBusinessVo customerBusinessVo, String userName);
+    Integer addTycLegalByCompany(String companyId,String companyName, String userName);
 }

@@ -4,13 +4,11 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.components.domain.CusPersonaLegal;
-import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.mapper.CusPersonaLegalMapper;
 import com.ruoyi.components.service.ICusPersonaLegalService;
 import com.ruoyi.components.utils.HttpApiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,18 +33,15 @@ public class CusPersonaLegalServiceImpl implements ICusPersonaLegalService
 
     /**
      * 入库天眼查法律诉讼信息
-     * @param customerBusinessVo 需入库的公司信息
-     * @return 插入结果
+     * @param companyId 企业id
+     * @param companyName 企业名称
+     * @param userName 用户名
      */
-    @Async
     @Override
-    public void addTycLegalByCompany(CustomerBusinessVo customerBusinessVo, String userName) {
+    public Integer addTycLegalByCompany(String companyId,String companyName, String userName) {
         //新增数量
         int num = 0;
-
         //调用天眼查-新增入库
-        String companyId = customerBusinessVo.getCompanyId();
-        String companyName = customerBusinessVo.getCompany();
         //请求页码
         int pageNum = 0;
         //是否终止循环变量
@@ -139,6 +134,7 @@ public class CusPersonaLegalServiceImpl implements ICusPersonaLegalService
                 e.printStackTrace();
             }
         }
-        logger.info(companyName + "入库" + num + "条法律诉讼记录");
+        logger.info("{}入库{}条法律诉讼记录", companyName, num);
+        return num;
     }
 }

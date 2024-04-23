@@ -35,6 +35,8 @@ public class ThirdPartyPaymentInterface {
     private ICusPersonaDishonestPersonService iCusPersonaDishonestPersonService;
     @Resource
     private ICusPersonaJudicialCaseService iCusPersonaJudicialCaseService;
+    @Resource
+    private ICusPersonaLegalService iCusPersonaLegalService;
 
 
     /**
@@ -199,6 +201,20 @@ public class ThirdPartyPaymentInterface {
                                         @RequestParam("companyName")String companyName,
                                         @RequestParam("userName")String userName){
         return iCusPersonaJudicialCaseService.addJudicialCaseByTyc(companyId, companyName, userName);
+    }
+
+    /**
+     * 入库天眼查法律诉讼信息
+     * @param companyId 天眼查ID
+     * @param companyName 企业名称
+     * @param userName 用户名称
+     * @return 新增条数
+     */
+    @GetMapping("/legal")
+    public Integer addTycLegalByCompany(@RequestParam("companyId")String companyId,
+                                        @RequestParam("companyName")String companyName,
+                                        @RequestParam("userName")String userName){
+        return iCusPersonaLegalService.addTycLegalByCompany(companyId, companyName, userName);
     }
 
 }
