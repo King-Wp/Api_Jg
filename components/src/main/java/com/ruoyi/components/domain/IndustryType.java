@@ -2,6 +2,8 @@ package com.ruoyi.components.domain;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author Leeyq
  * @version 1.0
@@ -9,7 +11,7 @@ import lombok.Data;
  */
 
 @Data
-public class IndustryType {
+public class IndustryType implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

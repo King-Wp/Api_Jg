@@ -1,6 +1,8 @@
 package com.ruoyi.web.controller.apiTycController;
 
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.components.domain.CusPersonaCompanyBusiness;
+import com.ruoyi.components.domain.PersonaBids;
 import com.ruoyi.components.domain.TyCompany;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.service.*;
@@ -38,6 +40,8 @@ public class ThirdPartyPaymentInterface {
     private ICusPersonaJudicialCaseService iCusPersonaJudicialCaseService;
     @Resource
     private ICusPersonaLegalService iCusPersonaLegalService;
+    @Resource
+    private IPersonaBidsService iPersonaBidsService;
 
 
     /**
@@ -235,6 +239,45 @@ public class ThirdPartyPaymentInterface {
             @RequestParam("enterpriseType")String enterpriseType)
     {
         return apiThirdPartyService.getNewBusinessInformation(companyId,companyName, userName, queryKeyword, enterpriseType);
+    }
+
+
+    /**
+     * 新增招投标数据
+     *
+     * @param personaBids 招投标数据
+     * @return 结果
+     */
+    @PostMapping("/insertPersona")
+    public AjaxResult insertPersonaBids(@RequestBody PersonaBids personaBids){
+        return iPersonaBidsService.insertPersonaBids(personaBids);
+    }
+
+    /**
+     * 新增客户列表中的招投标数据
+     *
+     * @param customersStringList 客户单位列表
+     * @return 结果
+     */
+    @PostMapping("/insertCustomer")
+    public int insertCustomerPersonaBids(@RequestBody List<String> customersStringList){
+        return iPersonaBidsService.insertCustomerPersonaBids(customersStringList);
+    }
+
+    @PostMapping("/savePurchaser")
+    public int savePurchaserPersonaBids(@RequestBody List<String> customerList){
+        return iPersonaBidsService.savePurchaserPersonaBids(customerList);
+    }
+
+    @PostMapping("/personaBids")
+    public int savePurchaserPersonaBidsByCompany(@RequestBody String company){
+        return iPersonaBidsService.savePurchaserPersonaBidsByCompany(company);
+    }
+
+    @GetMapping("/savePurchaser")
+    public int upPurchaserPersonaBidsByCompany(@RequestParam("keyword")String keyword,
+                                        @RequestParam("publishStartTime")String publishStartTime){
+        return iPersonaBidsService.upPurchaserPersonaBidsByCompany(keyword, publishStartTime);
     }
 
 }

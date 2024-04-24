@@ -212,4 +212,12 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
         long ts = d.getTime();
         return ts;
     }
+
+    public static final String lastMonthTime(){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -3);
+        Date d = cal.getTime();
+        SimpleDateFormat sp = new SimpleDateFormat(YYYY_MM_DD);
+        return sp.format(d);
+    }
 }

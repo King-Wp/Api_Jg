@@ -76,4 +76,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
+    <insert id="saveBatchPersonaBids" >
+        insert into cus_persona_bids
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            uuid, publish_time, bid_url, purchaser, link, title, content, proxy, abs, intro, type, province, bid_winner, bid_amount, source, industry_type, competitive_company, create_time
+        </trim>
+        <!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" separator="," item="item">
+                (#{item.uuid},
+                #{item.publishTime},
+                #{item.bidUrl},
+                #{item.purchaser},
+                #{item.link},
+                #{item.title},
+                #{item.content},
+                #{item.proxy},
+                #{item.abs},
+                #{item.intro},
+                #{item.type},
+                #{item.province},
+                #{item.bidWinner},
+                #{item.bidAmount},
+                #{item.source},
+                #{item.industryType},
+                #{item.competitiveCompany},
+                #{item.createTime})
+            </foreach>
+
+        </trim>
+    </insert>
+
 </mapper>
