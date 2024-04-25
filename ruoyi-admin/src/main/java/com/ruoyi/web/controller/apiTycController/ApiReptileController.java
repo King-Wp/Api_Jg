@@ -70,7 +70,7 @@ public class ApiReptileController {
      * @param keyWordsParams 参数对象
      */
     @PostMapping("/customer/reportKeyWord")
-    public JSONObject reportKeyWord(@RequestBody KeyWordsParams keyWordsParams) {
+    public String reportKeyWord(@RequestBody KeyWordsParams keyWordsParams) {
         return reptileService.getReportKeyword(keyWordsParams);
     }
 

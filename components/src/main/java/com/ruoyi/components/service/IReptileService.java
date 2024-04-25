@@ -1,7 +1,6 @@
 package com.ruoyi.components.service;
 
 
-import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
 
 /**
@@ -35,7 +34,7 @@ public interface IReptileService {
      * 商机关键词 需要传入商机ID
      * @return 生态伙伴列表
      */
-    JSONObject getReportKeyword(KeyWordsParams keyWordsParams);
+    String getReportKeyword(KeyWordsParams keyWordsParams);
 
     /**
      * 免费获取工商信息
