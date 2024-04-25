@@ -1,10 +1,10 @@
 package com.ruoyi.web.controller.apiTycController;
 
 
-import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.components.domain.CusPersonaCompanyBusiness;
 import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
+import com.ruoyi.components.domain.RtbReport;
 import com.ruoyi.components.domain.vo.CustomerBusinessVo;
 import com.ruoyi.components.service.*;
 import org.springframework.web.bind.annotation.*;
@@ -72,6 +72,11 @@ public class ApiReptileController {
     @PostMapping("/customer/reportKeyWord")
     public String reportKeyWord(@RequestBody KeyWordsParams keyWordsParams) {
         return reptileService.getReportKeyword(keyWordsParams);
+    }
+
+    @PostMapping("/reportKeyword")
+    public String[] getReportKeyword(@RequestParam("baseId")Long baseId, @RequestParam("company")String company, @RequestBody RtbReport info){
+        return reptileService.getReportKeyword(baseId, company,info);
     }
 
     /**

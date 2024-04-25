@@ -2,6 +2,7 @@ package com.ruoyi.components.service;
 
 
 import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
+import com.ruoyi.components.domain.RtbReport;
 
 /**
  * @author: 11653
@@ -44,4 +45,6 @@ public interface IReptileService {
     void addBusinessFreeByTyc(String companyName, String userName);
 
     String getCompanyProfile(String companyId);
+
+    String[] getReportKeyword(Long baseId, String company, RtbReport info);
 }

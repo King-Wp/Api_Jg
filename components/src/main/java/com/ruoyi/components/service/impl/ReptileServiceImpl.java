@@ -9,6 +9,7 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.UserAgentUtil;
 import com.ruoyi.components.domain.CusPersonaCompanyBusiness;
 import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
+import com.ruoyi.components.domain.RtbReport;
 import com.ruoyi.components.domain.RtbReportP;
 import com.ruoyi.components.mapper.CusPersonaCompanyBusinessMapper;
 import com.ruoyi.components.service.IReptileService;
@@ -120,9 +121,11 @@ public class ReptileServiceImpl implements IReptileService {
         if (ObjectUtils.isNotEmpty(data))
             if (CollectionUtils.isNotEmpty(data.getJSONArray("level-p2"))) {
                 keyword = StringUtils.JsonToArray(data.getJSONArray("level-p2"));
-            } else if (CollectionUtils.isNotEmpty(data.getJSONArray("level-p3"))) {
+            } else
+                if (CollectionUtils.isNotEmpty(data.getJSONArray("level-p3"))) {
                 keyword = StringUtils.JsonToArray(data.getJSONArray("level-p3"));
-            } else if (CollectionUtils.isNotEmpty(data.getJSONArray("level-p4"))) {
+            } else
+                if (CollectionUtils.isNotEmpty(data.getJSONArray("level-p4"))) {
                 keyword = StringUtils.JsonToArray(data.getJSONArray("level-p4"));
             }
         return keyword;
@@ -397,5 +400,42 @@ public class ReptileServiceImpl implements IReptileService {
             data = resultObj.getString("result");
         }
         return data;
+    }
+
+    @Override
+    public String[] getReportKeyword(Long baseId, String company, RtbReport info) {
+        String[] keyword = null;
+        JSONObject data = new JSONObject();
+        //查询原商机信息
+        if (StringUtils.isNotNull(info)) {
+            String itemName = info.getItemName();//项目名称
+            String content = info.getContent();//建设内容
+
+            //封装数据
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", baseId);
+            map.put("level-p1", StringUtils.nvl(itemName, ""));
+            map.put("level-p2", StringUtils.nvl(content, ""));
+            map.put("level-p3", "");
+            map.put("level-p4", "");
+            map.put("level-p5", "");
+            JSONArray arrs = new JSONArray();
+            arrs.add(map);
+
+            //提取关键词
+            String result = PutBidUtils.doPost(KEYWORD_URL, arrs.toJSONString());
+            JSONObject resultObj = JSONObject.parseObject(result);
+            String code = (String) resultObj.get("code");
+            JSONArray lists = resultObj.getJSONArray("data");
+            if ("200".equals(code) && lists.size() > 0) {
+                data = (JSONObject) lists.get(0);
+                if (data.getJSONArray("level-p1").size() > 0) {
+                    keyword = StringUtils.JsonToArray(data.getJSONArray("level-p1"));
+                } else if (data.getJSONArray("level-p2").size() > 0) {
+                    keyword = StringUtils.JsonToArray(data.getJSONArray("level-p2"));
+                }
+            }
+        }
+        return keyword;
     }
 }
