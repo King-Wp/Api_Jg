@@ -24,7 +24,7 @@ import java.util.List;
 public class ApiReptileController {
 
     @Resource
-    private IReptileService reptileService;
+    private IReptileService iReptileService;
     @Resource
     private ICusPersonaCompanyBusinessService icusPersonaCompanyBusinessService;
     @Resource
@@ -45,7 +45,7 @@ public class ApiReptileController {
      */
     @PostMapping("/customer/keyWords")
     public String[] keyToLevel(@RequestBody KeyWordsParams keyWordsParams) {
-        return reptileService.keyToLevel(keyWordsParams);
+        return iReptileService.keyToLevel(keyWordsParams);
     }
 
     /**
@@ -60,7 +60,7 @@ public class ApiReptileController {
      */
     @PostMapping("/customer/visitKeyWord")
     public String[] visitKeyWord(@RequestBody KeyWordsParams keyWordsParams) {
-        return reptileService.getVisitKeyWord(keyWordsParams);
+        return iReptileService.getVisitKeyWord(keyWordsParams);
     }
 
     /**
@@ -71,12 +71,17 @@ public class ApiReptileController {
      */
     @PostMapping("/customer/reportKeyWord")
     public String reportKeyWord(@RequestBody KeyWordsParams keyWordsParams) {
-        return reptileService.getReportKeyword(keyWordsParams);
+        return iReptileService.getReportKeyword(keyWordsParams);
     }
 
     @PostMapping("/reportKeyword")
     public String[] getReportKeyword(@RequestParam("baseId")Long baseId, @RequestParam("company")String company, @RequestBody RtbReport info){
-        return reptileService.getReportKeyword(baseId, company,info);
+        return iReptileService.getReportKeyword(baseId, company,info);
+    }
+
+    @PostMapping("/uniteKeyword")
+    String getUniteKeyword(@RequestBody KeyWordsParams keyWordsParams){
+        return iReptileService.getUniteKeyword(keyWordsParams);
     }
 
     /**
@@ -87,7 +92,7 @@ public class ApiReptileController {
      */
     @GetMapping("/addBusinessFreeByTyc")
     public void addBusinessFreeByTyc(@RequestParam("companyName")String companyName, @RequestParam("userName")String userName) {
-        reptileService.addBusinessFreeByTyc(companyName, userName);
+        iReptileService.addBusinessFreeByTyc(companyName, userName);
     }
 
     /**
@@ -98,7 +103,7 @@ public class ApiReptileController {
      */
     @GetMapping("/introduction")
     public String getCompanyProfile(@RequestParam("companyId")String companyId) {
-        return reptileService.getCompanyProfile(companyId);
+        return iReptileService.getCompanyProfile(companyId);
     }
 
     /**

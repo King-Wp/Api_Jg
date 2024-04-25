@@ -1,6 +1,7 @@
 package com.ruoyi.components.domain.ReceiveParameters;
 
 import com.ruoyi.components.domain.RtbReportP;
+import com.ruoyi.components.domain.RtbUnite;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -29,6 +30,12 @@ public class KeyWordsParams implements Serializable {
      * 单位经营范围
      */
     private String business;
+
+    /**
+     * 商机id查询商机项目名称
+     */
+    private String itemName;
+
     /**
      * 单位名称查询招投标标题金额top10
      */
@@ -41,5 +48,10 @@ public class KeyWordsParams implements Serializable {
      * 商机报备列表
      */
     private RtbReportP info;
+
+    /**
+     * 联动关键词
+     */
+    private RtbUnite rtbUnite;
 
 }

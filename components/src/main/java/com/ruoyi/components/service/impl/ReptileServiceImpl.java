@@ -11,6 +11,7 @@ import com.ruoyi.components.domain.CusPersonaCompanyBusiness;
 import com.ruoyi.components.domain.ReceiveParameters.KeyWordsParams;
 import com.ruoyi.components.domain.RtbReport;
 import com.ruoyi.components.domain.RtbReportP;
+import com.ruoyi.components.domain.RtbUnite;
 import com.ruoyi.components.mapper.CusPersonaCompanyBusinessMapper;
 import com.ruoyi.components.service.IReptileService;
 import com.ruoyi.components.utils.HttpApiUtils;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -162,6 +164,44 @@ public class ReptileServiceImpl implements IReptileService {
             }
         }
         return JSONObject.toJSONString(data);
+    }
+
+    @Override
+    public String getUniteKeyword(KeyWordsParams keyWordsParams) {
+
+        RtbUnite rtbUnite = keyWordsParams.getRtbUnite();
+        List<String> bidTitles = keyWordsParams.getBidTitles();
+        List<String> contracts = keyWordsParams.getContracts();
+        String business = keyWordsParams.getBusiness();
+
+        //封装数据
+        /**"level-p1":"项目名称",
+         "level-p2":"招投标标题",
+         "level-p3":"业绩合同名称",
+         "level-p4":"经营范围" ,  */
+        Map<String,Object> map =new HashMap<>();
+        map.put("id",rtbUnite.getBaseId());
+        map.put("level-p1",StringUtils.nvl(keyWordsParams.getItemName(),""));
+        map.put("level-p2",bidTitles.toArray(new String[bidTitles.size()]));
+        map.put("level-p3",contracts.toArray(new String[contracts.size()]));
+        map.put("level-p4", StringUtils.nvl(business,""));
+        map.put("level-p5","");
+        JSONArray arrs = new JSONArray();
+        arrs.add(map);
+
+        //提取关键词
+        String result = PutBidUtils.doPost(KEYWORD_URL, arrs.toJSONString());
+        //System.out.println(result);
+        JSONObject resultObj = JSONObject.parseObject(result);
+        String code = (String) resultObj.get("code");
+        JSONArray lists = resultObj.getJSONArray("data");
+        JSONObject data = new JSONObject();
+        if ("200".equals(code) && lists.size()>0) {
+            for (int i = 0; i < lists.size(); i++) {
+                data = (JSONObject) lists.get(i);
+            }
+        }
+        return data.toJSONString();
     }
 
     @Override

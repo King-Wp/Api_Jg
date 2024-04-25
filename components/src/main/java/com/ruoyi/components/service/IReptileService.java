@@ -37,6 +37,8 @@ public interface IReptileService {
      */
     String getReportKeyword(KeyWordsParams keyWordsParams);
 
+    String getUniteKeyword(KeyWordsParams keyWordsParams);
+
     /**
      * 免费获取工商信息
      * @param companyName 企业名称
