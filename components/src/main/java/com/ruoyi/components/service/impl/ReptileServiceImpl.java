@@ -123,11 +123,9 @@ public class ReptileServiceImpl implements IReptileService {
         if (ObjectUtils.isNotEmpty(data))
             if (CollectionUtils.isNotEmpty(data.getJSONArray("level-p2"))) {
                 keyword = StringUtils.JsonToArray(data.getJSONArray("level-p2"));
-            } else
-                if (CollectionUtils.isNotEmpty(data.getJSONArray("level-p3"))) {
+            } else if (CollectionUtils.isNotEmpty(data.getJSONArray("level-p3"))) {
                 keyword = StringUtils.JsonToArray(data.getJSONArray("level-p3"));
-            } else
-                if (CollectionUtils.isNotEmpty(data.getJSONArray("level-p4"))) {
+            } else if (CollectionUtils.isNotEmpty(data.getJSONArray("level-p4"))) {
                 keyword = StringUtils.JsonToArray(data.getJSONArray("level-p4"));
             }
         return keyword;
@@ -179,13 +177,13 @@ public class ReptileServiceImpl implements IReptileService {
          "level-p2":"招投标标题",
          "level-p3":"业绩合同名称",
          "level-p4":"经营范围" ,  */
-        Map<String,Object> map =new HashMap<>();
-        map.put("id",rtbUnite.getBaseId());
-        map.put("level-p1",StringUtils.nvl(keyWordsParams.getItemName(),""));
-        map.put("level-p2",bidTitles.toArray(new String[bidTitles.size()]));
-        map.put("level-p3",contracts.toArray(new String[contracts.size()]));
-        map.put("level-p4", StringUtils.nvl(business,""));
-        map.put("level-p5","");
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", rtbUnite.getBaseId());
+        map.put("level-p1", StringUtils.nvl(keyWordsParams.getItemName(), ""));
+        map.put("level-p2", bidTitles.toArray(new String[bidTitles.size()]));
+        map.put("level-p3", contracts.toArray(new String[contracts.size()]));
+        map.put("level-p4", StringUtils.nvl(business, ""));
+        map.put("level-p5", "");
         JSONArray arrs = new JSONArray();
         arrs.add(map);
 
@@ -196,12 +194,51 @@ public class ReptileServiceImpl implements IReptileService {
         String code = (String) resultObj.get("code");
         JSONArray lists = resultObj.getJSONArray("data");
         JSONObject data = new JSONObject();
-        if ("200".equals(code) && lists.size()>0) {
+        if ("200".equals(code) && lists.size() > 0) {
             for (int i = 0; i < lists.size(); i++) {
                 data = (JSONObject) lists.get(i);
             }
         }
         return data.toJSONString();
+    }
+
+    @Override
+    public String getVisitKeyword(KeyWordsParams keyWordsParams) {
+        Long baseId = keyWordsParams.getBaseId();
+        String business = keyWordsParams.getBusiness();
+        List<String> bidTitles = keyWordsParams.getBidTitles();
+        List<String> contracts = keyWordsParams.getContracts();
+
+        JSONObject data = new JSONObject();
+        if (!(bidTitles.size() == 0 && contracts.size() == 0 && business == null)) {
+            //封装数据
+            /**
+             * "level-p2":"招投标标题",
+             * "level-p3":"业绩合同名称",
+             * "level-p4":"经营范围" ,  */
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", baseId);
+            map.put("level-p1", "");
+            map.put("level-p2", bidTitles.toArray(new String[bidTitles.size()]));
+            map.put("level-p3", contracts.toArray(new String[contracts.size()]));
+            map.put("level-p4", StringUtils.nvl(business, ""));
+            map.put("level-p5", "");
+            JSONArray arrs = new JSONArray();
+            arrs.add(map);
+
+            //提取关键词
+            String result = PutBidUtils.doPost(KEYWORD_URL, arrs.toJSONString());
+            JSONObject resultObj = JSONObject.parseObject(result);
+            String code = (String) resultObj.get("code");
+            JSONArray lists = resultObj.getJSONArray("data");
+            if ("200".equals(code) && lists.size() > 0) {
+                for (int i = 0; i < lists.size(); i++) {
+                    data = (JSONObject) lists.get(i);
+                }
+            }
+        }
+
+        return JSONObject.toJSONString(data);
     }
 
     @Override
@@ -429,14 +466,14 @@ public class ReptileServiceImpl implements IReptileService {
 
     @Override
     public String getCompanyProfile(String companyId) {
-        String data ="";
+        String data = "";
         String url = "http://open.api.tianyancha.com/services/v4/open/profile?keyword=" + companyId;
         //获取查询数据
         String result = HttpApiUtils.getMessageByUrlToken(url);
         //处理返回参数
         JSONObject resultObj = JSONObject.parseObject(result);
         String code = resultObj.getString("error_code");
-        if (SUCCESS_CODE.equals(code)){
+        if (SUCCESS_CODE.equals(code)) {
             data = resultObj.getString("result");
         }
         return data;
